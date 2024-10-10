@@ -48,7 +48,7 @@ class User(db.Model, SerializerMixin):
     catches = db.relationship('Catch', back_populates='user', cascade='all, delete-orphan')
     expeditions = db.relationship('Expedition', back_populates='user', cascade='all, delete-orphan')
 
-    serialize_rules = ('-pokedex.user', '-goals.user', '-catches.user', '-expeditions.user')
+    serialize_rules = ('-pokedex.user', '-goals.user', '-catches.user', '-expeditions.user', '-_password_hash')
 
     @hybrid_property
     def password_hash(self):
