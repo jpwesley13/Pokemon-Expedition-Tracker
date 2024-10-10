@@ -32,6 +32,9 @@ class Pokedex(db.Model, SerializerMixin):
 
     serialize_rules = ('-users.pokedex',)
 
+    def __repr__(self):
+        return f'<Pokedex {self.id}: Belongs to {self.user.username}>'
+
 class User(db.Model, SerializerMixin):
     __tablename__ = 'users'
 
@@ -109,17 +112,29 @@ class Goal(db.Model, SerializerMixin):
 
     serialize_rules = ('-user.goals')
 
+    def __repr__(self):
+        return f'<Goal {self.id}: {self.content} by {self.target_date}'
+
 class Species(db.Model, SerializerMixin):
     __tablename__ = 'species'
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String, nullable=False)
+    dex_number = db.Column(db.Integer, nullable=False)
     types = db.Column(db.String, nullable=False)
     shiny = db.Column(db.Boolean, default=False)
 
     catches = db.relationship('Catch', back_populates='user', cascade='all, delete-orphan')
 
     serialize_rules = ('-catches.species')
+
+    def is_shiny(self):
+        if self.shiny:
+            return "is shiny!"
+        return "is not shiny."
+
+    def __repr__(self):
+        return f'<Pokemon {self.id}: Number {self.dex_number}, {self.name} the {self.types} Type. It {self.is_shiny()}>'
 
 class Catch(db.Model, SerializerMixin):
     __tablename__ = 'catches'
@@ -135,6 +150,9 @@ class Catch(db.Model, SerializerMixin):
 
     serialize_rules = ('-user.catches', '-species.catches')
 
+    def __repr__(self):
+        return f'<Capture {self.id}: {self.user.username} caught a {self.species.name} at {self.caught_at}>'
+
 class Expedition(db.Model, SerializerMixin):
     __tablename__ = 'expeditions'
     id = db.Column(db.Integer, primary_key=True)
@@ -146,3 +164,6 @@ class Expedition(db.Model, SerializerMixin):
     locale = db.relationship('Locale', back_populates='expeditions')
 
     serialize_rules = ('-user.expeditions', '-locale.expeditions')
+
+    def __repr__(self):
+        return f'<Expedition {self.id}: {self.user.username}\'s expedition at {self.locale.name}. Date: {self.date}>'
