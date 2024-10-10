@@ -42,8 +42,10 @@ class User(db.Model, SerializerMixin):
 
     pokedex = db.relationship('Pokedex', uselist=False, back_populates='user')
     goals = db.relationship('Goal', back_populates='user')
+    catches = db.relationship('Catch', back_populates='user', cascade='all, delete-orphan')
+    expeditions = db.relationship('Expedition', back_populates='user', cascade='all, delete-orphan')
 
-    serialize_rules = ('-pokedex.user', '-goals.user')
+    serialize_rules = ('-pokedex.user', '-goals.user', '-catches.user', '-expeditions.user')
 
     @hybrid_property
     def password_hash(self):
@@ -80,8 +82,9 @@ class Locale(db.Model, SerializerMixin):
     region_id = db.Column(db.Integer, db.ForeignKey('regions.id'))
 
     region = db.relationship('Region', back_populates='locales')
+    expeditions = db.relationship('Expedition', back_populates='locale', cascade='all, delete-orphan')
 
-    serialize_rules = ('-region.locales',)
+    serialize_rules = ('-region.locales', '-expeditions.locale')
 
     @validates('name')
     def validate_name(self, key, name):
@@ -104,8 +107,42 @@ class Goal(db.Model, SerializerMixin):
 
     user = db.relationship('User', back_populates='goals')
 
+    serialize_rules = ('-user.goals')
+
 class Species(db.Model, SerializerMixin):
+    __tablename__ = 'species'
+
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String, nullable=False)
     types = db.Column(db.String, nullable=False)
     shiny = db.Column(db.Boolean, default=False)
+
+    catches = db.relationship('Catch', back_populates='user', cascade='all, delete-orphan')
+
+    serialize_rules = ('-catches.species')
+
+class Catch(db.Model, SerializerMixin):
+    __tablename__ = 'catches'
+
+    id = db.Column(db.Integer, primary_key=True)
+    count = db.Column(db.Integer)
+    caught_at = db.Column(db.DateTime)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    species_id = db.Column(db.Integer, db.ForeignKey('species.id'))
+
+    user = db.relationship('User', back_populates='catches')
+    species = db.relationship('Species', back_populates='catches')
+
+    serialize_rules = ('-user.catches', '-species.catches')
+
+class Expedition(db.Model, SerializerMixin):
+    __tablename__ = 'expeditions'
+    id = db.Column(db.Integer, primary_key=True)
+    date = db.Column(db.DateTime)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    locale_id = db.Column(db.Integer, db.ForeignKey('locales.id'))
+
+    user = db.relationship('User', back_populates='expeditions')
+    locale = db.relationship('Locale', back_populates='expeditions')
+
+    serialize_rules = ('-user.expeditions', '-locale.expeditions')
