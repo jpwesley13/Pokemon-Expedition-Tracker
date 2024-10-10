@@ -41,8 +41,9 @@ class User(db.Model, SerializerMixin):
     _password_hash = db.Column(db.String, nullable=False)
 
     pokedex = db.relationship('Pokedex', uselist=False, back_populates='user')
+    goals = db.relationship('Goal', back_populates='user')
 
-    serialize_rules = ('-pokedexes.user',)
+    serialize_rules = ('-pokedex.user', '-goals.user')
 
     @hybrid_property
     def password_hash(self):
@@ -85,10 +86,26 @@ class Locale(db.Model, SerializerMixin):
     @validates('name')
     def validate_name(self, key, name):
         if not name:
-            raise ValueError('Habitat must be named.')
+            raise ValueError('Locale must be named.')
         elif 25 < len(name) < 2:
-            raise ValueError('Habitat names must be between 2-25 characters long')
+            raise ValueError('Locale names must be between 2-25 characters long')
         return name
 
     def __repr__(self):
-        return f'<Habitat {self.id}: {self.name}>'
+        return f'<Locale {self.id}: {self.name}>'
+    
+class Goal(db.Model, SerializerMixin):
+    __tablename__ = 'goals'
+
+    id = db.Column(db.Integer, primary_key=True)
+    content = db.Column(db.String, nullable=False)
+    target_date = db.Column(db.DateTime)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+
+    user = db.relationship('User', back_populates='goals')
+
+class Species(db.Model, SerializerMixin):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String, nullable=False)
+    types = db.Column(db.String, nullable=False)
+    shiny = db.Column(db.Boolean, default=False)
