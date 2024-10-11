@@ -5,6 +5,16 @@ from sqlalchemy.orm import validates
 
 from config import db, bcrypt
 
+pokemon_types = db.Table('pokemon_types',
+    db.Column('species_id', db.Integer, db.ForeignKey('species.id')),
+    db.Column('type_id', db.Integer, db.ForeignKey('types.id'))
+    )
+
+class Type(db.Model):
+    __tablename__ = 'types'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String, nullable=False)
+
 class Region(db.Model, SerializerMixin):
     __tablename__ = 'regions'
 
@@ -121,10 +131,10 @@ class Species(db.Model, SerializerMixin):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String, nullable=False)
     dex_number = db.Column(db.Integer, nullable=False)
-    types = db.Column(db.String, nullable=False)
     shiny = db.Column(db.Boolean, default=False)
 
     catches = db.relationship('Catch', back_populates='user', cascade='all, delete-orphan')
+    types = db.relationship('Type', secondary=pokemon_types, back_populates='species')
 
     serialize_rules = ('-catches.species')
 
