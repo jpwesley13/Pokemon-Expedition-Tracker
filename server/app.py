@@ -80,12 +80,33 @@ class Pokedexes(Resource):
         except ValueError:
             return make_response({"errors": ["validation errors"]}, 400)
         
-class PokedexById(Resource):
-    def get(self, id):
-        pokedex = Pokedex.query.filter(Pokedex.id == id).first()
-        if pokedex:
-            return make_response(pokedex.to_dict(), 200)
-        return make_response({'error': 'Pokedex not found.'}, 404)
+class PokedexByUser(Resource):
+    def get(self, user_id):
+        user = User.query.filter(User.id == user_id)
+        if not user:
+            return make_response({"error": "User not found."}, 404)
+
+        pokedex = user.pokedex
+
+        if not pokedex:
+            return make_response({'error': 'Pokedex not found.'}, 404)
+        
+        dex_data = pokedex.to_dict()
+        
+        # species_counts = {}
+        # for catch in user.catches:
+        #     species_name = catch.species.name
+        #     species_counts[species_name] = species_counts.get(species_name, 0) + 1
+
+        species_counts = {}
+        for catch in user.catches:
+            species_name = catch.species.name
+            if species_name not in species_counts:
+                species_counts[species_name] = user.total_counts(species_name)
+
+        dex_data['species_counts'] = species_counts
+
+        return make_response(dex_data, 200)
     
 class Users(Resource):
     def get(self):

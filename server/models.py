@@ -60,6 +60,10 @@ class User(db.Model, SerializerMixin):
 
     serialize_rules = ('-pokedex.user', '-goals.user', '-catches.user', '-expeditions.user', '-_password_hash')
 
+    def total_counts(self, species_name):
+        total = Catch.query.filter(Catch.user_id == self.user_id, Catch.species.name == species_name).count()
+        return total
+
     @hybrid_property
     def password_hash(self):
         raise AttributeError('Password hashes may not be viewed.')
