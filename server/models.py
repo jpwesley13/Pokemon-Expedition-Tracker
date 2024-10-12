@@ -72,16 +72,16 @@ class User(db.Model, SerializerMixin):
     def authenticate(self, password):
         return bcrypt.check_password_hash(self._password_hash, password.encode('utf-8'))
 
-    @validates('name')
-    def validate_name(self, key, name):
-        if not name:
-            raise ValueError('Please enter a name.')
-        return name
+    @validates('username')
+    def validate_name(self, key, username):
+        if not username:
+            raise ValueError('Please enter a username.')
+        return username
     
     @validates('age')
     def validate_age(self, key, age):
         if age < 10:
-            raise ValueError('Trainers must be at least 10 years old.')
+            raise ValueError('Users must be at least 10 years old.')
         return age
 
     def __repr__(self):
@@ -142,6 +142,12 @@ class Species(db.Model, SerializerMixin):
         if self.shiny:
             return "is shiny!"
         return "is not shiny."
+
+    @validates('name')
+    def validate_name(self, key, name):
+        if not name:
+            raise ValueError('Please enter a name.')
+        return name
 
     def __repr__(self):
         return f'<Pokemon {self.id}: Number {self.dex_number}, {self.name} the {self.types} Type. It {self.is_shiny()}>'
