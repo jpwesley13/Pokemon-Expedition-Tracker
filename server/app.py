@@ -288,6 +288,92 @@ class Catches(Resource):
             return make_response(new_catch.to_dict(), 201)
         except ValueError:
             return make_response({"errors": ["validation errors"]}, 400)
+        
+class CatchById(Resource):
+    def get(self, id):
+        catch = Catch.query.filter(Catch.id == id).first()
+        if catch:
+            return make_response(catch.to_dict(), 200)
+        return make_response({'error': 'Catch not found.'}, 404)
+    
+    def patch(self, id):
+        catch = Catch.query.filter(Catch.id == id).first()
+        params = request.get_json()
+
+        if catch is None:
+            return make_response({"error": "Catch not found."}, 404)
+        
+        try:
+            for attr in params:
+                setattr(catch, attr, params[attr])
+            db.session.commit()
+            return make_response(catch.to_dict(), 202)
+        except ValueError:
+            return make_response({"errors": ["validation errors"]}, 400)
+    
+    def delete(self, id):
+        catch = Catch.query.filter(Catch.id == id).first()
+
+        if catch is None:
+            return make_response({"error": "Rare catch not found."}, 404)
+        
+        db.session.delete(catch)
+        db.session.commit()
+
+        return {}, 204
+    
+class Expeditions(Resource):
+    def get(self):
+        expeditions = [expedition.to_dict() for expedition in Expedition.query.all()]
+        return make_response(expeditions, 200)
+    
+    def post(self):
+        params = request.get_json()
+
+        try:
+            new_expedition = Expedition(
+                date = params['date'],
+                user_id = params['user_id'],
+                locale_id = params['locale_id']
+            )
+            db.session.add(new_expedition)
+            db.session.commit()
+            return make_response(new_expedition.to_dict(), 201)
+        except ValueError:
+            return make_response({"errors": ["validation errors"]}, 400)
+
+class ExpeditionById(Resource):
+    def get(self, id):
+        expedition = Expedition.query.filter(Expedition.id == id).first()
+        if expedition:
+            return make_response(expedition.to_dict(), 200)
+        return make_response({'error': 'Expedition not found.'}, 404)
+    
+    def patch(self, id):
+        expedition = Expedition.query.filter(Expedition.id == id).first()
+        params = request.get_json()
+
+        if expedition is None:
+            return make_response({"error": "Expedition not found."}, 404)
+        
+        try:
+            for attr in params:
+                setattr(expedition, attr, params[attr])
+            db.session.commit()
+            return make_response(expedition.to_dict(), 202)
+        except ValueError:
+            return make_response({"errors": ["validation errors"]}, 400)
+    
+    def delete(self, id):
+        expedition = Expedition.query.filter(Expedition.id == id).first()
+
+        if expedition is None:
+            return make_response({"error": "Expedition not found."}, 404)
+        
+        db.session.delete(expedition)
+        db.session.commit()
+
+        return {}, 204
 
 if __name__ == '__main__':
     app.run(port=5555, debug=True)
