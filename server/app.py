@@ -374,6 +374,84 @@ class ExpeditionById(Resource):
         db.session.commit()
 
         return {}, 204
+    
+class Signup(Resource):
+    def post(self):
+        params = request.get_json()
+        password = params.get('password')
+
+        try:
+            if User.query.filter(User.username == params['username']).first():
+                return make_response({"errors": {"username": "Username already exists"}}, 400)
+            
+            new_user = User(
+                username = params['username'],
+                age = params['age']
+            )
+            new_user.password_hash = password
+
+            print(f"New user: {new_user}")
+
+            db.session.add(new_user)
+            db.session.commit()
+            session['user_id'] = new_user.id
+
+            print("User added successfully")
+
+            return make_response(new_user.to_dict(), 201)
+        except (IntegrityError, ValueError):
+            return make_response({"errors": ["validation errors"]}, 400)
+        
+class CheckSession(Resource):
+    def get(self):
+        user_id = session['user_id']
+        if user_id:
+            user = User.query.filter(User.id == user_id).first()
+            return user.to_dict(), 200
+        return {}, 401
+        
+class Login(Resource):
+    def post(self):
+        params = request.get_json()
+
+        username = params['username']
+        password = params['password']
+
+        user = User.query.filter(User.username == username).first()
+
+        if user:
+            if user.authenticate(password):
+                session['user_id'] = user.id
+                return user.to_dict(), 200
+        return {'errors': 'Invalid login credentials'}, 401
+    
+class Logout(Resource):
+    def delete(self):
+        session['user_id'] = None
+        return {}, 204
+    
+api.add_resource(Users, '/users')
+api.add_resource(UserById, '/users/<int:id>')
+api.add_resource(PokedexByUser, '/users/<int:id>/pokedex')
+api.add_resource(Pokedexes, '/pokedexes')
+api.add_resource(Goals, '/goals')
+api.add_resource(GoalById, '/goals/<int:id>')
+api.add_resource(Locales, '/locales')
+api.add_resource(LocaleById, '/locales/<int:id>')
+api.add_resource(Regions, '/regions')
+api.add_resource(RegionById, '/regions/<int:id>')
+api.add_resource(Species, '/species')
+api.add_resource(SpeciesById, '/species/<int:id>')
+api.add_resource(Types, '/types')
+api.add_resource(TypeById, '/types/<int:id>')
+api.add_resource(Catches, '/catches')
+api.add_resource(CatchById, '/catches/<int:id>')
+api.add_resource(Expeditions, '/expeditions')
+api.add_resource(ExpeditionById, '/expeditions/<int:id>')
+api.add_resource(Signup, '/signup', endpoint='signup')
+api.add_resource(CheckSession, '/check_session', endpoint='check_session')
+api.add_resource(Login, '/login', endpoint='login')
+api.add_resource(Logout, '/logout', endpoint='logout')
 
 if __name__ == '__main__':
     app.run(port=5555, debug=True)
