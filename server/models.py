@@ -156,7 +156,6 @@ class Catch(db.Model, SerializerMixin):
     __tablename__ = 'catches'
 
     id = db.Column(db.Integer, primary_key=True)
-    count = db.Column(db.Integer)
     caught_at = db.Column(db.DateTime)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     species_id = db.Column(db.Integer, db.ForeignKey('species.id'))

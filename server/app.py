@@ -195,6 +195,78 @@ class GoalById(Resource):
 
         return {}, 204
 
+class Species(Resource):
+    def get(self):
+        species = [species.to_dict() for species in Species.query.all()]
+        return make_response(species, 200)
+    
+    def post(self):
+        params = request.get_json()
+
+        try:
+            new_species = Species(
+                name = params['name'],
+                dex_number = params['dex_number'],
+                shiny = params['shiny']
+            )
+            db.session.add(new_species)
+            db.session.commit()
+            return make_response(new_species.to_dict(), 201)
+        except ValueError:
+            return make_response({"errors": ["validation errors"]}, 400)
+        
+class SpeciesById(Resource):
+    def get(self, id):
+        species = Species.query.filter(Species.id == id).first()
+        if species:
+            return make_response(species.to_dict(), 200)
+        return make_response({'error': 'Species not found.'}, 404)
+    
+    def patch(self, id):
+        species = Species.query.filter(Species.id == id).first()
+        params = request.get_json()
+
+        if species is None:
+            return make_response({"error": "Species not found."}, 404)
+        
+        try:
+            for attr in params:
+                setattr(species, attr, params[attr])
+            db.session.commit()
+            return make_response(species.to_dict(), 202)
+        except ValueError:
+            return make_response({"errors": ["validation errors"]}, 400)
+    
+    def delete(self, id):
+        species = Species.query.filter(Species.id == id).first()
+
+        if species is None:
+            return make_response({"error": "Species not found."}, 404)
+        
+        db.session.delete(species)
+        db.session.commit()
+
+        return {}, 204
+    
+class Catches(Resource):
+    def get(self):
+        catches = [catch.to_dict() for catch in Catch.query.all()]
+        return make_response(catches, 200)
+    
+    def post(self):
+        params = request.get_json()
+
+        try:
+            new_catch = Catch(
+                caught_at = params['caught_at'],
+                user_id = params['user_id'],
+                species_id = params['species_id']
+            )
+            db.session.add(new_catch)
+            db.session.commit()
+            return make_response(new_catch.to_dict(), 201)
+        except ValueError:
+            return make_response({"errors": ["validation errors"]}, 400)
 
 if __name__ == '__main__':
     app.run(port=5555, debug=True)
