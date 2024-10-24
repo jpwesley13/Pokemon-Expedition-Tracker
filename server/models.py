@@ -15,6 +15,8 @@ class Type(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String, nullable=False)
 
+    species = db.relationship('Species', secondary=pokemon_types, back_populates='types')
+
 class Region(db.Model, SerializerMixin):
     __tablename__ = 'regions'
 
@@ -137,7 +139,7 @@ class Species(db.Model, SerializerMixin):
     dex_number = db.Column(db.Integer, nullable=False)
     shiny = db.Column(db.Boolean, default=False)
 
-    catches = db.relationship('Catch', back_populates='user', cascade='all, delete-orphan')
+    catches = db.relationship('Catch', back_populates='species', cascade='all, delete-orphan')
     types = db.relationship('Type', secondary=pokemon_types, back_populates='species')
 
     serialize_rules = ('-catches.species')

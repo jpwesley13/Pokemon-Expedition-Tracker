@@ -65,3 +65,94 @@ if __name__ == '__main__':
             user.password_hash = user.username + '1337'
 
             users.append(user)
+        
+        db.session.add_all(users)
+
+        locales = []
+
+        for i in range(30):
+            locale = Locale(
+                name = fake.city()
+            )
+
+            locale.region = rc(regions)
+
+            locales.append(locale)
+        
+        db.session.add_all(locales)
+
+        goals = []
+        for i in range(50):
+
+            goal = Goal(
+                content = fake.paragraph(nb_sentences=8),
+                target_date = fake.date_time()
+            )
+
+            goal.user = rc(users)
+
+            goals.append(goal)
+
+        db.session.add_all(goals)
+
+        pokedexes = []
+        for i in range(10):
+            pokedex = Pokedex()
+
+            pokedex.user = users[i]
+
+            pokedexes.append(pokedex)
+        
+        db.session.add_all(pokedexes)
+
+        # Self note: Where PokeAPI integration is key
+        species_entries = []
+        dex_numbers = []
+        for i in range(50):
+
+            dex_number = randint(1, 1025)
+            while dex_number in dex_numbers:
+                dex_number = randint(1, 1025)
+            dex_numbers.append(dex_number)
+
+            species = Species(
+                name = fake.first_name(),
+                dex_number = dex_number,
+                shiny = fake.boolean()
+            )
+
+            species_entries.append(species)
+        
+        db.session.add_all(species_entries)
+
+        catches = []
+        for i in range(50):
+
+            catch = Catch(
+                caught_at = fake.date_time_this_month()
+            )
+
+            catch.user = rc(users)
+            catch.species = rc(species_entries)
+
+            catches.append(catch)
+        
+        db.session.add_all(catches)
+
+        expeditions = []
+        for i in range(50):
+
+            expedition = Expedition(
+                date = fake.date_time_this_month()
+            )
+
+            expedition.user = rc(users)
+            expedition.locale = rc(locales)
+
+            expeditions.append(expedition)
+
+        db.session.add_all(expeditions)
+
+        db.session.commit()
+
+        # Self note: don't forget pokemont_types table later.
