@@ -10,7 +10,7 @@ pokemon_types = db.Table('pokemon_types',
     db.Column('type_id', db.Integer, db.ForeignKey('types.id'))
     )
 
-class Type(db.Model):
+class Type(db.Model, SerializerMixin):
     __tablename__ = 'types'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String, nullable=False)
@@ -62,9 +62,14 @@ class User(db.Model, SerializerMixin):
 
     serialize_rules = ('-pokedex.user', '-goals.user', '-catches.user', '-expeditions.user', '-_password_hash')
 
+    # def total_counts(self, species_name):
+    #     total = Catch.query.filter(Catch.user_id == self.id, Catch.species.name == species_name).count()
+    #     return total
+
     def total_counts(self, species_name):
-        total = Catch.query.filter(Catch.user_id == self.user_id, Catch.species.name == species_name).count()
+        total = (Catch.query.join(Species).filter(Catch.user_id == self.id, Species.name == species_name).count())
         return total
+    
 
     @hybrid_property
     def password_hash(self):
@@ -126,7 +131,7 @@ class Goal(db.Model, SerializerMixin):
 
     user = db.relationship('User', back_populates='goals')
 
-    serialize_rules = ('-user.goals')
+    serialize_rules = ('-user.goals',)
 
     def __repr__(self):
         return f'<Goal {self.id}: {self.content} by {self.target_date}'
@@ -142,7 +147,7 @@ class Species(db.Model, SerializerMixin):
     catches = db.relationship('Catch', back_populates='species', cascade='all, delete-orphan')
     types = db.relationship('Type', secondary=pokemon_types, back_populates='species')
 
-    serialize_rules = ('-catches.species')
+    serialize_rules = ('-catches.species',)
 
     def is_shiny(self):
         if self.shiny:

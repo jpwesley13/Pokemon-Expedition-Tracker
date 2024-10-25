@@ -82,7 +82,7 @@ class Pokedexes(Resource):
         
 class PokedexByUser(Resource):
     def get(self, user_id):
-        user = User.query.filter(User.id == user_id)
+        user = User.query.filter(User.id == user_id).first()
         if not user:
             return make_response({"error": "User not found."}, 404)
 
@@ -216,7 +216,7 @@ class GoalById(Resource):
 
         return {}, 204
 
-class Species(Resource):
+class Speciess(Resource):
     def get(self):
         species = [species.to_dict() for species in Species.query.all()]
         return make_response(species, 200)
@@ -432,7 +432,7 @@ class Logout(Resource):
     
 api.add_resource(Users, '/users')
 api.add_resource(UserById, '/users/<int:id>')
-api.add_resource(PokedexByUser, '/users/<int:id>/pokedex')
+api.add_resource(PokedexByUser, '/users/<int:user_id>/pokedex')
 api.add_resource(Pokedexes, '/pokedexes')
 api.add_resource(Goals, '/goals')
 api.add_resource(GoalById, '/goals/<int:id>')
@@ -440,7 +440,7 @@ api.add_resource(Locales, '/locales')
 api.add_resource(LocaleById, '/locales/<int:id>')
 api.add_resource(Regions, '/regions')
 api.add_resource(RegionById, '/regions/<int:id>')
-api.add_resource(Species, '/species')
+api.add_resource(Speciess, '/species')
 api.add_resource(SpeciesById, '/species/<int:id>')
 api.add_resource(Types, '/types')
 api.add_resource(TypeById, '/types/<int:id>')
