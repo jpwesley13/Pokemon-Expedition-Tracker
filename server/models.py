@@ -126,7 +126,7 @@ class Goal(db.Model, SerializerMixin):
 
     id = db.Column(db.Integer, primary_key=True)
     content = db.Column(db.String, nullable=False)
-    target_date = db.Column(db.DateTime)
+    target_date = db.Column(db.Date)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
 
     user = db.relationship('User', back_populates='goals')
@@ -167,7 +167,7 @@ class Catch(db.Model, SerializerMixin):
     __tablename__ = 'catches'
 
     id = db.Column(db.Integer, primary_key=True)
-    caught_at = db.Column(db.DateTime)
+    caught_at = db.Column(db.Date)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     species_id = db.Column(db.Integer, db.ForeignKey('species.id'))
 
@@ -182,7 +182,7 @@ class Catch(db.Model, SerializerMixin):
 class Expedition(db.Model, SerializerMixin):
     __tablename__ = 'expeditions'
     id = db.Column(db.Integer, primary_key=True)
-    date = db.Column(db.DateTime)
+    date = db.Column(db.Date)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     locale_id = db.Column(db.Integer, db.ForeignKey('locales.id'))
 

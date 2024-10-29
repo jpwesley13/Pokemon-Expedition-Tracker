@@ -1,6 +1,5 @@
 import React from "react";
-import { Button } from "@mui/material";
-import { styled } from "@mui/material";
+import { Button, styled } from "@mui/material";
 
 const StyledButton = styled(Button)({
     display: 'block',

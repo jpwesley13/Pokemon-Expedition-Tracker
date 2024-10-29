@@ -2,6 +2,7 @@
 
 # Standard library imports
 from random import randint, choice as rc
+from datetime import datetime
 
 # Remote library imports
 from faker import Faker
@@ -84,9 +85,12 @@ if __name__ == '__main__':
         goals = []
         for i in range(50):
 
+            target_date_str = fake.date()
+            target_date = datetime.strptime(target_date_str, '%Y-%m-%d').date()
+
             goal = Goal(
                 content = fake.paragraph(nb_sentences=8),
-                target_date = fake.date_time()
+                target_date = target_date
             )
 
             goal.user = rc(users)
@@ -129,7 +133,7 @@ if __name__ == '__main__':
         for i in range(50):
 
             catch = Catch(
-                caught_at = fake.date_time_this_month()
+                caught_at = fake.date_this_month()
             )
 
             catch.user = rc(users)
@@ -143,7 +147,7 @@ if __name__ == '__main__':
         for i in range(50):
 
             expedition = Expedition(
-                date = fake.date_time_this_month()
+                date = fake.date_this_month()
             )
 
             expedition.user = rc(users)
