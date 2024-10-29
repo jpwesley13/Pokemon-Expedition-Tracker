@@ -172,9 +172,12 @@ class Goals(Resource):
         params = request.get_json()
 
         try:
+            target_date_str = params['target_date']
+            target_date = datetime.strptime(target_date_str, '%Y-%m-%d').date()
+
             new_goal = Goal(
                 content = params['content'],
-                target_date = params['target_date'],
+                target_date = target_date,
                 user_id = params['user_id']
             )
             db.session.add(new_goal)
@@ -199,7 +202,11 @@ class GoalById(Resource):
         
         try:
             for attr in params:
-                setattr(goal, attr, params[attr])
+                if attr == 'target_date':
+                    target_date_str = params[attr]
+                    setattr(goal, attr, datetime.strptime(target_date_str, '%Y-%m-%d').date())
+                else:
+                    setattr(goal, attr, params[attr])
             db.session.commit()
             return make_response(goal.to_dict(), 202)
         except ValueError:

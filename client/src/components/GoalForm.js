@@ -2,7 +2,7 @@ import { useFormik } from "formik";
 import * as yup from "yup";
 import { useAuth } from "../context and hooks/AuthContext";
 
-function GoalForm({ onAddGoal, handleClick, id}) {
+function GoalForm({ onAddGoal, handleClick}) {
     const { user } = useAuth();
 
     const formSchema = yup.object().shape({

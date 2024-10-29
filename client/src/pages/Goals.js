@@ -2,7 +2,9 @@ import { useEffect, useState } from "react";
 import { Modal, Box } from "@mui/material";
 import { useAuth } from "../context and hooks/AuthContext";
 import ModalButton from "../components/ModalButton";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import GoalForm from "../components/GoalForm";
+import EditGoal from "../components/EditGoal";
 
 function Goals() {
 
@@ -10,9 +12,14 @@ function Goals() {
     const { user } = useAuth();
     const [goals, setGoals] = useState([]);
     const [goalModal, setGoalModal] = useState(false);
+    const [isModalOpen, setIsModalOpen] = useState(false);
     const [currentGoal, setCurrentGoal] = useState(null);
 
     const { username, id } = user
+
+    function onAddGoal(newGoal){
+        return setGoals([...goals, newGoal])
+    }
 
     function handleEditGoalClick(goal){
         setCurrentGoal(goal);
@@ -66,6 +73,12 @@ function Goals() {
             <hr/>
             <h1>Goals</h1>
             <hr/>
+            <br />
+            {user && (<><ModalButton variant="contained" color="primary" onClick={() => setIsModalOpen(true)}>
+                        Add new goal
+                    </ModalButton>
+            <br />
+            </>)}
             <div className="profile-contributions">
                 {goals.length > 0 && (<>
                 {goalsList}
@@ -89,6 +102,21 @@ function Goals() {
                 />
             </Box>
         </Modal>
+        <Modal
+                open={isModalOpen}
+                onClose={() => setIsModalOpen(false)}
+                aria-labelledby="edit-profile-modal-title"
+                aria-describedby="edit-profile-modal-description"
+            >
+                <Box className="modal-box">
+                    <h2>Add new goal</h2>
+                    <ModalButton className="close-button" onClick={() => setIsModalOpen(false)} sx={{ mb: 2 }}>Close</ModalButton>
+                    <GoalForm
+                        handleClick={() => setIsModalOpen(false)}
+                        onAddGoal={onAddGoal}
+                    />
+                </Box>
+            </Modal>
         </>
     )
 };
