@@ -18,5 +18,116 @@
 
 .headertitle {
   font-size: 48px;
-  color: rgb(128, 32, 32)
+  color: rgb(128, 32, 32);
+}
+
+.navbar, .navbutton, .navlogin {
+  display: flex;
+  justify-content: space-between;
+  font-weight: bold;
+  align-items: center;
+  }
+
+.navbutton > a, .navlogin > a, .navbar > a {
+  display: inline-block;
+  box-sizing: border-box;
+  width: fit-content;
+  padding: 5px;
+  margin: 6px 6px 6px;
+  background: rgb(128, 32, 32);
+  text-decoration: none;
+  text-align: center;
+  font-size: min(10vw, 15px);
+  color: rgb(255, 255, 255);
+  border-radius: 10px;
+  }
+
+a.active {
+  background: black;
+  color: white;
+}
+
+form {
+  width: 95%;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+form label {
+  font-size: 1rem;
+  font-weight: bold;
+  display: block;
+  text-align: left;
+  margin: 1rem 0 0.2rem;
+}
+
+input,
+select {
+  width: 100%;
+  padding: 0.65rem 0.5rem;
+  font-size: 1rem;
+  color: rgb(0, 0, 0);
+  border: 2px solid rgb(128, 32, 32);
+  background-color: #ffffff;
+  border-radius: 10px;
+  outline: none;
+}
+
+input:focus,
+select:focus {
+  border-color: #4299e1;
+}
+
+input.input-error,
+select.input-error {
+  border-color: #ee6666;
+}
+
+.error {
+  color: #ee6666;
+  font-size: 0.75rem;
+  text-align: left;
+  margin-top: 0.25rem;
+}
+
+button {
+  display: block;
+  margin: 1rem 0;
+  padding: 0.35rem 0.5rem;
+  background-color: rgb(128, 32, 32);
+  color: rgb(255, 255, 255);
+  border: none;
+  border-radius: 10px;
+  width: fit-content;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer; 
+}
+
+button:disabled {
+  opacity: 0.35;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.header {
+  padding: 0;
+  text-align: center;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+.headertitle {
+  font-size: 48px;
+  color: rgb(128, 32, 32);
 }

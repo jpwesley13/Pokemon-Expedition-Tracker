@@ -43,9 +43,12 @@ function NavBar() {
             </div>
             <div className="navlogin">
             {user ? (
+                <>
+                <NavLink to={`/users/${user.id}`}>Profile</NavLink>
                 <button onClick={handleLogout}>
                     Logout
                 </button>
+                </>
                 ) : (
                 <>
                     <NavLink to="/signup">Signup</NavLink>
