@@ -25,6 +25,21 @@ function NavBar() {
                 >
                     Home
                 </NavLink>
+                <NavLink
+                to="/expeditions"
+                >
+                    Expeditions
+                </NavLink>
+                <NavLink
+                to="/goals"
+                >
+                    Goals
+                </NavLink>
+                <NavLink
+                to="/locales"
+                >
+                    Locales
+                </NavLink>
             </div>
             <div className="navlogin">
             {user ? (
