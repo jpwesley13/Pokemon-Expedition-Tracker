@@ -9,7 +9,7 @@ function Signup() {
     const navigate = useNavigate();
 
     const formSchema = yup.object().shape({
-        name: yup.string().required("Must enter name.").max(24),
+        username: yup.string().required("Must enter username.").max(24),
         age: yup.number().integer().required("Must enter age.").typeError("Please enter an Integer").min(10, "Must be at least 10 years old to join."),
         password: yup.string().min(6, "Password must be at least 6 characters.").max(30, "Password cannot exceed 30 characters.").required("Must create a password."),
         confirmPassword: yup.string().oneOf([yup.ref('password'), null], "Passwords must match.").required("Required.")
@@ -38,7 +38,7 @@ function Signup() {
     
     const {values, handleBlur, handleChange, handleSubmit, touched, errors, isSubmitting} = useFormik({
         initialValues: {
-            name: "",
+            username: "",
             age: "",
             password: "",
             confirmPassword: ""
@@ -49,17 +49,17 @@ function Signup() {
 
     return (
         <form onSubmit={handleSubmit}>
-            <label htmlFor="name">Name</label>
+            <label htmlFor="username">Username</label>
             <input
-                value={values.name}
+                value={values.username}
                 onChange={handleChange}
                 onBlur={handleBlur}
-                id="name" 
-                type="name" 
-                placeholder="Enter your name"
-                className={errors.name && touched.name ? "input-error" : ""} 
+                id="username" 
+                type="username" 
+                placeholder="Enter your username"
+                className={errors.username && touched.username ? "input-error" : ""} 
             />
-            {errors.name && touched.name && <p className="error">{errors.name}</p>}
+            {errors.username && touched.username && <p className="error">{errors.username}</p>}
             <label htmlFor="age">Age</label>
             <input
                 value={values.age}

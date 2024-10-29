@@ -9,7 +9,7 @@ export default function Login() {
     const navigate = useNavigate();
 
     const formSchema = yup.object().shape({
-        name: yup.string().required("Name is required."),
+        username: yup.string().required("Username is required."),
         password: yup.string().required("Password is required.")
     });
 
@@ -35,7 +35,7 @@ export default function Login() {
 
     const {values, handleBlur, handleChange, handleSubmit, touched, errors, isSubmitting} = useFormik({
         initialValues: {
-            name: "",
+            username: "",
             password: "",
         },
         validationSchema: formSchema,
@@ -44,17 +44,17 @@ export default function Login() {
 
     return (
         <form onSubmit={handleSubmit}>
-            <label htmlFor="name">Name</label>
+            <label htmlFor="username">Username</label>
             <input
-                value={values.name}
+                value={values.username}
                 onChange={handleChange}
                 onBlur={handleBlur}
-                id="name" 
+                id="username" 
                 type="text" 
-                placeholder="Enter your name"
-                className={errors.name && touched.name ? "input-error" : ""} 
+                placeholder="Enter your username"
+                className={errors.username && touched.username ? "input-error" : ""} 
             />
-            {errors.name && touched.name && <p className="error">{errors.name}</p>}
+            {errors.username && touched.username && <p className="error">{errors.username}</p>}
             <label htmlFor="password">Password</label>
             <input
                 style={{ marginBottom: '1rem' }}
