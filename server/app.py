@@ -145,9 +145,15 @@ class Locales(Resource):
     def post(self):
         params = request.get_json()
 
+        proper_name = params['name'].strip().title()
+
         try:
+            duplicate = Locale.query.filter(Locale.name == proper_name, Locale.region_id == params['region_id']).first()
+            if duplicate:
+                return make_response({"errors": ["Locale with this name and region already exists."]}, 400)
+            
             new_locale = Locale(
-                name = params['name'],
+                name = proper_name,
                 region_id = params['region_id']
             )
             db.session.add(new_locale)

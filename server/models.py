@@ -110,11 +110,14 @@ class Locale(db.Model, SerializerMixin):
 
     serialize_rules = ('-region.locales', '-expeditions.locale')
 
+    __table_args__ = (db.UniqueConstraint('name', 'region_id', name='_name_region_uc'),)
+
     @validates('name')
     def validate_name(self, key, name):
         if not name:
             raise ValueError('Locale must be named.')
-        elif 25 < len(name) < 2:
+        name = name.strip().title()
+        if 25 < len(name) < 2:
             raise ValueError('Locale names must be between 2-25 characters long')
         return name
 
