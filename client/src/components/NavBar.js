@@ -31,11 +31,6 @@ function NavBar() {
                     Expeditions
                 </NavLink>
                 <NavLink
-                to="/goals"
-                >
-                    Goals
-                </NavLink>
-                <NavLink
                 to="/locales"
                 >
                     Locales
@@ -45,6 +40,11 @@ function NavBar() {
             {user ? (
                 <>
                 <NavLink to={`/users/${user.id}`}>Profile</NavLink>
+                <NavLink
+                to="/goals"
+                >
+                    Goals
+                </NavLink>
                 <button onClick={handleLogout}>
                     Logout
                 </button>
