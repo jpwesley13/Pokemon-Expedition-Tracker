@@ -5,7 +5,7 @@ const StyledButton = styled(Button)({
     display: 'block',
     margin: '0rem 0',
     padding: '0.01rem 0.5rem',
-    backgroundColor: 'rgb(42, 90, 50)',
+    backgroundColor: 'rgb(128, 32, 32)',
     color: 'rgb(255, 255, 255)',
     border: 'none',
     borderRadius: '10px',
