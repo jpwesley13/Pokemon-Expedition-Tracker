@@ -15,7 +15,12 @@ function Goals() {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [currentGoal, setCurrentGoal] = useState(null);
 
-    const { username, id } = user
+    useEffect(() => {
+        if(!user) {
+            navigate("/login");
+        }
+    }, [user, navigate])
+    const { username, id } = user || {}
 
     function onAddGoal(newGoal){
         return setGoals([...goals, newGoal])
