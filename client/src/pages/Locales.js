@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import SortCard from "../components/SortCard";
+import Search from "../components/Search";
+import FilterCard from "../components/FilterCard";
 import { useAuth } from "../context and hooks/AuthContext";
 
 function Locales() {
@@ -24,5 +26,5 @@ function Locales() {
         return setLocales([...locales, newLocale])
     }
 
-    
+
 }
