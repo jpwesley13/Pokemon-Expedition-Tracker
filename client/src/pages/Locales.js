@@ -103,7 +103,7 @@ function Locales() {
                         <ModalButton className="close-button" onClick={() => setIsModalOpen(false)} sx={{ mb: 2 }}>Close</ModalButton>
                         <LocaleForm
                         handleClick={() => setIsModalOpen(false)}
-                        onAddLocales={{onAddLocales}}
+                        onAddLocales={onAddLocales}
                         />
                     </Box>
                 </Modal>
