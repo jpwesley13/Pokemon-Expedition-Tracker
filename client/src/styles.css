@@ -149,3 +149,23 @@ body {
 .close-button {
   margin-bottom: 16px;
 }
+
+.filter-card, .sort-card, .search-card {
+  flex: 1;
+  max-width: 300px;
+  margin-bottom: 20px;
+}
+
+.sort-option {
+  display: block; 
+  margin: 5px 0;
+  position: relative;
+  padding-left: 15px; 
+}
+
+.sort-option input[type="radio"] {
+  position: absolute;
+  left: 0;
+  top: 50%; 
+  transform: translateY(-50%); 
+}
