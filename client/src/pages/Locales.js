@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react";
 import LocaleCard from "../components/LocaleCard";
+import LocaleForm from "../components/LocaleForm";
 import SortCard from "../components/SortCard";
 import Search from "../components/Search";
 import FilterCard from "../components/FilterCard";
 import { useAuth } from "../context and hooks/AuthContext";
 import ModalButton from "../components/ModalButton";
-import { Modal } from "@mui/material";
+import { Modal, Box } from "@mui/material";
 
 function Locales() {
 
@@ -100,7 +101,10 @@ function Locales() {
                     <Box className="modal-box">
                         <h2>Add new locale</h2>
                         <ModalButton className="close-button" onClick={() => setIsModalOpen(false)} sx={{ mb: 2 }}>Close</ModalButton>
-                        
+                        <LocaleForm
+                        handleClick={() => setIsModalOpen(false)}
+                        onAddLocales={{onAddLocales}}
+                        />
                     </Box>
                 </Modal>
         </>

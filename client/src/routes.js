@@ -4,6 +4,7 @@ import Home from "./pages/Home";
 import Signup from "./pages/Signup";
 import Login from "./pages/Login";
 import Goals from "./pages/Goals";
+import Locales from "./pages/Locales";
 
 const routes = [
     {
@@ -14,6 +15,10 @@ const routes = [
             {
                 path: "/",
                 element: <Home />,
+            },
+            {
+                path: "/locales",
+                element: <Locales />
             },
             {
                 path: "/goals",
