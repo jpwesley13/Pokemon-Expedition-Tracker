@@ -150,7 +150,7 @@ class Locales(Resource):
         try:
             duplicate = Locale.query.filter(Locale.name == proper_name, Locale.region_id == params['region_id']).first()
             if duplicate:
-                return make_response({"errors": ["Locale with this name and region already exists."]}, 400)
+                return {"errors": "Locale with this name and region already exists."}, 400
             
             new_locale = Locale(
                 name = proper_name,

@@ -32,7 +32,7 @@ function LocaleForm({ onAddLocales, handleClick }) {
             });
             if(localeRes.status >= 400) {
                 const data = await localeRes.json();
-                actions.setErrors(data.errors);
+                actions.setErrors({duplicates: data.errors});
             };
 
             const localeData = await localeRes.json();
@@ -82,6 +82,7 @@ function LocaleForm({ onAddLocales, handleClick }) {
                 ))}
             </select>
             {errors.region_id && touched.region_id && <p className="error">{errors.region_id}</p>}
+            {errors.duplicates && <p className="error">{errors.duplicates}</p>}
                 <button disabled={isSubmitting} type="submit">Submit</button>
         </form>
     )
