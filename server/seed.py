@@ -3,9 +3,11 @@
 # Standard library imports
 from random import randint, choice as rc
 from datetime import datetime
+import requests
 
 # Remote library imports
 from faker import Faker
+
 
 # Local imports
 from app import app
@@ -114,18 +116,25 @@ if __name__ == '__main__':
         dex_numbers = []
         for i in range(50):
 
+
             dex_number = randint(1, 1025)
             while dex_number in dex_numbers:
                 dex_number = randint(1, 1025)
             dex_numbers.append(dex_number)
 
-            species = Species(
-                name = fake.first_name(),
-                dex_number = dex_number,
-                shiny = fake.boolean()
-            )
+            response = requests.get(f'https://pokeapi.co/api/v2/pokemon/{dex_number}')
+            if response.status_code == 200:
+                pokemon = response.json()
 
-            species_entries.append(species)
+                species = Species(
+                    name = pokemon['name'],
+                    dex_number = pokemon['id'],
+                    shiny = fake.boolean()
+                )
+
+                species_entries.append(species)
+            else:
+                print("Error, failed to fetch Pokemon data.")
         
         db.session.add_all(species_entries)
 
