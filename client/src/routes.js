@@ -6,6 +6,7 @@ import Login from "./pages/Login";
 import Profile from "./pages/Profile";
 import Goals from "./pages/Goals";
 import Locales from "./pages/Locales";
+import Pokedex from "./pages/Pokedex";
 
 const routes = [
     {
@@ -23,7 +24,11 @@ const routes = [
             },
             {
                 path: "/users/:id",
-                element: <Profile />
+                element: <Profile />,
+            },
+            {
+                path: "/users/:id/pokedex",
+                element: <Pokedex />
             },
             {
                 path: "/goals",
