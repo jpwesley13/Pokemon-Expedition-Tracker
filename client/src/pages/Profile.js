@@ -5,21 +5,25 @@ import { useAuth } from "../context and hooks/AuthContext";
 function Profile() {
     const navigate = useNavigate();
     const { user } = useAuth();
-    const { id } = useParams();
+    const { userId } = useParams();
+    const { id } = user || {}
 
     useEffect(() => {
-        if(user.id !== id){
+        if(id !== userId){
             // return (
             //     <h1>Nope, not your profile. Begone.</h1>
             // )
-            navigate(`/users/${user.id}`)
+            navigate(`/users/${id}`)
+        } else if(!user) {
+            navigate("/login");
         }
-    }, [id, navigate, user.id])
+    }, [userId, navigate, id])
+    
 
     return (
         <>
             <h1>Hey how's it growin'?</h1>
-            <NavLink to={`/users/${user.id}/pokedex`}>Pokedex</NavLink>
+            <NavLink to={`/users/${id}/pokedex`}>Pokedex</NavLink>
         </>
     );
 };
