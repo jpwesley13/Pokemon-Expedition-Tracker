@@ -5,8 +5,12 @@ import * as yup from "yup";
 import { useAuth } from '../context and hooks/AuthContext';
 
 export default function Login() {
-    const { setUser } = useAuth();
+    const { user, setUser } = useAuth();
     const navigate = useNavigate();
+
+    if(user){
+        navigate('/')
+    }
 
     const formSchema = yup.object().shape({
         username: yup.string().required("Username is required."),
