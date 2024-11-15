@@ -5,6 +5,7 @@ import Signup from "./pages/Signup";
 import Login from "./pages/Login";
 import Profile from "./pages/Profile";
 import Goals from "./pages/Goals";
+import Expeditions from "./pages/Expeditions";
 import Locales from "./pages/Locales";
 import Pokedex from "./pages/Pokedex";
 
@@ -17,6 +18,10 @@ const routes = [
             {
                 path: "/",
                 element: <Home />,
+            },
+            {
+                path: "/expeditions",
+                element: <Expeditions />,
             },
             {
                 path: "/locales",
