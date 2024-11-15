@@ -34,9 +34,7 @@ function ExpeditionForm({ onAddExpedition, handleClick }) {
         onSubmit,
     });
 
-    const handleNameChange = async (e) => {
-        const speciesName = e.target.value.toLowerCase().replace(/\s+/g, '-');
-        handleChange(e);
+    const speciesFetch = async (speciesName) => {
 
         if(speciesName) {
             setIsLoading(true);
@@ -64,6 +62,14 @@ function ExpeditionForm({ onAddExpedition, handleClick }) {
             }
         }
     };
+
+    const debouncedSpeciesFetch = useDebounce(speciesFetch, 700);
+
+    const handleNameChange = (e) => {
+        handleChange(e);
+        const speciesName = e.target.value.toLowerCase().replace(/\s+/g, '-');
+        debouncedSpeciesFetch(speciesName)
+    }
 
     return (
         <form onSubmit={handleSubmit}>
