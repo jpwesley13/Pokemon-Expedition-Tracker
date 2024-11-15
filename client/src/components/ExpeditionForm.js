@@ -6,7 +6,7 @@ import useDebounce from "../context and hooks/DebounceHook";
 
 function ExpeditionForm({ onAddExpedition, handleClick }) {
     const { user } = useAuth();
-    const [isLoading, setIsLoading] = useState(false);
+    const [debounceActive, setDebounceActive] = useState(false);
 
     const formSchema = yup.object().shape({
         date: yup.date().required("Enter the date of this expedition."),
@@ -37,7 +37,6 @@ function ExpeditionForm({ onAddExpedition, handleClick }) {
     const speciesFetch = async (speciesName) => {
 
         if(speciesName) {
-            setIsLoading(true);
             try {
                 const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${speciesName}`);
                 if (!res.ok) throw new Error('Species not found');
@@ -58,18 +57,26 @@ function ExpeditionForm({ onAddExpedition, handleClick }) {
                 setFieldValue('dex_number', "");
                 setFieldValue('types', "");
             } finally {
-                setIsLoading(false);
+                setDebounceActive(false);
             }
         }
     };
 
-    const debouncedSpeciesFetch = useDebounce(speciesFetch, 700);
+    // const debouncedSpeciesFetch = useDebounce(speciesFetch, 700);
+    const debouncedSpeciesFetch = useDebounce((speciesName) => {
+        setDebounceActive(true);
+        speciesFetch(speciesName);
+    }, 700);
 
     const handleNameChange = (e) => {
         handleChange(e);
         const speciesName = e.target.value.toLowerCase().replace(/\s+/g, '-');
-        debouncedSpeciesFetch(speciesName)
-    }
+
+        if (speciesName) {
+            setDebounceActive(true);
+            debouncedSpeciesFetch(speciesName);
+        }
+    }    
 
     return (
         <form onSubmit={handleSubmit}>
@@ -112,7 +119,7 @@ function ExpeditionForm({ onAddExpedition, handleClick }) {
                 className={errors.types && touched.types ? "input-error" : ""}
             />
             {errors.types && touched.types && <p className="error">{errors.types}</p>}
-            <button disabled={isSubmitting} type="submit">Submit</button>
+            <button disabled={isSubmitting || debounceActive } type="submit">Submit</button>
         </form>
     )
 };
