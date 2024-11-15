@@ -1,9 +1,12 @@
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { useAuth } from "../context and hooks/AuthContext";
+import { useState, useCallback } from "react";
+import useDebounce from "../context and hooks/DebounceHook";
 
 function ExpeditionForm({ onAddExpedition, handleClick }) {
     const { user } = useAuth();
+    const [isLoading, setIsLoading] = useState(false);
 
     const formSchema = yup.object().shape({
         date: yup.date().required("Enter the date of this expedition."),
@@ -32,21 +35,32 @@ function ExpeditionForm({ onAddExpedition, handleClick }) {
     });
 
     const handleNameChange = async (e) => {
-        const speciesName = e.target.value.toLowerCase();
+        const speciesName = e.target.value.toLowerCase().replace(/\s+/g, '-');
         handleChange(e);
 
         if(speciesName) {
+            setIsLoading(true);
             try {
                 const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${speciesName}`);
                 if (!res.ok) throw new Error('Species not found');
 
                 const data = await res.json();
-                setFieldValue('dex_number', data.id);
-                setFieldValue('types', data.types.map(typeInfo => typeInfo.type.name).join(', '))
+
+                if(data.id > 1025){
+                    const speciesRes = await fetch(data.species.url);
+                    const speciesData = await speciesRes.json();
+
+                    setFieldValue('dex_number', speciesData.pokedex_numbers[0].entry_number);
+                } else {
+                    setFieldValue('dex_number', data.id);
+                }
+                setFieldValue('types', data.types.map(typeInfo => typeInfo.type.name).join(', '));
             } catch(error) {
                 console.error(error);
                 setFieldValue('dex_number', "");
                 setFieldValue('types', "");
+            } finally {
+                setIsLoading(false);
             }
         }
     };
