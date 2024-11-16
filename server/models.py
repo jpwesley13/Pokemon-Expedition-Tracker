@@ -17,6 +17,8 @@ class Type(db.Model, SerializerMixin):
 
     species = db.relationship('Species', secondary=pokemon_types, back_populates='types')
 
+    serialize_rules = ('-species',)
+
 class Region(db.Model, SerializerMixin):
     __tablename__ = 'regions'
 
@@ -60,7 +62,7 @@ class User(db.Model, SerializerMixin):
     catches = db.relationship('Catch', back_populates='user', cascade='all, delete-orphan')
     expeditions = db.relationship('Expedition', back_populates='user', cascade='all, delete-orphan')
 
-    serialize_rules = ('-pokedex.user', '-goals.user', '-catches.user', '-expeditions.user', '-_password_hash', '-')
+    serialize_rules = ('-pokedex.user', '-goals.user', '-catches.user', '-expeditions.user', '-_password_hash',)
 
     # def total_counts(self, species_name):
     #     total = Catch.query.filter(Catch.user_id == self.id, Catch.species.name == species_name).count()
@@ -150,7 +152,7 @@ class Species(db.Model, SerializerMixin):
     catches = db.relationship('Catch', back_populates='species', cascade='all, delete-orphan')
     types = db.relationship('Type', secondary=pokemon_types, back_populates='species')
 
-    serialize_rules = ('-catches.species',)
+    serialize_rules = ('-catches.species', '-types')
 
     def is_shiny(self):
         if self.shiny:
