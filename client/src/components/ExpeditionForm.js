@@ -1,12 +1,22 @@
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { useAuth } from "../context and hooks/AuthContext";
-import { useState, useCallback } from "react";
+import { useState, useEffect, useCallback } from "react";
 import useDebounce from "../context and hooks/DebounceHook";
 
 function ExpeditionForm({ onAddExpedition, handleClick }) {
     const { user } = useAuth();
     const [debounceActive, setDebounceActive] = useState(false);
+    const [locales, setLocales] = useState([]);
+    const [captures, setCaptures] = useState([ 
+        { name: "", dex_number: "", types: "" } ]);
+
+    useEffect(() => {
+        fetch('/locales')
+            .then(res => res.json())
+            .then(data => setLocales(data))
+            .catch(error => console.error(error));
+    }, []);
 
     const formSchema = yup.object().shape({
         date: yup.date().required("Enter the date of this expedition."),
@@ -33,6 +43,10 @@ function ExpeditionForm({ onAddExpedition, handleClick }) {
         validationSchema: formSchema,
         onSubmit,
     });
+
+    const addNewCapture = () => {
+        setCaptures([...captures, { name: "", dex_number: "", types: "" }]);
+    };
 
     const speciesFetch = async (speciesName) => {
 
@@ -90,35 +104,54 @@ function ExpeditionForm({ onAddExpedition, handleClick }) {
                 className={errors.date && touched.date ? "input-error" : ""}
             />
             {errors.date && touched.date && <p className="error">{errors.date}</p>}
-            <label htmlFor="name">Pokémon Name</label>
-            <input
-                id="name"
-                type="text"
-                placeholder="Enter species name here"
-                value={values.name}
-                onChange={handleNameChange}
+            <label htmlFor="locale">Locale</label>
+            <select
+                value={values.locale_id}
+                onChange={handleChange}
                 onBlur={handleBlur}
-                className={errors.name && touched.name ? "input-error" : ""}
-            />
-            {errors.name && touched.name && <p className="error">{errors.name}</p>}
-            <label htmlFor="dex_number">Dex Number</label>
-            <input
-                id="dex_number"
-                type="text"
-                value={values.dex_number}
-                readOnly
-                className={errors.dex_number && touched.dex_number ? "input-error" : ""}
-            />
-            {errors.dex_number && touched.dex_number && <p className="error">{errors.dex_number}</p>}
-            <label htmlFor="types">Types</label>
-            <input
-                id="types"
-                type="text"
-                value={values.types}
-                readOnly
-                className={errors.types && touched.types ? "input-error" : ""}
-            />
-            {errors.types && touched.types && <p className="error">{errors.types}</p>}
+                id="locale_id" 
+                type="text" 
+                placeholder="Select the habitat's locale" 
+                className={errors.locale_id && touched.locale_id ? "input-error" : ""}>
+                    <option value="" hidden disabled>Select a locale</option>
+                    {locales.map((locale) => (
+                    <option key={locale.id} value={locale.id}>{locale.name} ({locale.region.name})</option>
+                ))}
+            </select>
+            {errors.locale_id && touched.locale_id && <p className="error">{errors.locale_id}</p>}
+            {captures.map((capture, index) => (
+                <div key={index}>
+                    <label htmlFor="name">Pokémon Name</label>
+                    <input
+                        id="name"
+                        type="text"
+                        placeholder="Enter species name here"
+                        value={values.name}
+                        onChange={handleNameChange}
+                        onBlur={handleBlur}
+                        className={errors.name && touched.name ? "input-error" : ""}
+                    />
+                    {errors.name && touched.name && <p className="error">{errors.name}</p>}
+                    <label htmlFor="dex_number">Dex Number</label>
+                    <input
+                        id="dex_number"
+                        type="text"
+                        value={values.dex_number}
+                        readOnly
+                        className={errors.dex_number && touched.dex_number ? "input-error" : ""}
+                    />
+                    {errors.dex_number && touched.dex_number && <p className="error">{errors.dex_number}</p>}
+                    <label htmlFor="types">Types</label>
+                    <input
+                        id="types"
+                        type="text"
+                        value={values.types}
+                        readOnly
+                        className={errors.types && touched.types ? "input-error" : ""}
+                    />
+                    {errors.types && touched.types && <p className="error">{errors.types}</p>}
+                </div>
+            ))}
             <button disabled={isSubmitting || debounceActive } type="submit">Submit</button>
         </form>
     )
