@@ -60,7 +60,7 @@ class User(db.Model, SerializerMixin):
     catches = db.relationship('Catch', back_populates='user', cascade='all, delete-orphan')
     expeditions = db.relationship('Expedition', back_populates='user', cascade='all, delete-orphan')
 
-    serialize_rules = ('-pokedex.user', '-goals.user', '-catches.user', '-expeditions.user', '-_password_hash')
+    serialize_rules = ('-pokedex.user', '-goals.user', '-catches.user', '-expeditions.user', '-_password_hash', '-')
 
     # def total_counts(self, species_name):
     #     total = Catch.query.filter(Catch.user_id == self.id, Catch.species.name == species_name).count()
@@ -177,7 +177,7 @@ class Catch(db.Model, SerializerMixin):
     user = db.relationship('User', back_populates='catches')
     species = db.relationship('Species', back_populates='catches')
 
-    serialize_rules = ('-user.catches', '-species.catches')
+    serialize_rules = ('-user.catches', '-species.catches', '-expeditions.user')
 
     def __repr__(self):
         return f'<Capture {self.id}: {self.user.username} caught a {self.species.name} at {self.caught_at}>'

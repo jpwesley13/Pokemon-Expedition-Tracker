@@ -4,12 +4,14 @@ import { useAuth } from "../context and hooks/AuthContext";
 import { useState, useEffect, useCallback } from "react";
 import useDebounce from "../context and hooks/DebounceHook";
 
+function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
 function ExpeditionForm({ onAddExpedition, handleClick }) {
     const { user } = useAuth();
     const [debounceActive, setDebounceActive] = useState(false);
     const [locales, setLocales] = useState([]);
-    const [captures, setCaptures] = useState([ 
-        { name: "", dex_number: "", types: "" } ]);
 
     useEffect(() => {
         fetch('/locales')
@@ -21,15 +23,50 @@ function ExpeditionForm({ onAddExpedition, handleClick }) {
     const formSchema = yup.object().shape({
         date: yup.date().required("Enter the date of this expedition."),
         locale_id: yup.string().required("Please enter the locale of this expedition."),
-        name: yup.string().required("Please enter a Pokémon name."),
-        dex_number: yup.number().required("Dex number will be auto-populated."),
-        types: yup.string().required("Types will be auto-populated.")
+        captures: yup.array().of(
+            yup.object().shape({
+              species: yup.object().shape({
+                name: yup.string().required("Please enter a Pokémon name."),
+                dex_number: yup.number().required("Dex number will be auto-populated."),
+                types: yup.string().required("Types will be auto-populated."),
+                shiny: yup.boolean().required("Please specify if the Pokémon is shiny.")
+              })
+            })
+          )
     });
 
     const onSubmit = async(values, actions) => {
-        // do the thing
-        console.log("Form submitted", values);
-        actions.resetForm();
+        try {
+            const expeditionRes = await fetch(`/expeditions`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    date: values.date,
+                    locale_id: values.locale_id,
+                    user_id: user.id,
+                    captures: values.captures.map(capture =>({
+                        species: {
+                            name: capture.species.name,
+                            dex_number: capture.species.dex_number,
+                            shiny: capture.species.shiny,
+                            types: capture.species.types.split(', ')
+                        }
+                    }))
+                }),
+            });
+            if(expeditionRes.status >= 400) {
+                const data = await expeditionRes.json();
+                actions.setErrors(data.errors);
+            };
+            const expeditionData = await expeditionRes.json();
+            onAddExpedition(expeditionData);
+            handleClick();
+            actions.resetForm();
+        } catch(error) {
+            console.error(error)
+        }
     };
 
     const {values, handleBlur, handleChange, handleSubmit, setFieldValue, touched, errors, isSubmitting} = useFormik({
@@ -43,7 +80,14 @@ function ExpeditionForm({ onAddExpedition, handleClick }) {
     });
 
     const addNewCapture = () => {
-        const newCaptures = [...values.captures, { name: "", dex_number: "", types: "" }]
+        const newCaptures = [...values.captures, { 
+            species: {
+                name: "", 
+                dex_number: "", 
+                types: "", 
+                shiny: false 
+            }
+        }]
         setFieldValue("captures", newCaptures);
     };
 
@@ -65,15 +109,16 @@ function ExpeditionForm({ onAddExpedition, handleClick }) {
                     const speciesRes = await fetch(data.species.url);
                     const speciesData = await speciesRes.json();
 
-                    setFieldValue(`captures[${i}].dex_number`, speciesData.pokedex_numbers[0].entry_number);
+                    setFieldValue(`captures[${i}].species.dex_number`, speciesData.pokedex_numbers[0].entry_number);
                 } else {
-                    setFieldValue(`captures[${i}].dex_number`, data.id);
+                    setFieldValue(`captures[${i}].species.dex_number`, data.id);
                 }
-                setFieldValue(`captures[${i}].types`, data.types.map(typeInfo => typeInfo.type.name).join(', '));
+                const capitalizeTypes = data.types.map(typeInfo => capitalizeFirstLetter(typeInfo.type.name)).join(', ')
+                setFieldValue(`captures[${i}].species.types`, capitalizeTypes);
             } catch(error) {
                 console.error(error);
-                setFieldValue(`captures[${i}].dex_number`, "");
-                setFieldValue(`captures[${i}].types`, "");
+                setFieldValue(`captures[${i}].species.dex_number`, "");
+                setFieldValue(`captures[${i}].species.types`, "");
             } finally {
                 setDebounceActive(false);
             }
@@ -89,7 +134,7 @@ function ExpeditionForm({ onAddExpedition, handleClick }) {
     const handleCaptureChange = (e, i) => {
         const { name, value } = e.target;
         const newCaptures = [...values.captures];
-        newCaptures[i] = {...newCaptures[i], [name]: value};
+        newCaptures[i].species = {...newCaptures[i].species, [name]: value};
         setFieldValue("captures", newCaptures);
     };
 
@@ -103,6 +148,8 @@ function ExpeditionForm({ onAddExpedition, handleClick }) {
             debouncedSpeciesFetch(speciesName, i);
         }
     }    
+
+    console.log(values.captures)
 
     return (
         <form onSubmit={handleSubmit}>
@@ -133,38 +180,77 @@ function ExpeditionForm({ onAddExpedition, handleClick }) {
             {errors.locale_id && touched.locale_id && <p className="error">{errors.locale_id}</p>}
             {values.captures.map((capture, index) => (
                 <div key={index}>
-                    <label htmlFor={`captures[${index}].name`}>Pokémon Name</label>
+                    <label htmlFor={`captures[${index}].species.name`}>Pokémon Name</label>
                     <input
-                        id={`captures[${index}].name`}
+                        id={`captures[${index}].species.name`}
                         name="name"
                         type="text"
                         placeholder="Enter species name here"
-                        value={capture.name}
+                        value={capture.species.name}
                         onChange={(e) => handleNameChange(e, index)}
                         onBlur={handleBlur}
-                        className={errors.captures?.[index]?.name && touched.captures?.[index]?.name ? "input-error" : ""}
+                        className={errors.captures?.[index]?.species?.name && touched.captures?.[index]?.species?.name ? "input-error" : ""}
                     />
-                    {errors.captures?.[index]?.name && touched.captures?.[index]?.name && <p className="error">{errors.captures[index].name}</p>}
-                    <label htmlFor={`captures[${index}].dex_number`}>Dex Number</label>
+                    {errors.captures?.[index]?.species?.name && touched.captures?.[index]?.name && <p className="error">{errors.captures[index].species.name}</p>}
+                    <label htmlFor={`captures[${index}].species.dex_number`}>Dex Number</label>
                     <input
-                        id={`captures[${index}].dex_number`}
+                        id={`captures[${index}].species.dex_number`}
                         name="dex_number"
                         type="text"
-                        value={capture.dex_number}
+                        value={capture.species.dex_number}
                         readOnly
-                        className={errors.captures?.[index]?.dex_number && touched.captures?.[index]?.dex_number ? "input-error" : ""}
+                        className={errors.captures?.[index]?.species?.dex_number && touched.captures?.[index]?.species?.dex_number ? "input-error" : ""}
                     />
-                    {errors.captures?.[index]?.dex_number && touched.captures?.[index]?.dex_number && <p className="error">{errors.captures[index].dex_number}</p>}
-                    <label htmlFor={`captures[${index}].types`}>Types</label>
+                    {errors.captures?.[index]?.species?.dex_number && touched.captures?.[index]?.species?.dex_number && <p className="error">{errors.captures[index].species.dex_number}</p>}
+                    <label htmlFor={`captures[${index}].species.types`}>Types</label>
                     <input
-                        id={`captures[${index}].types`}
+                        id={`captures[${index}].species.types`}
                         name="types"
                         type="text"
-                        value={capture.types}
+                        value={capture.species.types}
                         readOnly
-                        className={errors.captures?.[index]?.types && touched.captures?.[index]?.types ? "input-error" : ""}
+                        className={errors.captures?.[index]?.species?.types && touched.captures?.[index]?.species?.types ? "input-error" : ""}
                     />
-                    {errors.captures?.[index]?.types && touched.captures?.[index]?.types && <p className="error">{errors.captures[index].types}</p>}
+                    {errors.captures?.[index]?.species?.types && touched.captures?.[index]?.species?.types && <p className="error">{errors.captures[index].species.types}</p>}
+                    {/* <label htmlFor={`captures[${index}].species.shiny`}>Shiny?</label>
+                    <input
+                        id={`captures[${index}].species.shiny`}
+                        type="checkbox"
+                        name="shiny"
+                        checked={capture.species.shiny}
+                        onChange={(e) => handleChange(e, index)}
+                        onBlur={handleBlur}
+                        className={errors.captures?.[index]?.species?.shiny && touched.captures?.[index]?.species?.shiny ? "input-error" : ""}
+                    />
+                    {errors.captures?.[index]?.species?.shiny && touched.captures?.[index]?.species?.shiny && <p className="error">{errors.captures[index].species.shiny}</p>} */}
+                    <div>
+                        <label>Shiny?</label>
+                        <label htmlFor={`captures[${index}].species.shiny-yes`}>Yes</label>
+                        <input
+                            id={`captures[${index}].species.shiny-yes`}
+                            type="radio"
+                            name={`captures[${index}].species.shiny`}
+                            value="true"
+                            checked={capture.species.shiny === true}
+                            onChange={(e) => {
+                                setFieldValue(`captures[${index}].species.shiny`, true);
+                            }}
+                        />
+                        <label htmlFor={`captures[${index}].species.shiny-no`}>No</label>
+                        <input
+                            id={`captures[${index}].species.shiny-no`}
+                            type="radio"
+                            name={`captures[${index}].species.shiny`}
+                            value="false"
+                            checked={capture.species.shiny === false}
+                            onChange={(e) => {
+                                setFieldValue(`captures[${index}].species.shiny`, false);
+                            }}
+                        />
+                        {errors.captures?.[index]?.species?.shiny && touched.captures?.[index]?.species?.shiny && (
+                            <p className="error">{errors.captures[index].species.shiny}</p>
+                        )}
+                    </div>
                     <button type="button" onClick={() => removeCapture(index)}>Remove Capture</button>
                 </div>
             ))}
