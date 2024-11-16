@@ -17,7 +17,7 @@ class Type(db.Model, SerializerMixin):
 
     species = db.relationship('Species', secondary=pokemon_types, back_populates='types')
 
-    serialize_rules = ('-species',)
+    serialize_rules = ('-species.types',)
 
 class Region(db.Model, SerializerMixin):
     __tablename__ = 'regions'
@@ -152,7 +152,7 @@ class Species(db.Model, SerializerMixin):
     catches = db.relationship('Catch', back_populates='species', cascade='all, delete-orphan')
     types = db.relationship('Type', secondary=pokemon_types, back_populates='species')
 
-    serialize_rules = ('-catches.species', '-types')
+    serialize_rules = ('-catches.species', '-types.species')
 
     def is_shiny(self):
         if self.shiny:
