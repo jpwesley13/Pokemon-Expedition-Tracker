@@ -23,7 +23,7 @@ function Expeditions() {
     const { username, id } = user || {}
 
     function onAddExpedition(newExpedition){
-        return setExpeditions([...expeditions, newExpedition])
+        setExpeditions([...expeditions, newExpedition])
     }
 
     // function handleEditExpeditionClick(expedition){
@@ -53,7 +53,9 @@ function Expeditions() {
     }, [id])
 
 
-    const expeditionsList = expeditions.map(expedition => (
+    const expeditionsList = expeditions.map(expedition => {
+        console.log("Render", expedition)
+        return (
         <p key={expedition.id} className="profile-list-item">
             <div className="profile-content">
                 <span>{`${username}`}'s expedition: {`${expedition.date}`}: </span>
@@ -70,7 +72,7 @@ function Expeditions() {
                 )} */}
             </div>
         </p>
-    ));
+    )});
 
     return (
         <>

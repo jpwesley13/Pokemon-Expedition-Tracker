@@ -149,8 +149,6 @@ function ExpeditionForm({ onAddExpedition, handleClick }) {
         }
     }    
 
-    console.log(values.captures)
-
     return (
         <form onSubmit={handleSubmit}>
             <label htmlFor="date">Date</label>
