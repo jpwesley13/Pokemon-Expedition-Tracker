@@ -12,7 +12,7 @@ function Locales() {
 
     const { user } = useAuth();
     const [locales, setLocales] = useState([]);
-    // const [expeditions, setExpeditions] = useState([]);
+    const [catches, setCatches] = useState([]);
     const [search, setSearch] = useState("");
     const [sortBy, setSortBy] = useState("Alphabetical Order");
     const [filterBy, setFilterBy] = useState("");
@@ -23,10 +23,10 @@ function Locales() {
         .then(res => res.json())
         .then(data => setLocales(data))
         .catch(error => console.error(error))
-        // fetch(`/expeditions`)
-        // .then(res => res.json())
-        // .then(data => setExpeditions(data))
-        // .catch(error => console.error(error))
+        fetch('/catches')
+        .then((res) => res.json())
+        .then((data) => setCatches(data))
+        .catch((error) => console.error(error));
     }, [])
 
     function onAddLocales(newLocale){
@@ -47,12 +47,20 @@ function Locales() {
 
     const filteredLocales = sortedLocales.filter(locale => locale.region.name.includes(filterBy))
 
-    const displayedLocales = filteredLocales.map(locale => (
+    const displayedLocales = filteredLocales.map(locale => {
+        const expeditionCatches = locale.expeditions?.flatMap(expedition => 
+                catches.filter(capture => 
+                    capture.user_id === expedition.user_id && capture.caught_at === expedition.date
+                )
+            );
+        return (
         <LocaleCard
         key={locale.id}
         locale={locale}
+        catches={expeditionCatches}
         />
-    ))
+        )
+    })
 
     const regions = [...new Set(locales.map(locale => locale.region.name))]
 
