@@ -58,7 +58,7 @@ function Expeditions() {
         return (
         <p key={expedition.id} className="profile-list-item">
             <div className="profile-content">
-                <span>{`${username}`}'s expedition: {`${expedition.date}`}: </span>
+                <span>{`${username}'s expedition on ${expedition.date}: ${expedition.locale.name} (${expedition.locale.region.name}):`} </span>
                 <Link to={`/`}>View</Link> 
                 {/* {user && user.id === parseInt(id) && (
                     <>
