@@ -68,6 +68,8 @@ function Goals() {
             <p key={goal.id} className="profile-list-item">
                 <div className="profile-content">
                     <span>{`${username}`}'s goal: {expanded ? goal.content : trimmedContent}</span>
+                    <br />
+                    <span>Achieve by: {goal.target_date}</span>
                     <button onClick={() => toggleFullGoal(goal.id)}>
                         {expanded ? "Hide" : "View"}
                     </button> 
