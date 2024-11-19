@@ -14,6 +14,7 @@ function Goals() {
     const [goalModal, setGoalModal] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [currentGoal, setCurrentGoal] = useState(null);
+    const [fullGoals, setFullGoals] = useState({});
 
     useEffect(() => {
         if(!user) {
@@ -25,6 +26,12 @@ function Goals() {
     function onAddGoal(newGoal){
         return setGoals([...goals, newGoal])
     }
+
+    function toggleFullGoal(goal) {
+        setFullGoals(previousState => ({
+            ...previousState, [goal]: !previousState[goal]
+        }));
+    };
 
     function handleEditGoalClick(goal){
         setCurrentGoal(goal);
@@ -53,24 +60,31 @@ function Goals() {
     }, [id])
 
 
-    const goalsList = goals.map(goal => (
-        <p key={goal.id} className="profile-list-item">
-            <div className="profile-content">
-                <span>{`${username}`}'s goal: {`${goal.content}`}: </span>
-                <Link to={`/`}>View</Link> 
-                {user && user.id === parseInt(id) && (
-                    <>
-                        <ModalButton variant="contained" color="primary" onClick={() => handleEditGoalClick(goal)}>
-                        Edit
-                        </ModalButton>
-                        <ModalButton variant="contained" color="primary" onClick={() => handleDeleteGoalClick(goal)}>
-                        Delete
-                        </ModalButton>
-                    </>
-                )}
-            </div>
-        </p>
-    ));
+    const goalsList = goals.map(goal => {
+        const expanded = fullGoals[goal.id] || false;
+        const trimmedContent = goal.content.length > 50 ? `${goal.content.substring(0, 50)}...` : goal.content;
+
+        return (
+            <p key={goal.id} className="profile-list-item">
+                <div className="profile-content">
+                    <span>{`${username}`}'s goal: {expanded ? goal.content : trimmedContent}</span>
+                    <button onClick={() => toggleFullGoal(goal.id)}>
+                        {expanded ? "Hide" : "View"}
+                    </button> 
+                    {user && user.id === parseInt(id) && (
+                        <>
+                            <ModalButton variant="contained" color="primary" onClick={() => handleEditGoalClick(goal)}>
+                            Edit
+                            </ModalButton>
+                            <ModalButton variant="contained" color="primary" onClick={() => handleDeleteGoalClick(goal)}>
+                            Delete
+                            </ModalButton>
+                        </>
+                    )}
+                </div>
+            </p>
+        );
+    });
 
     return (
         <>
@@ -126,4 +140,4 @@ function Goals() {
     )
 };
 
-export default Goals
+export default Goals;
