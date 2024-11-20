@@ -1,11 +1,14 @@
 import { Link } from "react-router-dom";
+import ModalButton from "./ModalButton";
 import getMostCommon from "../context and utility/getMostCommon";
 
-function ExpeditionCard({ expedition, catches = []}) {
+function ExpeditionCard({ expedition, catches = [], handleDeleteExpeditionClick}) {
 
-    const { date, locale, user_id, id} = expedition
+    const { date, locale, id} = expedition
 
     const catchCount = catches.length
+
+    const pokes = catches.map(capture => capture.species.name)
 
     const typeCount = catches.reduce((acc, capture) => {
         const speciesType = capture.species.types[0].name;
@@ -27,14 +30,15 @@ function ExpeditionCard({ expedition, catches = []}) {
                 <br />
                 <span>Most Common Type Caught on Expedition: {mostCommon}</span>
                 <br />
-                <Link to={`/expeditions/${id}`}>View</Link> 
+                <span>{pokes}</span>
+                <Link to={`/expeditions/${id}`}>Details</Link>
+                {/* <ModalButton variant="contained" color="primary" onClick={() => handleDeleteExpeditionClick(expedition)}>
+                        Delete
+                        </ModalButton>  */}
                 {/* {user && user.id === parseInt(id) && (
                     <>
                         <ModalButton variant="contained" color="primary" onClick={() => handleEditExpeditionClick(expedition)}>
                         Edit
-                        </ModalButton>
-                        <ModalButton variant="contained" color="primary" onClick={() => handleDeleteExpeditionClick(expedition)}>
-                        Delete
                         </ModalButton>
                     </>
                 )} */}

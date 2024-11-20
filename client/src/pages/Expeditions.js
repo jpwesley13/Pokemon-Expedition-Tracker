@@ -24,27 +24,31 @@ function Expeditions() {
     const { username, id } = user || {}
 
     function onAddExpedition(newExpedition){
-        setExpeditions([...expeditions, newExpedition])
+        setExpeditions([...expeditions, newExpedition]);
+    }
+
+    function onAddCatch(newCatch){
+        setCatches([...catches, ...newCatch]);
     }
 
     // function handleEditExpeditionClick(expedition){
     //     setCurrentExpedition(expedition);
     //     setExpeditionModal(true)
     // };
-    // async function handleDeleteExpeditionClick(expedition){
-    //     setCurrentExpedition(expedition)
-    //     const confirmDelete = window.confirm("Are you sure you want to delete this expedition?")
-    //     if(confirmDelete){
-    //         const res = await fetch(`/expeditions/${expedition.id}`, {
-    //             method: "DELETE"
-    //         });
-    //         if(res.ok) {
-    //             setExpeditions(expeditions.filter(g => g.id !== expedition.id));
-    //         } else {
-    //             console.error("Error in deleting expedition.");
-    //         };
-    //     };
-    // };
+    async function handleDeleteExpeditionClick(expedition){
+        setCurrentExpedition(expedition)
+        const confirmDelete = window.confirm("Are you sure you want to delete this expedition?")
+        if(confirmDelete){
+            const res = await fetch(`/expeditions/${expedition.id}`, {
+                method: "DELETE"
+            });
+            if(res.ok) {
+                setExpeditions(expeditions.filter(g => g.id !== expedition.id));
+            } else {
+                console.error("Error in deleting expedition.");
+            };
+        };
+    };
 
     useEffect(() => {
         fetch(`/expeditions`)
@@ -69,6 +73,7 @@ function Expeditions() {
                 key={expedition.id}
                 expedition={expedition}
                 catches={expeditionCatches}
+                handleDeleteExpeditionClick={handleDeleteExpeditionClick}
             />
         );
     });
@@ -120,6 +125,7 @@ function Expeditions() {
                     <ExpeditionForm
                         handleClick={() => setIsModalOpen(false)}
                         onAddExpedition={onAddExpedition}
+                        onAddCatch={onAddCatch}
                     />
                 </Box>
             </Modal>

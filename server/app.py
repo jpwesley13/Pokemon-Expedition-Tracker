@@ -361,6 +361,9 @@ class Expeditions(Resource):
                 )
                 db.session.add(new_expedition)
 
+                new_species_list = []
+                new_catches_list = []
+
                 for capture_data in params.get('captures', []):
                     species_data = capture_data['species']
 
@@ -374,6 +377,7 @@ class Expeditions(Resource):
                     new_species.types.extend(types)
 
                     db.session.add(new_species)
+                    new_species_list.append(new_species)
 
                     new_catch = Catch(
                         caught_at=expedition_date,
@@ -381,9 +385,17 @@ class Expeditions(Resource):
                         species=new_species
                     )
                     db.session.add(new_catch)
+                    new_catches_list.append(new_catch)
 
             db.session.commit()
-            return make_response(new_expedition.to_dict(), 201)
+
+            response_data = {
+            'expedition': new_expedition.to_dict(),
+            'species': [species.to_dict() for species in new_species_list],
+            'catches': [catch.to_dict() for catch in new_catches_list],
+            }
+            # return make_response(new_expedition.to_dict(), 201)
+            return make_response(response_data, 201)
         except ValueError:
             db.session.rollback()
             return make_response({"errors": ["validation errors"]}, 400)
