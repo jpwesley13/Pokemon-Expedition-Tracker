@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import mostCommon from "../context and utility/mostCommon";
+import getMostCommon from "../context and utility/getMostCommon";
 
 function LocaleCard({locale, catches = []}) {
 
@@ -13,7 +13,7 @@ function LocaleCard({locale, catches = []}) {
         return acc;
     }, {});
 
-    const mostCommon = Object.keys(speciesCount).reduce((a, b) => speciesCount[a] > speciesCount[b] ? a : b, "None")
+    const mostCommon = getMostCommon(speciesCount)
 
     return (
         <div className="card">

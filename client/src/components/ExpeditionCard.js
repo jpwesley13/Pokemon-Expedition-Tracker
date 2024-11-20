@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import getMostCommon from "../context and utility/getMostCommon";
 
 function ExpeditionCard({ expedition, catches = []}) {
 
@@ -12,5 +13,5 @@ function ExpeditionCard({ expedition, catches = []}) {
         return acc;
     }, {});
 
-    const mostCommon 
+    const mostCommon = getMostCommon(typeCount)
 }
