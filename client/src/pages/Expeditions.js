@@ -4,7 +4,7 @@ import { useAuth } from "../context and utility/AuthContext";
 import ModalButton from "../components/ModalButton";
 import { Link, useNavigate } from "react-router-dom";
 import ExpeditionForm from "../components/ExpeditionForm";
-// import EditExpedition from "../components/EditExpedition";
+import ExpeditionCard from "../components/ExpeditionCard";
 
 function Expeditions() {
 
@@ -59,25 +59,19 @@ function Expeditions() {
 
 
     const expeditionsList = expeditions.map(expedition => {
-        const expeditionCatches = expeditions?.flatMap(expedition => catches.filter(capture => capture.user_id === expedition.user_id && capture.caught_at === expedition.date))
+        const expeditionCatches = catches.filter(capture => 
+            capture.user_id === expedition.user_id && 
+            capture.caught_at === expedition.date
+        );
+    
         return (
-        <p key={expedition.id} className="profile-list-item">
-            <div className="profile-content">
-                <span>{`${username}'s expedition on ${expedition.date}: ${expedition.locale.name} (${expedition.locale.region.name}):`} </span>
-                <Link to={`/`}>View</Link> 
-                {/* {user && user.id === parseInt(id) && (
-                    <>
-                        <ModalButton variant="contained" color="primary" onClick={() => handleEditExpeditionClick(expedition)}>
-                        Edit
-                        </ModalButton>
-                        <ModalButton variant="contained" color="primary" onClick={() => handleDeleteExpeditionClick(expedition)}>
-                        Delete
-                        </ModalButton>
-                    </>
-                )} */}
-            </div>
-        </p>
-    )});
+            <ExpeditionCard
+                key={expedition.id}
+                expedition={expedition}
+                catches={expeditionCatches}
+            />
+        );
+    });
 
     return (
         <>
