@@ -4,7 +4,7 @@ import LocaleForm from "../components/LocaleForm";
 import SortCard from "../components/SortCard";
 import Search from "../components/Search";
 import FilterCard from "../components/FilterCard";
-import { useAuth } from "../context and hooks/AuthContext";
+import { useAuth } from "../context and utility/AuthContext";
 import ModalButton from "../components/ModalButton";
 import { Modal, Box } from "@mui/material";
 

@@ -1,7 +1,7 @@
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../context and hooks/AuthContext";
+import { useAuth } from "../context and utility/AuthContext";
 
 function Signup() {
 

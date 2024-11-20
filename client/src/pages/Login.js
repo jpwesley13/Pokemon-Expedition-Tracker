@@ -2,7 +2,7 @@ import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useFormik } from 'formik'
 import * as yup from "yup";
-import { useAuth } from '../context and hooks/AuthContext';
+import { useAuth } from '../context and utility/AuthContext';
 
 export default function Login() {
     const { user, setUser } = useAuth();

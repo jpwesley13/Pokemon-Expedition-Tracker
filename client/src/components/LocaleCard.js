@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import mostCommon from "../context and utility/mostCommon";
 
 function LocaleCard({locale, catches = []}) {
 

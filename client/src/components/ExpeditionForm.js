@@ -1,8 +1,8 @@
 import { useFormik } from "formik";
 import * as yup from "yup";
-import { useAuth } from "../context and hooks/AuthContext";
+import { useAuth } from "../context and utility/AuthContext";
 import { useState, useEffect, useCallback } from "react";
-import useDebounce from "../context and hooks/DebounceHook";
+import useDebounce from "../context and utility/DebounceHook";
 
 function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);

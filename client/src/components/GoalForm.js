@@ -1,6 +1,6 @@
 import { useFormik } from "formik";
 import * as yup from "yup";
-import { useAuth } from "../context and hooks/AuthContext";
+import { useAuth } from "../context and utility/AuthContext";
 
 function GoalForm({ onAddGoal, handleClick}) {
     const { user } = useAuth();

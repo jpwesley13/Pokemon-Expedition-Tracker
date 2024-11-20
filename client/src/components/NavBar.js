@@ -1,6 +1,6 @@
 import React from "react";
 import { NavLink, useNavigate } from "react-router-dom";
-import { useAuth } from "../context and hooks/AuthContext";
+import { useAuth } from "../context and utility/AuthContext";
 
 function NavBar() {
 

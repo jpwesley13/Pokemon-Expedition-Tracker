@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Modal, Box } from "@mui/material";
-import { useAuth } from "../context and hooks/AuthContext";
+import { useAuth } from "../context and utility/AuthContext";
 import ModalButton from "../components/ModalButton";
 import { Link, useNavigate } from "react-router-dom";
 import ExpeditionForm from "../components/ExpeditionForm";
@@ -14,6 +14,7 @@ function Expeditions() {
     const [expeditionModal, setExpeditionModal] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [currentExpedition, setCurrentExpedition] = useState(null);
+    const [catches, setCatches] = useState([]);
 
     useEffect(() => {
         if(!user) {
@@ -50,11 +51,15 @@ function Expeditions() {
         .then(res => res.json())
         .then(data => setExpeditions(data.filter(expedition => expedition.user_id === parseInt(id))))
         .catch(error => console.error(error));
+        fetch('/catches')
+        .then((res) => res.json())
+        .then((data) => setCatches(data))
+        .catch((error) => console.error(error));
     }, [id])
 
 
     const expeditionsList = expeditions.map(expedition => {
-        console.log("Render", expedition)
+        const expeditionCatches = expeditions?.flatMap(expedition => catches.filter(capture => capture.user_id === expedition.user_id && capture.caught_at === expedition.date))
         return (
         <p key={expedition.id} className="profile-list-item">
             <div className="profile-content">

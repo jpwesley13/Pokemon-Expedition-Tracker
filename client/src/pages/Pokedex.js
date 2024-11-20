@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useAuth } from "../context and hooks/AuthContext";
+import { useAuth } from "../context and utility/AuthContext";
 import { useNavigate } from "react-router-dom";
 
 function Pokedex() {

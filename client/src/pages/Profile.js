@@ -1,6 +1,6 @@
 import { useParams, useNavigate, NavLink } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { useAuth } from "../context and hooks/AuthContext";
+import { useAuth } from "../context and utility/AuthContext";
 
 function Profile() {
     const navigate = useNavigate();
