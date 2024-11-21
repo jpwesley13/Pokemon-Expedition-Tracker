@@ -106,7 +106,7 @@ function Expeditions() {
             <DatePicker
                 selected={selectedMonth}
                 onChange={(date) => setSelectedMonth(date)}
-                dateFormat={"MM/yyyy"}
+                dateFormat={"yyyy/MM"}
                 showMonthYearPicker
                 />
             <br />
