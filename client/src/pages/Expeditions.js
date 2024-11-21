@@ -26,6 +26,10 @@ function Expeditions() {
     }, [user, navigate])
     const { username, id } = user || {}
 
+    function dateField(date) {
+        return date instanceof Date && !isNaN(date);
+    }
+
     function onAddExpedition(newExpedition){
         setExpeditions([...expeditions, newExpedition]);
     }
@@ -72,8 +76,11 @@ function Expeditions() {
 
     const monthlyExpeditions = sortedExpeditions.filter(expedition => {
         const expeditionDate = new Date(expedition.date);
-        return expeditionDate.getFullYear() === selectedMonth.getFullYear() &&
-               expeditionDate.getMonth() === selectedMonth.getMonth();
+        if (dateField(selectedMonth)) {
+            return expeditionDate.getFullYear() === selectedMonth.getFullYear() &&
+                   expeditionDate.getMonth() === selectedMonth.getMonth();
+        }
+        return false;
     });
 
     const expeditionsList = monthlyExpeditions.map(expedition => {
@@ -102,6 +109,8 @@ function Expeditions() {
             {user && (<><ModalButton variant="contained" color="primary" onClick={() => setIsModalOpen(true)}>
                         Add new expedition
                     </ModalButton>
+            <br />
+            <strong>Select Expedition Month (YYYY/MM)</strong>
             <br />
             <DatePicker
                 selected={selectedMonth}
