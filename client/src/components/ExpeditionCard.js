@@ -28,7 +28,7 @@ function ExpeditionCard({ expedition, catches = [], handleDeleteExpeditionClick}
                 <hr />
                 <span>Captured {catchCount} Pokemon</span>
                 <br />
-                <span>Most Common Type Caught on Expedition: {mostCommon}</span>
+                <span>Most Common Type Caught on Expedition: <span className={`type-${mostCommon.toLowerCase()}`}>{mostCommon}</span></span>
                 <br />
                 <span>{pokes}</span>
                 <Link to={`/expeditions/${id}`}>Details</Link>
