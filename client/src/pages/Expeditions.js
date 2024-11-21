@@ -61,8 +61,13 @@ function Expeditions() {
         .catch((error) => console.error(error));
     }, [id])
 
+    const sortedExpeditions = expeditions.sort((expedition1, expedition2) => {
+        const date1 = new Date(expedition1.date)
+        const date2 = new Date(expedition2.date)
+        return date1 - date2
+    })
 
-    const expeditionsList = expeditions.map(expedition => {
+    const expeditionsList = sortedExpeditions.map(expedition => {
         const expeditionCatches = catches.filter(capture => 
             capture.user_id === expedition.user_id && 
             capture.caught_at === expedition.date
