@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import ModalButton from "./ModalButton";
 import getMostCommon from "../context and utility/getMostCommon";
 
-function ExpeditionCard({ expedition, catches = []}) {
+function ExpeditionCard({ expedition, catches = [], handleDeleteExpeditionClick}) {
 
     const { date, locale, id} = expedition
 
@@ -30,22 +30,9 @@ function ExpeditionCard({ expedition, catches = []}) {
                 <br />
                 <span>{pokes}</span>
                 <Link to={`/expeditions/${id}`}>Details</Link>
-                {/* <Modal
-                    open={expeditionModal}
-                    onClose={() => setExpeditionModal(false)}
-                    aria-labelledby="edit-profile-modal-title"
-                    aria-describedby="edit-profile-modal-description"
-                >
-                    <Box className="modal-box">
-                        <h2>Edit Expedition</h2>
-                        <ModalButton className="close-button" onClick={() => setExpeditionModal(false)} sx={{ mb: 2 }}>Close</ModalButton>
-                        <EditExpedition
-                            handleClick={() => setExpeditionModal(false)}
-                            setExpeditions={setExpeditions}
-                            expedition={currentExpedition}
-                        />
-                    </Box>
-                </Modal> */}
+                <ModalButton variant="contained" color="primary" onClick={() => handleDeleteExpeditionClick(expedition)}>
+                        Delete
+                        </ModalButton> 
             </div>
         </p>
         </>

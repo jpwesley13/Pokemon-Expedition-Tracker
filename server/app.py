@@ -428,6 +428,11 @@ class ExpeditionById(Resource):
         if expedition is None:
             return make_response({"error": "Expedition not found."}, 404)
         
+        expedition_catches = Catch.query.filter(Catch.user_id == expedition.user_id, Catch.caught_at == expedition.date).all()
+
+        for catch in expedition_catches:
+            db.session.delete(catch)
+        
         db.session.delete(expedition)
         db.session.commit()
 

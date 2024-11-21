@@ -38,6 +38,24 @@ function Expeditions() {
         setCatches([...catches, ...newCatch]);
     }
 
+    async function handleDeleteExpeditionClick(expedition){
+        setCurrentExpedition(expedition)
+        const confirmDelete = window.confirm("Are you sure you want to delete this expedition?")
+        if(confirmDelete){
+            const res = await fetch(`/expeditions/${expedition.id}`, {
+                method: "DELETE"
+            });
+            if(res.ok) {
+                setExpeditions(expeditions.filter(g => g.id !== expedition.id));
+                setCatches(catches.filter(capture => 
+                    !(capture.user_id === expedition.user_id && capture.caught_at === expedition.date)
+                ));
+            } else {
+                console.error("Error in deleting expedition.");
+            };
+        };
+    };
+
     useEffect(() => {
         fetch(`/expeditions`)
         .then(res => res.json())
@@ -75,6 +93,7 @@ function Expeditions() {
                 key={expedition.id}
                 expedition={expedition}
                 catches={expeditionCatches}
+                handleDeleteExpeditionClick={handleDeleteExpeditionClick}
             />
         );
     });

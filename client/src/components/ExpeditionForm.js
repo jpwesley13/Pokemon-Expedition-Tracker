@@ -126,7 +126,6 @@ function ExpeditionForm({ onAddExpedition, onAddCatch, handleClick }) {
         }
     };
 
-    // const debouncedSpeciesFetch = useDebounce(speciesFetch, 700);
     const debouncedSpeciesFetch = useDebounce((speciesName, i) => {
         setDebounceActive(true);
         speciesFetch(speciesName, i);
@@ -211,17 +210,6 @@ function ExpeditionForm({ onAddExpedition, onAddCatch, handleClick }) {
                         className={errors.captures?.[index]?.species?.types && touched.captures?.[index]?.species?.types ? "input-error" : ""}
                     />
                     {errors.captures?.[index]?.species?.types && touched.captures?.[index]?.species?.types && <p className="error">{errors.captures[index].species.types}</p>}
-                    {/* <label htmlFor={`captures[${index}].species.shiny`}>Shiny?</label>
-                    <input
-                        id={`captures[${index}].species.shiny`}
-                        type="checkbox"
-                        name="shiny"
-                        checked={capture.species.shiny}
-                        onChange={(e) => handleChange(e, index)}
-                        onBlur={handleBlur}
-                        className={errors.captures?.[index]?.species?.shiny && touched.captures?.[index]?.species?.shiny ? "input-error" : ""}
-                    />
-                    {errors.captures?.[index]?.species?.shiny && touched.captures?.[index]?.species?.shiny && <p className="error">{errors.captures[index].species.shiny}</p>} */}
                     <div>
                         <label>Shiny?</label>
                         <label htmlFor={`captures[${index}].species.shiny-yes`}>Yes</label>
