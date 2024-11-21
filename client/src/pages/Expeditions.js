@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import { Modal, Box } from "@mui/material";
+import DatePicker from "react-datepicker"
+import "react-datepicker/dist/react-datepicker.css";
 import { useAuth } from "../context and utility/AuthContext";
 import ModalButton from "../components/ModalButton";
 import { Link, useNavigate } from "react-router-dom";
@@ -15,6 +17,7 @@ function Expeditions() {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [currentExpedition, setCurrentExpedition] = useState(null);
     const [catches, setCatches] = useState([]);
+    const [selectedMonth, setSelectedMonth] = useState(new Date());
 
     useEffect(() => {
         if(!user) {
@@ -67,7 +70,13 @@ function Expeditions() {
         return date1 - date2
     })
 
-    const expeditionsList = sortedExpeditions.map(expedition => {
+    const monthlyExpeditions = sortedExpeditions.filter(expedition => {
+        const expeditionDate = new Date(expedition.date);
+        return expeditionDate.getFullYear() === selectedMonth.getFullYear() &&
+               expeditionDate.getMonth() === selectedMonth.getMonth();
+    });
+
+    const expeditionsList = monthlyExpeditions.map(expedition => {
         const expeditionCatches = catches.filter(capture => 
             capture.user_id === expedition.user_id && 
             capture.caught_at === expedition.date
@@ -94,12 +103,17 @@ function Expeditions() {
                         Add new expedition
                     </ModalButton>
             <br />
+            <DatePicker
+                selected={selectedMonth}
+                onChange={(date) => setSelectedMonth(date)}
+                dateFormat={"MM/yyyy"}
+                showMonthYearPicker
+                />
+            <br />
             </>)}
             <div className="profile-contributions">
-                {expeditions.length > 0 && (<>
-                {expeditionsList}
+                {monthlyExpeditions.length > 0 ? expeditionsList : <p>No expeditions for this month.</p>}
                 <br/>
-                </>)}
             </div>
             </main>
             {/* <Modal

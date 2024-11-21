@@ -16,8 +16,6 @@ function ExpeditionCard({ expedition, catches = [], handleDeleteExpeditionClick}
         return acc;
     }, {});
 
-    console.log(catches)
-
     const mostCommon = getMostCommon(typeCount)
 
     return (
