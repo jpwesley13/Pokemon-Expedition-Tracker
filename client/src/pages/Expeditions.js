@@ -24,9 +24,9 @@ function Expeditions() {
             navigate("/login");
         }
     }, [user, navigate])
-    const { username, id } = user || {}
+    const { id } = user || {}
 
-    function dateField(date) {
+    function validDate(date) {
         return date instanceof Date && !isNaN(date);
     }
 
@@ -37,25 +37,6 @@ function Expeditions() {
     function onAddCatch(newCatch){
         setCatches([...catches, ...newCatch]);
     }
-
-    // function handleEditExpeditionClick(expedition){
-    //     setCurrentExpedition(expedition);
-    //     setExpeditionModal(true)
-    // };
-    async function handleDeleteExpeditionClick(expedition){
-        setCurrentExpedition(expedition)
-        const confirmDelete = window.confirm("Are you sure you want to delete this expedition?")
-        if(confirmDelete){
-            const res = await fetch(`/expeditions/${expedition.id}`, {
-                method: "DELETE"
-            });
-            if(res.ok) {
-                setExpeditions(expeditions.filter(g => g.id !== expedition.id));
-            } else {
-                console.error("Error in deleting expedition.");
-            };
-        };
-    };
 
     useEffect(() => {
         fetch(`/expeditions`)
@@ -76,7 +57,7 @@ function Expeditions() {
 
     const monthlyExpeditions = sortedExpeditions.filter(expedition => {
         const expeditionDate = new Date(expedition.date);
-        if (dateField(selectedMonth)) {
+        if (validDate(selectedMonth)) {
             return expeditionDate.getFullYear() === selectedMonth.getFullYear() &&
                    expeditionDate.getMonth() === selectedMonth.getMonth();
         }
@@ -94,7 +75,6 @@ function Expeditions() {
                 key={expedition.id}
                 expedition={expedition}
                 catches={expeditionCatches}
-                handleDeleteExpeditionClick={handleDeleteExpeditionClick}
             />
         );
     });
@@ -125,22 +105,6 @@ function Expeditions() {
                 <br/>
             </div>
             </main>
-            {/* <Modal
-            open={expeditionModal}
-            onClose={() => setExpeditionModal(false)}
-            aria-labelledby="edit-profile-modal-title"
-            aria-describedby="edit-profile-modal-description"
-        >
-            <Box className="modal-box">
-                <h2>Edit Expedition</h2>
-                <ModalButton className="close-button" onClick={() => setExpeditionModal(false)} sx={{ mb: 2 }}>Close</ModalButton>
-                <EditExpedition
-                    handleClick={() => setExpeditionModal(false)}
-                    setExpeditions={setExpeditions}
-                    expedition={currentExpedition}
-                />
-            </Box>
-        </Modal> */}
         <Modal
                 open={isModalOpen}
                 onClose={() => setIsModalOpen(false)}
