@@ -1,3 +1,4 @@
+import React from "react";
 import { Link } from "react-router-dom";
 import ModalButton from "./ModalButton";
 import getMostCommon from "../context and utility/getMostCommon";
@@ -11,10 +12,12 @@ function ExpeditionCard({ expedition, catches = [], handleDeleteExpeditionClick}
     const pokes = catches.map(capture => capture.species.name)
 
     const typeCount = catches.reduce((acc, capture) => {
-        const speciesType = capture.species.types[0].name;
+    capture.species.types.forEach((typeObj) => {
+        const speciesType = typeObj.name;
         acc[speciesType] = (acc[speciesType] || 0) + 1;
-        return acc;
-    }, {});
+    });
+    return acc;
+}, {});
 
     const mostCommon = getMostCommon(typeCount)
 
@@ -26,7 +29,24 @@ function ExpeditionCard({ expedition, catches = [], handleDeleteExpeditionClick}
                 <hr />
                 <span>Captured {catchCount} Pokemon</span>
                 <br />
-                <span>Most Common Type Caught on Expedition: <span className={`type-${mostCommon.toLowerCase()}`}>{mostCommon}</span></span>
+                <span>Most Common Type(s) Caught on Expedition: 
+                    {
+                        mostCommon.length > 0 
+                        ? mostCommon.map((type, i) => (
+                            <React.Fragment>
+                                <span 
+                                style={{ marginLeft: i === 0 ? '0.5em' : '0' }}
+                                className={`type-${type.toLowerCase()}`}>
+                                {type}
+                                </span>
+                                {i < mostCommon.length - 1 && <strong> / </strong>}
+                            </React.Fragment>
+                        ))
+                        : <span 
+                            style={{ marginLeft:'0.5em' }}
+                            className="type-none">None</span>
+                    }
+                </span>
                 <br />
                 <span>{pokes}</span>
                 <Link to={`/expeditions/${id}`}>Details</Link>

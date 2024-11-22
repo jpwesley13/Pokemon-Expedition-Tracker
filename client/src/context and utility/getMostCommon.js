@@ -1,6 +1,6 @@
 function getMostCommon(count) {
-    return ( Object.keys(count).reduce((a, b) => count[a] > count[b] ? a : b, "None")
-    );
-};
+    const maxCount = Math.max(...Object.values(count));
+    return Object.keys(count).filter(type => count[type] === maxCount);
+}
 
 export default getMostCommon;
