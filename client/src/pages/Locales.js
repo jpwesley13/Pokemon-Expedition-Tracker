@@ -49,9 +49,7 @@ function Locales() {
 
     const displayedLocales = filteredLocales.map(locale => {
         const expeditionCatches = locale.expeditions?.flatMap(expedition => 
-                catches.filter(capture => 
-                    capture.user_id === expedition.user_id && capture.caught_at === expedition.date
-                )
+                expedition.catches
             );
         return (
         <LocaleCard
