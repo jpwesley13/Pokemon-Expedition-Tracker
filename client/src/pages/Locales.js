@@ -12,7 +12,6 @@ function Locales() {
 
     const { user } = useAuth();
     const [locales, setLocales] = useState([]);
-    const [catches, setCatches] = useState([]);
     const [search, setSearch] = useState("");
     const [sortBy, setSortBy] = useState("Alphabetical Order");
     const [filterBy, setFilterBy] = useState("");
@@ -23,10 +22,6 @@ function Locales() {
         .then(res => res.json())
         .then(data => setLocales(data))
         .catch(error => console.error(error))
-        fetch('/catches')
-        .then((res) => res.json())
-        .then((data) => setCatches(data))
-        .catch((error) => console.error(error));
     }, [])
 
     function onAddLocales(newLocale){
