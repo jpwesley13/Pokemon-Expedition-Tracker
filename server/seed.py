@@ -13,11 +13,15 @@ from faker import Faker
 from app import app
 from models import *
 
+def delete_types_table():
+    with db.session.begin():
+        db.session.execute(pokemon_types.delete())
+
 if __name__ == '__main__':
     fake = Faker()
     with app.app_context():
         print("Starting seed...")
-        # Seed code goes here!
+        delete_types_table()
         User.query.delete()
         Locale.query.delete()
         Expedition.query.delete()
@@ -27,6 +31,7 @@ if __name__ == '__main__':
         Species.query.delete()
         Catch.query.delete()
         Type.query.delete()
+        
 
         regions = []
         region_names = ["Kanto", "Johto", "Hoenn", "Sinnoh", "Unova", "Kalos", "Alola", "Galar", "Paldea", "Orre", "Ultra Space", "Kitakami", "Almia", "Oblivia", "Lental", "Uncharted"]

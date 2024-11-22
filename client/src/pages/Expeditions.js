@@ -32,11 +32,10 @@ function Expeditions() {
 
     function onAddExpedition(newExpedition){
         setExpeditions([...expeditions, newExpedition]);
+        setCatches([...catches, ...newExpedition.catches]);
     }
 
-    function onAddCatch(newCatch){
-        setCatches([...catches, ...newCatch]);
-    }
+    // NEW STUFF STARTS NOW
 
     async function handleDeleteExpeditionClick(expedition){
         setCurrentExpedition(expedition)
@@ -47,9 +46,6 @@ function Expeditions() {
             });
             if(res.ok) {
                 setExpeditions(expeditions.filter(g => g.id !== expedition.id));
-                setCatches(catches.filter(capture => 
-                    !(capture.user_id === expedition.user_id && capture.caught_at === expedition.date)
-                ));
             } else {
                 console.error("Error in deleting expedition.");
             };
@@ -59,12 +55,13 @@ function Expeditions() {
     useEffect(() => {
         fetch(`/expeditions`)
         .then(res => res.json())
-        .then(data => setExpeditions(data.filter(expedition => expedition.user_id === parseInt(id))))
+        .then(data => {
+            const userExpeditions = data.filter(expedition => expedition.user_id === parseInt(id));
+            setExpeditions(userExpeditions);
+            const userCatches = userExpeditions.flatMap(expedition => expedition.catches);
+            setCatches(userCatches);
+        })
         .catch(error => console.error(error));
-        fetch('/catches')
-        .then((res) => res.json())
-        .then((data) => setCatches(data))
-        .catch((error) => console.error(error));
     }, [id])
 
     const sortedExpeditions = expeditions.sort((expedition1, expedition2) => {
@@ -84,9 +81,10 @@ function Expeditions() {
 
     const expeditionsList = monthlyExpeditions.map(expedition => {
         const expeditionCatches = catches.filter(capture => 
-            capture.user_id === expedition.user_id && 
-            capture.caught_at === expedition.date
+            capture.expedition_id === expedition.id
         );
+
+        console.log(expeditionCatches)
     
         return (
             <ExpeditionCard
@@ -136,7 +134,6 @@ function Expeditions() {
                     <ExpeditionForm
                         handleClick={() => setIsModalOpen(false)}
                         onAddExpedition={onAddExpedition}
-                        onAddCatch={onAddCatch}
                     />
                 </Box>
             </Modal>

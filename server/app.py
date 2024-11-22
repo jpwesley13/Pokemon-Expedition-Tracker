@@ -360,7 +360,6 @@ class Expeditions(Resource):
                     locale_id = params['locale_id']
                 )
                 db.session.add(new_expedition)
-                db.session.commit()
 
                 new_species_list = []
                 new_catches_list = []

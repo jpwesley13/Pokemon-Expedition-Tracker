@@ -8,7 +8,7 @@ function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
-function ExpeditionForm({ onAddExpedition, onAddCatch, handleClick }) {
+function ExpeditionForm({ onAddExpedition, handleClick }) {
     const { user } = useAuth();
     const [debounceActive, setDebounceActive] = useState(false);
     const [locales, setLocales] = useState([]);
@@ -61,7 +61,6 @@ function ExpeditionForm({ onAddExpedition, onAddCatch, handleClick }) {
                 actions.setErrors(data.errors);
             };
             const {expedition, species, catches} = await expeditionRes.json();
-            onAddCatch(catches);
             onAddExpedition(expedition);
             handleClick();
             actions.resetForm();
