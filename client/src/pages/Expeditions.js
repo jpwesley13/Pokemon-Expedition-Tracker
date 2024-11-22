@@ -19,6 +19,11 @@ function Expeditions() {
     const [catches, setCatches] = useState([]);
     const [selectedMonth, setSelectedMonth] = useState(new Date());
 
+    function globalTime(dateString) {
+        const date = new Date(dateString);
+        return new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate()));
+    };
+
     useEffect(() => {
         if(!user) {
             navigate("/login");
@@ -69,10 +74,11 @@ function Expeditions() {
     })
 
     const monthlyExpeditions = sortedExpeditions.filter(expedition => {
-        const expeditionDate = new Date(expedition.date);
+        const expeditionDate = globalTime(expedition.date);
         if (validDate(selectedMonth)) {
-            return expeditionDate.getFullYear() === selectedMonth.getFullYear() &&
-                   expeditionDate.getMonth() === selectedMonth.getMonth();
+            const globalMonth = globalTime(selectedMonth)
+            return expeditionDate.getUTCFullYear() === globalMonth.getUTCFullYear() &&
+                   expeditionDate.getUTCMonth() === globalMonth.getUTCMonth();
         }
         return false;
     });
@@ -81,8 +87,6 @@ function Expeditions() {
         const expeditionCatches = catches.filter(capture => 
             capture.expedition_id === expedition.id
         );
-
-        console.log(expeditionCatches)
     
         return (
             <ExpeditionCard

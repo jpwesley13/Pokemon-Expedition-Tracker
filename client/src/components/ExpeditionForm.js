@@ -4,9 +4,12 @@ import { useAuth } from "../context and utility/AuthContext";
 import { useState, useEffect, useCallback } from "react";
 import useDebounce from "../context and utility/DebounceHook";
 
-function capitalizeFirstLetter(string) {
-    return string.charAt(0).toUpperCase() + string.slice(1);
-}
+function capitalizeFirstLetters(string) {
+    return string.toLowerCase()
+    .split(" ")
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
+};
 
 function ExpeditionForm({ onAddExpedition, handleClick }) {
     const { user } = useAuth();
@@ -48,7 +51,7 @@ function ExpeditionForm({ onAddExpedition, handleClick }) {
                     user_id: user.id,
                     captures: values.captures.map(capture =>({
                         species: {
-                            name: capture.species.name,
+                            name: capitalizeFirstLetters(capture.species.name),
                             dex_number: capture.species.dex_number,
                             shiny: capture.species.shiny,
                             types: capture.species.types.split(', ')
@@ -113,7 +116,7 @@ function ExpeditionForm({ onAddExpedition, handleClick }) {
                 } else {
                     setFieldValue(`captures[${i}].species.dex_number`, data.id);
                 }
-                const capitalizeTypes = data.types.map(typeInfo => capitalizeFirstLetter(typeInfo.type.name)).join(', ')
+                const capitalizeTypes = data.types.map(typeInfo => capitalizeFirstLetters(typeInfo.type.name)).join(', ')
                 setFieldValue(`captures[${i}].species.types`, capitalizeTypes);
             } catch(error) {
                 console.error(error);
