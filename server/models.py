@@ -27,7 +27,7 @@ class Region(db.Model, SerializerMixin):
 
     locales = db.relationship('Locale', back_populates='region')
 
-    serialize_rules = ('-locales.region',)
+    serialize_rules = ('-locales.region', '-locales.expeditions')
 
     @validates('name')
     def validate_name(self, key, name):
@@ -62,7 +62,7 @@ class User(db.Model, SerializerMixin):
     catches = db.relationship('Catch', back_populates='user', cascade='all, delete-orphan')
     expeditions = db.relationship('Expedition', back_populates='user', cascade='all, delete-orphan')
 
-    serialize_rules = ('-pokedex.user', '-goals.user', '-catches.user', '-expeditions.user', '-_password_hash',)
+    serialize_rules = ('-pokedex.user', '-goals.user', '-catches.user', '-expeditions.user', '-_password_hash', '-expeditions.catches', )
 
     # def total_counts(self, species_name):
     #     total = Catch.query.filter(Catch.user_id == self.id, Catch.species.name == species_name).count()
@@ -175,11 +175,13 @@ class Catch(db.Model, SerializerMixin):
     caught_at = db.Column(db.Date)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     species_id = db.Column(db.Integer, db.ForeignKey('species.id'))
+    expedition_id = db.Column(db.Integer, db.ForeignKey('expeditions.id'))
 
     user = db.relationship('User', back_populates='catches')
     species = db.relationship('Species', back_populates='catches')
+    expedition = db.relationship('Expedition', back_populates='catches')
 
-    serialize_rules = ('-user.catches', '-species.catches', '-expeditions.user')
+    serialize_rules = ('-user.catches', '-species.catches', '-expedition.catches',)
 
     def __repr__(self):
         return f'<Capture {self.id}: {self.user.username} caught a {self.species.name} at {self.caught_at}>'
@@ -193,8 +195,9 @@ class Expedition(db.Model, SerializerMixin):
 
     user = db.relationship('User', back_populates='expeditions')
     locale = db.relationship('Locale', back_populates='expeditions')
+    catches = db.relationship('Catch', back_populates='expedition', cascade='all, delete-orphan')
 
-    serialize_rules = ('-user.expeditions', '-locale.expeditions')
+    serialize_rules = ('-user.expeditions', '-locale.expeditions', '-catches.expedition', '-user.catches')
 
     def __repr__(self):
         return f'<Expedition {self.id}: {self.user.username}\'s expedition at {self.locale.name}. Date: {self.date}>'

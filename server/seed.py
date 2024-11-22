@@ -111,7 +111,6 @@ if __name__ == '__main__':
         
         db.session.add_all(pokedexes)
 
-        # Self note: Where PokeAPI integration is key
         species_entries = []
         dex_numbers = []
         for i in range(50):
@@ -138,20 +137,6 @@ if __name__ == '__main__':
         
         db.session.add_all(species_entries)
 
-        catches = []
-        for i in range(50):
-
-            catch = Catch(
-                caught_at = fake.date_this_month()
-            )
-
-            catch.user = rc(users)
-            catch.species = rc(species_entries)
-
-            catches.append(catch)
-        
-        db.session.add_all(catches)
-
         expeditions = []
         for i in range(50):
 
@@ -165,6 +150,21 @@ if __name__ == '__main__':
             expeditions.append(expedition)
 
         db.session.add_all(expeditions)
+
+        catches = []
+        for i in range(50):
+
+            catch = Catch(
+                caught_at = fake.date_this_month()
+            )
+
+            catch.user = rc(users)
+            catch.species = rc(species_entries)
+            catch.expedition = rc(expeditions)
+
+            catches.append(catch)
+        
+        db.session.add_all(catches)
 
         db.session.commit()
 
