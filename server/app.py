@@ -382,6 +382,7 @@ class Expeditions(Resource):
                     new_catch = Catch(
                         caught_at=expedition_date,
                         user_id=params['user_id'],
+                        expedition_id=params['expedition_id'],
                         species=new_species
                     )
                     db.session.add(new_catch)
@@ -394,7 +395,6 @@ class Expeditions(Resource):
             'species': [species.to_dict() for species in new_species_list],
             'catches': [catch.to_dict() for catch in new_catches_list],
             }
-            # return make_response(new_expedition.to_dict(), 201)
             return make_response(response_data, 201)
         except ValueError:
             db.session.rollback()
@@ -427,11 +427,6 @@ class ExpeditionById(Resource):
 
         if expedition is None:
             return make_response({"error": "Expedition not found."}, 404)
-        
-        expedition_catches = Catch.query.filter(Catch.user_id == expedition.user_id, Catch.caught_at == expedition.date).all()
-
-        for catch in expedition_catches:
-            db.session.delete(catch)
         
         db.session.delete(expedition)
         db.session.commit()
