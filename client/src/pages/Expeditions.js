@@ -35,8 +35,6 @@ function Expeditions() {
         setCatches([...catches, ...newExpedition.catches]);
     }
 
-    // NEW STUFF STARTS NOW
-
     async function handleDeleteExpeditionClick(expedition){
         setCurrentExpedition(expedition)
         const confirmDelete = window.confirm("Are you sure you want to delete this expedition?")

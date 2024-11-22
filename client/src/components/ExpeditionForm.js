@@ -60,7 +60,7 @@ function ExpeditionForm({ onAddExpedition, handleClick }) {
                 const data = await expeditionRes.json();
                 actions.setErrors(data.errors);
             };
-            const {expedition, species, catches} = await expeditionRes.json();
+            const expedition = await expeditionRes.json();
             onAddExpedition(expedition);
             handleClick();
             actions.resetForm();
