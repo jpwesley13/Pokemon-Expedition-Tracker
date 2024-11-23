@@ -41,7 +41,10 @@ function ExpeditionDetails({ handleClick, pokemons = [], catchCount, typeCount }
             </div>
             <hr />
             <h3>
-                {expeditionPokemon.length > 0 ? `Pokemon caught on expedition:` : null}
+                {expeditionPokemon.length > 0 ? (
+                    <>
+                        Pokemon caught on expedition (Shiny Pokemon <span style={{ color: 'red' }}>in red</span>):
+                </>) : null}
             </h3>
             <div className="pokemon-container">
                 {expeditionPokemon}
