@@ -10,10 +10,13 @@ function ExpeditionDetails({ handleClick, pokemons = [], catchCount, typeCount }
     ))
 
     const expeditionPokemon = pokemons.map(pokemon => {
+
         const types = pokemon.types.map((typeObj) =>  typeObj.name);
+        const shinyClass = pokemon.shiny ? 'shiny' : 'not-shiny'
+
         return (
             <div key={pokemon.id} className="pokemon-entry">
-                {pokemon.name}: {types.map((type, i) => (
+                <span className={shinyClass}>{pokemon.name}</span>: {types.map((type, i) => (
                     <React.Fragment key={type}>
                         <span 
                         style={{ marginLeft: i === 0 ? '0.5em' : '0' }}

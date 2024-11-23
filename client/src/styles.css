@@ -159,6 +159,7 @@ body {
 
 .pokemon-entry {
   margin-bottom: 1em;
+  font-weight: bold;
 }
 
 .pokemon-container {
@@ -439,4 +440,13 @@ body {
   font-size: 1rem;
   font-weight: bold;
   border: 2px solid black;
+}
+
+.shiny {
+  color: red;
+  font-weight: bold;
+}
+
+.not-shiny {
+  font-weight: bold;
 }
