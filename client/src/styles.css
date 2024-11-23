@@ -157,6 +157,15 @@ body {
   row-gap: 0em;
 }
 
+.pokemon-entry {
+  margin-bottom: 1em;
+}
+
+.pokemon-container {
+  display: flex;
+  flex-direction: column;
+}
+
 .modal-box {
   position: absolute;
   top: 50%;
