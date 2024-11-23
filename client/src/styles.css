@@ -150,6 +150,13 @@ body {
   justify-content: center;
 }
 
+.types-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5em;
+  row-gap: 0em;
+}
+
 .modal-box {
   position: absolute;
   top: 50%;
