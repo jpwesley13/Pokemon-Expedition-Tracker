@@ -1,15 +1,19 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { useState } from "react";
 import ModalButton from "./ModalButton";
+import { Modal, Box } from "@mui/material";
 import getMostCommon from "../context and utility/getMostCommon";
+import ExpeditionDetails from "./ExpeditionDetails";
 
 function ExpeditionCard({ expedition, catches = [], handleDeleteExpeditionClick}) {
 
     const { date, locale, id} = expedition
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     const catchCount = catches.length
 
-    const pokes = catches.map(capture => capture.species.name)
+    const pokemons = catches.map(capture => capture.species)
 
     const typeCount = catches.reduce((acc, capture) => {
     capture.species.types.forEach((typeObj) => {
@@ -23,7 +27,7 @@ function ExpeditionCard({ expedition, catches = [], handleDeleteExpeditionClick}
 
     return (
         <>
-        <p className="profile-list-item">
+        <main className="profile-list-item">
             <div className="profile-content">
                 <strong>Date: {date} at {locale.name} ({locale.region.name})</strong>
                 <hr />
@@ -33,7 +37,7 @@ function ExpeditionCard({ expedition, catches = [], handleDeleteExpeditionClick}
                     {
                         mostCommon.length > 0 
                         ? mostCommon.map((type, i) => (
-                            <React.Fragment>
+                            <React.Fragment key={type}>
                                 <span 
                                 style={{ marginLeft: i === 0 ? '0.5em' : '0' }}
                                 className={`type-${type.toLowerCase()}`}>
@@ -48,13 +52,30 @@ function ExpeditionCard({ expedition, catches = [], handleDeleteExpeditionClick}
                     }
                 </span>
                 <br />
-                <span>{pokes}</span>
-                <Link to={`/expeditions/${id}`}>Details</Link>
-                <ModalButton variant="contained" color="primary" onClick={() => handleDeleteExpeditionClick(expedition)}>
-                        Delete
-                        </ModalButton> 
+                <ModalButton variant="contained" color="primary" onClick={() => setIsModalOpen(true)}>
+                        Details
+                    </ModalButton>
             </div>
-        </p>
+        </main>
+        <Modal
+            open={isModalOpen}
+            onClose={() => setIsModalOpen(false)}
+            aria-labelledby="edit-profile-modal-title"
+            aria-describedby="edit-profile-modal-description"
+            >
+            <Box className="modal-box">
+                <ModalButton className="close-button" onClick={() => setIsModalOpen(false)} sx={{ mb: 2 }}>Close</ModalButton>
+                <ExpeditionDetails
+                    handleClick={() => setIsModalOpen(false)}
+                    pokemons={pokemons}
+                    catchCount={catchCount}
+                    typeCount={typeCount}
+                />
+            </Box>
+        </Modal>
+            <ModalButton variant="contained" color="primary" onClick={() => handleDeleteExpeditionClick(expedition)}>
+                    Delete
+            </ModalButton> 
         </>
     );
 };

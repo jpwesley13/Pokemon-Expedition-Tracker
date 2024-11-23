@@ -4,7 +4,7 @@ import DatePicker from "react-datepicker"
 import "react-datepicker/dist/react-datepicker.css";
 import { useAuth } from "../context and utility/AuthContext";
 import ModalButton from "../components/ModalButton";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import ExpeditionForm from "../components/ExpeditionForm";
 import ExpeditionCard from "../components/ExpeditionCard";
 
@@ -13,9 +13,7 @@ function Expeditions() {
     const navigate = useNavigate();
     const { user } = useAuth();
     const [expeditions, setExpeditions] = useState([]);
-    const [expeditionModal, setExpeditionModal] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [currentExpedition, setCurrentExpedition] = useState(null);
     const [catches, setCatches] = useState([]);
     const [selectedMonth, setSelectedMonth] = useState(new Date());
 
@@ -41,7 +39,6 @@ function Expeditions() {
     }
 
     async function handleDeleteExpeditionClick(expedition){
-        setCurrentExpedition(expedition)
         const confirmDelete = window.confirm("Are you sure you want to delete this expedition?")
         if(confirmDelete){
             const res = await fetch(`/expeditions/${expedition.id}`, {
