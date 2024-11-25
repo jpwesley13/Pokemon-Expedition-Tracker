@@ -172,5 +172,3 @@ if __name__ == '__main__':
         db.session.add_all(catches)
 
         db.session.commit()
-
-        # Self note: don't forget pokemont_types table later.

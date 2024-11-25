@@ -93,7 +93,7 @@ class User(db.Model, SerializerMixin):
     
     @validates('age')
     def validate_age(self, key, age):
-        if age < 10:
+        if age <= 10:
             raise ValueError('Users must be at least 10 years old.')
         return age
 

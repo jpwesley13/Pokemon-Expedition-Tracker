@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import getMostCommon from "../context and utility/getMostCommon";
 import LocaleDetails from "./LocaleDetails";
 import { useState } from "react";
@@ -8,7 +7,7 @@ import { Modal, Box } from "@mui/material";
 function LocaleCard({locale, catches = []}) {
 
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const {name, region, expeditions, id} = locale
+    const {name, region, expeditions } = locale
 
     const expeditionCount = expeditions.length
 
@@ -31,7 +30,6 @@ function LocaleCard({locale, catches = []}) {
                 {mostCommon.length > 0 
                 ? <span style={{ marginLeft:'0.5em' }}>{mostCommon[0]}</span> : <span style={{ marginLeft:'0.5em' }}>None</span>}
             </span>
-            <div>{}</div>
             <br />
             <ModalButton variant="contained" color="primary" onClick={() => setIsModalOpen(true)}>
                         Details

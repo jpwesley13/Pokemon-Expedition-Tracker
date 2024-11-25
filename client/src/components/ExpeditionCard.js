@@ -1,5 +1,4 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import { useState } from "react";
 import ModalButton from "./ModalButton";
 import { Modal, Box } from "@mui/material";
@@ -8,7 +7,7 @@ import ExpeditionDetails from "./ExpeditionDetails";
 
 function ExpeditionCard({ expedition, catches = [], handleDeleteExpeditionClick}) {
 
-    const { date, locale, id} = expedition
+    const { date, locale } = expedition
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     const catchCount = catches.length

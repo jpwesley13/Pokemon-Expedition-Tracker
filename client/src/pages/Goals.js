@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Modal, Box } from "@mui/material";
 import { useAuth } from "../context and utility/AuthContext";
 import ModalButton from "../components/ModalButton";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import GoalForm from "../components/GoalForm";
 import EditGoal from "../components/EditGoal";
 
