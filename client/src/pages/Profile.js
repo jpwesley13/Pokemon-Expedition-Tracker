@@ -7,12 +7,16 @@ function Profile() {
     const { user } = useAuth();
     const { userId } = useParams();
     const { id } = user || {}
+    const { expeditions, catches } = user
+
+    const userLocales = [...new Set(expeditions.map(expedition => 
+            `${expedition.locale.name} (${expedition.locale.region.name})`
+        ))]
+
+    console.log(userLocales)
 
     useEffect(() => {
         if(id !== userId){
-            // return (
-            //     <h1>Nope, not your profile. Begone.</h1>
-            // )
             navigate(`/users/${id}`)
         } else if(!user) {
             navigate("/login");
@@ -23,6 +27,16 @@ function Profile() {
     return (
         <>
             <h1>Hey how's it growin'?</h1>
+            <h3>
+                {userLocales.length > 0 ? `Locales you've visited on your expeditions:` : null}
+            </h3>
+            <div>
+                {userLocales.map(locale => 
+                    <div>
+                        {locale}
+                    </div>
+                )}
+            </div>
             <NavLink to={`/users/${id}/pokedex`}>Pokedex</NavLink>
         </>
     );
