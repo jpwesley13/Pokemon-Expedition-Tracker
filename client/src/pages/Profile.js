@@ -24,8 +24,6 @@ function Profile() {
             `${expedition.locale.name} (${expedition.locale.region.name})`
         ))]
 
-    console.log(userLocales)
-
     const typeCount = catches.reduce((acc, capture) => {
         capture.species.types.forEach((typeObj) => {
             const speciesType = typeObj.name;
@@ -53,6 +51,13 @@ function Profile() {
             <h2>
                 {catches.length > 0 ? `You've caught ${catches.length} Pokemon across ${expeditions.length} expeditions!` : `Your Pokemon adventure is just getting started! Get out there and start catchin'!`}
             </h2>
+            <div>
+                {monthlyExpeditions.length > 0 ? (
+                    <strong>{monthlyExpeditions.length} expeditions were this month!</strong>
+                    ) : 
+                    <strong>No expeditions so far this month.</strong>}
+            </div>
+            <br/>
             <h3>
                 {userLocales.length > 0 ? `Locales you've visited on your expeditions:` : `The locales you visit on your expeditions will be displayed here!`}
             </h3>
