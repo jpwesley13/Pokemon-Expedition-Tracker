@@ -3,6 +3,7 @@ import { useParams, useNavigate, NavLink } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useAuth } from "../context and utility/AuthContext";
 import getMostCommon from "../context and utility/getMostCommon";
+import globalTime from "../context and utility/globalTime";
 
 function Profile() {
     const navigate = useNavigate();
@@ -10,6 +11,14 @@ function Profile() {
     const { userId } = useParams();
     const { id } = user || {}
     const { expeditions, catches } = user
+    const currentMonth = new Date()
+
+    const monthlyExpeditions = expeditions.filter(expedition => {
+        const expeditionDate = globalTime(expedition.date);
+        const globalMonth = globalTime(currentMonth)
+        return expeditionDate.getUTCFullYear() === globalMonth.getUTCFullYear() &&
+                expeditionDate.getUTCMonth() === globalMonth.getUTCMonth();
+    });
 
     const userLocales = [...new Set(expeditions.map(expedition => 
             `${expedition.locale.name} (${expedition.locale.region.name})`
@@ -27,6 +36,8 @@ function Profile() {
     
     const mostCommon = getMostCommon(typeCount)
 
+    const shinyPokemon = catches.filter(capture => capture.species.shiny)
+
     useEffect(() => {
         if(id !== userId){
             navigate(`/users/${id}`)
@@ -38,12 +49,12 @@ function Profile() {
 
     return (
         <>
-            <h1>Hey how's it growin'?</h1>
+            <h1>Welcome, {user.username}!</h1>
             <h2>
                 {catches.length > 0 ? `You've caught ${catches.length} Pokemon across ${expeditions.length} expeditions!` : `Your Pokemon adventure is just getting started! Get out there and start catchin'!`}
             </h2>
             <h3>
-                {userLocales.length > 0 ? `Locales you've visited on your expeditions:` : null}
+                {userLocales.length > 0 ? `Locales you've visited on your expeditions:` : `The locales you visit on your expeditions will be displayed here!`}
             </h3>
             <div>
                 {userLocales.map(locale => 
@@ -54,7 +65,7 @@ function Profile() {
             </div>
             <br />
             <h3>
-                {mostCommon.length > 0 ? `Most Common Type(s) You've Caught:` : null}
+                {mostCommon.length > 0 ? `Most common Type(s) you've caught:` : `Your most common Type(s) caught will be displayed here!`}
             </h3>
             <div>
                     {
@@ -63,13 +74,19 @@ function Profile() {
                                 <span 
                                 style={{ marginLeft: i === 0 ? '0.5em' : '0' }}
                                 className={`type-${type.toLowerCase()}`}>
-                                {type}
+                                {type} Type
                                 </span>
                                 {i < mostCommon.length - 1 && <strong> / </strong>}
                             </React.Fragment>
                         ))
                     }
             </div>
+            <br />
+            <h3>
+                {shinyPokemon.length > 0 ? (
+                    <>
+                    You've caught {shinyPokemon.length} <span style={{ color: 'red' }}>Shiny Pokemon!</span></>) : null}
+            </h3>
                 <br />
             <NavLink to={`/users/${id}/pokedex`}>Pokedex</NavLink>
         </>

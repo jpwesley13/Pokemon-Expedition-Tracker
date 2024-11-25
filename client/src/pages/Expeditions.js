@@ -7,6 +7,7 @@ import ModalButton from "../components/ModalButton";
 import { useNavigate } from "react-router-dom";
 import ExpeditionForm from "../components/ExpeditionForm";
 import ExpeditionCard from "../components/ExpeditionCard";
+import globalTime from "../context and utility/globalTime";
 
 function Expeditions() {
 
@@ -16,11 +17,6 @@ function Expeditions() {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [catches, setCatches] = useState([]);
     const [selectedMonth, setSelectedMonth] = useState(new Date());
-
-    function globalTime(dateString) {
-        const date = new Date(dateString);
-        return new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate()));
-    };
 
     useEffect(() => {
         if(!user) {
