@@ -12,7 +12,7 @@ import globalTime from "../context and utility/globalTime";
 function Expeditions() {
 
     const navigate = useNavigate();
-    const { user } = useAuth();
+    const { user, setUser } = useAuth();
     const [expeditions, setExpeditions] = useState([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [catches, setCatches] = useState([]);
@@ -32,6 +32,11 @@ function Expeditions() {
     function onAddExpedition(newExpedition){
         setExpeditions([...expeditions, newExpedition]);
         setCatches([...catches, ...newExpedition.catches]);
+        setUser(currentUser => ({
+            ...currentUser, 
+            expeditions: [...currentUser.expeditions, newExpedition],
+            catches: [...currentUser.catches, ...newExpedition.catches]
+        }))
     }
 
     async function handleDeleteExpeditionClick(expedition){
@@ -41,7 +46,17 @@ function Expeditions() {
                 method: "DELETE"
             });
             if(res.ok) {
-                setExpeditions(expeditions.filter(g => g.id !== expedition.id));
+                const updatedExpeditions = expeditions.filter(g => g.id !== expedition.id);
+                const updatedCatches = catches.filter(capture => capture.expedition_id !== expedition.id);
+
+                setExpeditions(updatedExpeditions);
+                setCatches(updatedCatches);
+
+                setUser(currentUser => ({
+                    ...currentUser,
+                    expeditions: updatedExpeditions,
+                    catches: updatedCatches
+                }));
             } else {
                 console.error("Error in deleting expedition.");
             };
