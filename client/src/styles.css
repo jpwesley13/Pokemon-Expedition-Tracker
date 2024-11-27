@@ -450,3 +450,10 @@ body {
 .not-shiny {
   font-weight: bold;
 }
+
+.pokemon-thumbnail {
+  flex: 0 1 auto;
+  height: 150px;
+  margin-right: 0.5rem;
+  cursor: pointer;
+}

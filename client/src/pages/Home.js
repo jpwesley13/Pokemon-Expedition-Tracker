@@ -3,6 +3,7 @@ import { useAuth } from "../context and utility/AuthContext";
 import { useState, useEffect, useMemo } from "react";
 import getMonthlyExpeditions from "../context and utility/getMonthlyExpeditions";
 import getMostCommon from "../context and utility/getMostCommon";
+import RandomPokemon from "../components/RandomPokemon";
 
 function Home() {
 
@@ -108,6 +109,7 @@ function Home() {
 
     return (
         <>
+        <RandomPokemon />
         <h1>
             {user ? (
                 <>Hello {user.username}, here's a recommended Pokemon Type to catch today! <span style={{ fontSize: '2rem' }}
@@ -139,6 +141,7 @@ function Home() {
         <h3>
             {monthlyCatchCount ? `The most Pokemon a user has caught this month on PokET is ${topMonthlyCatch} Pokemon!` : null}
         </h3>
+        <RandomPokemon />
         </>
     )
 }
