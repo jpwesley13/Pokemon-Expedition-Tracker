@@ -1,5 +1,5 @@
 import { useAuth } from "../context and utility/AuthContext";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import getMonthlyExpeditions from "../context and utility/getMonthlyExpeditions";
 import getMostCommon from "../context and utility/getMostCommon";
 
@@ -28,32 +28,40 @@ function Home() {
 
     const monthlyCatches = monthlyExpeditions.flatMap(expedition => expedition.catches);
 
-    // console.log(monthlyCatches)
-
-    const typeCount = catches.reduce((acc, capture) => {
-        capture.species.types.forEach((typeObj) => {
+    function userTypeCount(catches) {
+        return catches.reduce((acc, capture) => {
+          capture.species.types.forEach((typeObj) => {
             const speciesType = typeObj.name;
             acc[speciesType] = (acc[speciesType] || 0) + 1;
+          });
+          return acc;
+        }, {});
+      };
+
+    const typeCount = useMemo(() => userTypeCount(catches), [catches]);
+
+    const userAllTypeCount = useMemo(() => {
+        const initialTypeCount = allTypes.reduce((acc, type) => {
+            acc[type] = 0;
+            return acc;
+        }, {});
+
+        Object.keys(typeCount).forEach(type => {
+            initialTypeCount[type] = typeCount[type];
         });
-        return acc;
-    }, {});
 
-    const allTypeCount = allTypes.reduce((acc, type) => {
-        acc[type] = 0;
-        return acc;
-    }, {});
+        return initialTypeCount;
+    }, [typeCount]);
 
-    Object.keys(typeCount).forEach(type => {
-        allTypeCount[type] = typeCount[type]
-    })
+    const recommendation = useMemo(() => {
+    const bottomSix = Object.entries(userAllTypeCount)
+        .sort((type1, type2) => type1[1] - type2[1])
+        .map(orderedType => orderedType[0])
+        .slice(0, 6);
 
-    const bottomSix = Object.entries(allTypeCount)
-    .sort((type1, type2) => type1[1] - type2[1])
-    .map(orderedType => orderedType[0])
-    .slice(0, 6)
-
-    const randomSix = Math.floor(Math.random() * bottomSix.length)
-    const recommendation = bottomSix[randomSix]
+    const randomSix = Math.floor(Math.random() * bottomSix.length);
+    return bottomSix[randomSix];
+    }, [userAllTypeCount]);
 
     return (
         <>
