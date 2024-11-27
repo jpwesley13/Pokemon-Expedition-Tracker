@@ -3,7 +3,6 @@ import { useParams, useNavigate, NavLink } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useAuth } from "../context and utility/AuthContext";
 import getMostCommon from "../context and utility/getMostCommon";
-import globalTime from "../context and utility/globalTime";
 import getMonthlyExpeditions from "../context and utility/getMonthlyExpeditions";
 
 function Profile() {

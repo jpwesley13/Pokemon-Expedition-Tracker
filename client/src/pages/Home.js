@@ -1,3 +1,4 @@
+import React from "react";
 import { useAuth } from "../context and utility/AuthContext";
 import { useState, useEffect, useMemo } from "react";
 import getMonthlyExpeditions from "../context and utility/getMonthlyExpeditions";
@@ -27,6 +28,16 @@ function Home() {
     const monthlyExpeditions = getMonthlyExpeditions(globalExpeditions)
 
     const monthlyCatches = monthlyExpeditions.flatMap(expedition => expedition.catches);
+
+    const monthlyTypeCount = monthlyCatches.reduce((acc, capture) => {
+        capture.species.types.forEach((typeObj) => {
+            const speciesType = typeObj.name;
+            acc[speciesType] = (acc[speciesType] || 0) + 1;
+        });
+        return acc;
+    }, {});
+
+    const mostCommonMonthlyType = getMostCommon(monthlyTypeCount)
 
     function userTypeCount(catches) {
         return catches.reduce((acc, capture) => {
@@ -71,6 +82,22 @@ function Home() {
                 className={`type-${recommendation.toLowerCase()}`}>{recommendation}</span>
                 </>) : `Log in for personalized recommendations!`}
         </h1>
+        <h2>
+            {mostCommonMonthlyType.length > 0 ? (
+                <>
+                The most common Type(s) caught by users this month: {mostCommonMonthlyType.map((type, i) => (
+                            <React.Fragment key={type}>
+                                <span 
+                                style={{ fontSize: '1.4rem' }}
+                                className={`type-${type.toLowerCase()}`}>
+                                {type} Type
+                                </span>
+                                {i < mostCommonMonthlyType.length - 1 && <strong> / </strong>}
+                            </React.Fragment>
+                        ))}
+                </>) : `No one has caught anything this month yet!`
+            }
+        </h2>
         </>
     )
 }
