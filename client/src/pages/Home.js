@@ -26,6 +26,14 @@ function Home() {
     .catch(error => console.error(error));
     }, [])
 
+    const catchCount = globalCatches.reduce((acc, capture) => {
+        const speciesName = capture.species.name;
+        acc[speciesName] = (acc[speciesName] || 0) + 1;
+        return acc
+    }, {})
+
+    const mostCommonPokemon = getMostCommon(catchCount)
+
     const monthlyExpeditions = getMonthlyExpeditions(globalExpeditions)
 
     const monthlyLocales = monthlyExpeditions.map(expedition => {
@@ -118,6 +126,9 @@ function Home() {
         <h2>{mostCommonMonthlyLocale.length > 0 ? 
             `A popular locale this month is ${randomLocale}!`: null
         }</h2>
+        <h2>
+            A Pokemon users have caught more of than any other on PokET is {mostCommonPokemon[Math.floor(Math.random() * mostCommonPokemon.length)]}! 
+        </h2>
         </>
     )
 }
