@@ -11,21 +11,34 @@ function Home() {
     const allTypes = [
         "Normal", "Fire", "Water", "Electric", "Grass", "Ice", "Fighting", "Poison", "Ground", "Flying", "Psychic", "Bug", "Rock", "Ghost", "Dragon", "Dark", "Steel", "Fairy"
       ];
-      const [globalExpeditions, setGlobalExpeditions] = useState([])
-      const [globalCatches, setGlobalCatches] = useState([])
+    const [globalExpeditions, setGlobalExpeditions] = useState([])
+    const [globalCatches, setGlobalCatches] = useState([])
+    const [loading, setLoading] = useState(true)
 
-      useEffect(() => {
-        fetch(`/expeditions`)
-        .then(res => res.json())
-        .then(data => {
-            setGlobalExpeditions(data);
-            setGlobalCatches(data.flatMap(expedition => expedition.catches));
-        })
-        .catch(error => console.error(error));
+    useEffect(() => {
+    fetch(`/expeditions`)
+    .then(res => res.json())
+    .then(data => {
+        setGlobalExpeditions(data);
+        setGlobalCatches(data.flatMap(expedition => expedition.catches));
+        setLoading(false)
+    })
+    .catch(error => console.error(error));
     }, [])
 
-
     const monthlyExpeditions = getMonthlyExpeditions(globalExpeditions)
+
+    const monthlyLocales = monthlyExpeditions.map(expedition => {
+        return `${expedition.locale.name} in ${expedition.locale.region.name}`})
+    
+    const monthlyLocaleCount = monthlyLocales.reduce((acc, locale) => {
+        acc[locale] = (acc[locale] || 0 ) + 1
+        return acc;
+    }, {})
+
+    const mostCommonMonthlyLocale = getMostCommon(monthlyLocaleCount)
+
+    const randomLocale = mostCommonMonthlyLocale[Math.floor(Math.random() * mostCommonMonthlyLocale.length)]
 
     const monthlyCatches = monthlyExpeditions.flatMap(expedition => expedition.catches);
 
@@ -65,14 +78,18 @@ function Home() {
     }, [typeCount]);
 
     const recommendation = useMemo(() => {
-    const bottomSix = Object.entries(userAllTypeCount)
-        .sort((type1, type2) => type1[1] - type2[1])
-        .map(orderedType => orderedType[0])
-        .slice(0, 6);
+        const bottomSix = Object.entries(userAllTypeCount)
+            .sort((type1, type2) => type1[1] - type2[1])
+            .map(orderedType => orderedType[0])
+            .slice(0, 6);
 
-    const randomSix = Math.floor(Math.random() * bottomSix.length);
-    return bottomSix[randomSix];
+        const randomSix = Math.floor(Math.random() * bottomSix.length);
+        return bottomSix[randomSix];
     }, [userAllTypeCount]);
+
+    if (loading) {
+        return <h2>Loading...</h2>
+      }
 
     return (
         <>
@@ -98,6 +115,9 @@ function Home() {
                 </>) : `No one has caught anything this month yet!`
             }
         </h2>
+        <h2>{mostCommonMonthlyLocale.length > 0 ? 
+            `A popular locale this month is ${randomLocale}!`: null
+        }</h2>
         </>
     )
 }
