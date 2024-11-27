@@ -50,6 +50,13 @@ function Home() {
 
     const monthlyCatches = monthlyExpeditions.flatMap(expedition => expedition.catches);
 
+    const monthlyCatchCount = monthlyCatches.reduce((acc, capture) => {
+        acc[capture.user_id] = (acc[capture.user_id] || 0 ) + 1
+        return acc
+    }, {})
+
+    const topMonthlyCatch = Math.max(...Object.values(monthlyCatchCount))
+
     const monthlyTypeCount = monthlyCatches.reduce((acc, capture) => {
         capture.species.types.forEach((typeObj) => {
             const speciesType = typeObj.name;
@@ -129,6 +136,9 @@ function Home() {
         <h2>
             A Pokemon users have caught more of than any other on PokET is {mostCommonPokemon[Math.floor(Math.random() * mostCommonPokemon.length)]}! 
         </h2>
+        <h3>
+            {monthlyCatchCount ? `The most Pokemon a user has caught this month on PokET is ${topMonthlyCatch} Pokemon!` : null}
+        </h3>
         </>
     )
 }
