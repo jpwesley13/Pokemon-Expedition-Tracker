@@ -65,7 +65,7 @@ function Goals() {
         const trimmedContent = goal.content.length > 50 ? `${goal.content.substring(0, 50)}...` : goal.content;
 
         return (
-            <p key={goal.id} className="profile-list-item">
+            <div key={goal.id} className="profile-list-item">
                 <div className="profile-content">
                     <span>{`${username}`}'s goal: {expanded ? goal.content : trimmedContent}</span>
                     <br />
@@ -84,7 +84,7 @@ function Goals() {
                         </>
                     )}
                 </div>
-            </p>
+            </div>
         );
     });
 

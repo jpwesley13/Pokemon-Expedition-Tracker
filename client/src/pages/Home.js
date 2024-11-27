@@ -1,4 +1,7 @@
 import { useAuth } from "../context and utility/AuthContext";
+import { useState, useEffect } from "react";
+import getMonthlyExpeditions from "../context and utility/getMonthlyExpeditions";
+import getMostCommon from "../context and utility/getMostCommon";
 
 function Home() {
 
@@ -7,6 +10,25 @@ function Home() {
     const allTypes = [
         "Normal", "Fire", "Water", "Electric", "Grass", "Ice", "Fighting", "Poison", "Ground", "Flying", "Psychic", "Bug", "Rock", "Ghost", "Dragon", "Dark", "Steel", "Fairy"
       ];
+      const [globalExpeditions, setGlobalExpeditions] = useState([])
+      const [globalCatches, setGlobalCatches] = useState([])
+
+      useEffect(() => {
+        fetch(`/expeditions`)
+        .then(res => res.json())
+        .then(data => {
+            setGlobalExpeditions(data);
+            setGlobalCatches(data.flatMap(expedition => expedition.catches));
+        })
+        .catch(error => console.error(error));
+    }, [])
+
+
+    const monthlyExpeditions = getMonthlyExpeditions(globalExpeditions)
+
+    const monthlyCatches = monthlyExpeditions.flatMap(expedition => expedition.catches);
+
+    // console.log(monthlyCatches)
 
     const typeCount = catches.reduce((acc, capture) => {
         capture.species.types.forEach((typeObj) => {
@@ -32,8 +54,6 @@ function Home() {
 
     const randomSix = Math.floor(Math.random() * bottomSix.length)
     const recommendation = bottomSix[randomSix]
-
-    console.log(bottomSix)
 
     return (
         <>

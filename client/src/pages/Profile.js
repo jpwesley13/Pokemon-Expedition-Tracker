@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useAuth } from "../context and utility/AuthContext";
 import getMostCommon from "../context and utility/getMostCommon";
 import globalTime from "../context and utility/globalTime";
+import getMonthlyExpeditions from "../context and utility/getMonthlyExpeditions";
 
 function Profile() {
     const navigate = useNavigate();
@@ -11,14 +12,8 @@ function Profile() {
     const { userId } = useParams();
     const { id } = user || {}
     const { expeditions, catches } = user
-    const currentMonth = new Date()
 
-    const monthlyExpeditions = expeditions.filter(expedition => {
-        const expeditionDate = globalTime(expedition.date);
-        const globalMonth = globalTime(currentMonth)
-        return expeditionDate.getUTCFullYear() === globalMonth.getUTCFullYear() &&
-                expeditionDate.getUTCMonth() === globalMonth.getUTCMonth();
-    });
+    const monthlyExpeditions = getMonthlyExpeditions(expeditions)
 
     const userLocales = [...new Set(expeditions.map(expedition => 
             `${expedition.locale.name} (${expedition.locale.region.name})`
