@@ -456,3 +456,12 @@ body {
   height: 150px;
   margin-right: 0.5rem;
 }
+
+.thumbnail-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 1rem;
+  box-sizing: border-box;
+}

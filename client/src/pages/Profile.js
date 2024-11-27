@@ -57,7 +57,7 @@ function Profile() {
             </h3>
             <div>
                 {userLocales.map(locale => 
-                    <div>
+                    <div key={locale}>
                         {locale}
                     </div>
                 )}

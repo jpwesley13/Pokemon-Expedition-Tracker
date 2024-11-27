@@ -33,7 +33,7 @@ function RandomPokemon() {
     }, []);
 
     return (
-        <div>
+        <div className="thumbnail-container">
             {pokemons.map((pokemon, index) => (
                 <img
                     key={index}
