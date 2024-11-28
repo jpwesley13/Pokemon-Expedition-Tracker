@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, React } from "react";
 import { useAuth } from "../context and utility/AuthContext";
 import { useNavigate } from "react-router-dom";
 
@@ -6,15 +6,39 @@ function Pokedex() {
 
     const { user } = useAuth();
     const navigate = useNavigate();
-
+    
     useEffect(() => {
         if(!user) {
             navigate("/login");
         }
     }, [user, navigate])
-    const { username } = user || {}
+    const { username, catches } = user || {}
 
-    console.log("Fish")
+    const speciesInfo = {};
+
+    catches.forEach(capture => {
+        const speciesName = capture.species.name;
+        const types = capture.species.types;
+        const dexNumber = capture.species.dex_number;
+
+        if (!speciesInfo[speciesName]) {
+            speciesInfo[speciesName] = { 
+                types, 
+                dexNumber, 
+                count: 1
+            };
+        } else {
+            speciesInfo[speciesName].count += 1; 
+        }
+    })
+
+    const dexEntries = Object.entries(speciesInfo).map(([species, info]) => ({
+        species, ...info
+    }));
+
+    const orderedEntries = dexEntries.sort((poke1, poke2) => poke1.dexNumber - poke2.dexNumber)
+
+    console.log(orderedEntries)
 
     return (
         <h1>Good job, {username}</h1>
