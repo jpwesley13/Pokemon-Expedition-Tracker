@@ -457,6 +457,12 @@ body {
   margin-right: 0.5rem;
 }
 
+.dex-thumbnail {
+  flex: 0 1 auto;
+  height: 70px;
+  margin-right: 0.5rem;
+}
+
 .thumbnail-container {
   display: flex;
   justify-content: space-between;
