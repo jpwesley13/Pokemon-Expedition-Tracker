@@ -35,19 +35,6 @@ class Region(db.Model, SerializerMixin):
         if name not in regions:
             raise ValueError('Region not recognized. Please select from available options or confirm uncharted territory.')
         return name
-    
-class Pokedex(db.Model, SerializerMixin):
-    __tablename__ = 'pokedexes'
-
-    id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
-
-    user = db.relationship('User', back_populates='pokedex')
-
-    serialize_rules = ('-users.pokedex',)
-
-    def __repr__(self):
-        return f'<Pokedex {self.id}: Belongs to {self.user.username}>'
 
 class User(db.Model, SerializerMixin):
     __tablename__ = 'users'
@@ -57,23 +44,13 @@ class User(db.Model, SerializerMixin):
     age = db.Column(db.Integer)
     _password_hash = db.Column(db.String, nullable=False)
 
-    pokedex = db.relationship('Pokedex', uselist=False, back_populates='user')
     goals = db.relationship('Goal', back_populates='user')
     catches = db.relationship('Catch', back_populates='user', cascade='all, delete-orphan')
     expeditions = db.relationship('Expedition', back_populates='user', cascade='all, delete-orphan')
     locales = association_proxy('expeditions', 'locale',
                                 creator=lambda locale_obj: Expedition(locale=locale_obj))
 
-    serialize_rules = ('-pokedex.user', '-goals.user', '-catches.user', '-expeditions.user', '-_password_hash', '-expeditions.catches', )
-
-    # def total_counts(self, species_name):
-    #     total = Catch.query.filter(Catch.user_id == self.id, Catch.species.name == species_name).count()
-    #     return total
-
-    def total_counts(self, species_name):
-        total = (Catch.query.join(Species).filter(Catch.user_id == self.id, Species.name == species_name).count())
-        return total
-    
+    serialize_rules = ('-goals.user', '-catches.user', '-expeditions.user', '-_password_hash', '-expeditions.catches', )
 
     @hybrid_property
     def password_hash(self):

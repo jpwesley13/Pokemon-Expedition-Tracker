@@ -30,13 +30,11 @@ if __name__ == '__main__':
         Locale.query.delete()
         Expedition.query.delete()
         Region.query.delete()
-        Pokedex.query.delete()
         Goal.query.delete()
         Species.query.delete()
         Catch.query.delete()
         Type.query.delete()
         
-
         regions = []
         region_names = ["Kanto", "Johto", "Hoenn", "Sinnoh", "Unova", "Kalos", "Alola", "Galar", "Paldea", "Orre", "Ultra Space", "Kitakami", "Almia", "Oblivia", "Lental", "Uncharted"]
 
@@ -109,16 +107,6 @@ if __name__ == '__main__':
             goals.append(goal)
 
         db.session.add_all(goals)
-
-        pokedexes = []
-        for i in range(10):
-            pokedex = Pokedex()
-
-            pokedex.user = users[i]
-
-            pokedexes.append(pokedex)
-        
-        db.session.add_all(pokedexes)
 
         species_entries = []
         dex_numbers = []

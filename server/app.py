@@ -62,52 +62,6 @@ class TypeById(Resource):
             return make_response(type.to_dict(), 200)
         return make_response({'error': 'Type not found.'}, 404)
     
-class Pokedexes(Resource):
-    def get(self):
-        pokedexes = [pokedex.to_dict() for pokedex in Pokedex.query.all()]
-        return make_response(pokedexes, 200)
-    
-    def post(self):
-        params = request.get_json()
-
-        try:
-            new_pokedex = Pokedex(
-                user_id = params['user_id']
-            )
-            db.session.add(new_pokedex)
-            db.session.commit()
-            return make_response(new_pokedex.to_dict(), 201)
-        except ValueError:
-            return make_response({"errors": ["validation errors"]}, 400)
-        
-class PokedexByUser(Resource):
-    def get(self, user_id):
-        user = User.query.filter(User.id == user_id).first()
-        if not user:
-            return make_response({"error": "User not found."}, 404)
-
-        pokedex = user.pokedex
-
-        if not pokedex:
-            return make_response({'error': 'Pokedex not found.'}, 404)
-        
-        dex_data = pokedex.to_dict()
-        
-        # species_counts = {}
-        # for catch in user.catches:
-        #     species_name = catch.species.name
-        #     species_counts[species_name] = species_counts.get(species_name, 0) + 1
-
-        species_counts = {}
-        for catch in user.catches:
-            species_name = catch.species.name
-            if species_name not in species_counts:
-                species_counts[species_name] = user.total_counts(species_name)
-
-        dex_data['species_counts'] = species_counts
-
-        return make_response(dex_data, 200)
-    
 class Users(Resource):
     def get(self):
         users = [user.to_dict() for user in User.query.all()]
@@ -485,8 +439,6 @@ class Logout(Resource):
     
 api.add_resource(Users, '/users')
 api.add_resource(UserById, '/users/<int:id>')
-api.add_resource(PokedexByUser, '/users/<int:user_id>/pokedex')
-api.add_resource(Pokedexes, '/pokedexes')
 api.add_resource(Goals, '/goals')
 api.add_resource(GoalById, '/goals/<int:id>')
 api.add_resource(Locales, '/locales')
