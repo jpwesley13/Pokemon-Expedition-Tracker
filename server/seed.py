@@ -16,6 +16,10 @@ from models import *
 def delete_types_table():
     with db.session.begin():
         db.session.execute(pokemon_types.delete())
+        
+def capitalize_first_letters(string):
+    string = string.replace('-', ' ')
+    return ' '.join(word.capitalize() for word in string.lower().split())
 
 if __name__ == '__main__':
     fake = Faker()
@@ -131,10 +135,16 @@ if __name__ == '__main__':
                 pokemon = response.json()
 
                 species = Species(
-                    name = pokemon['name'],
+                    name = capitalize_first_letters(pokemon['name']),
                     dex_number = pokemon['id'],
                     shiny = fake.boolean()
                 )
+
+                for type_info in pokemon['types']:
+                    type_name = capitalize_first_letters(type_info['type']['name'])
+                    for type_instance in types:
+                        if type_instance.name == type_name:
+                            species.types.append(type_instance)
 
                 species_entries.append(species)
             else:

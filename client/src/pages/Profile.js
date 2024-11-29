@@ -87,7 +87,7 @@ function Profile() {
                     You've caught {shinyPokemon.length} <span style={{ color: 'red' }}>Shiny Pokemon!</span></>) : null}
             </h3>
                 <br />
-            <NavLink to={`/users/${id}/pokedex`}>Pokedex</NavLink>
+            {catches.length > 0 ? <NavLink to={`/users/${id}/pokedex`}>Pokedex</NavLink> : null}
         </>
     );
 };
