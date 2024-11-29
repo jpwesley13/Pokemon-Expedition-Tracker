@@ -9,8 +9,20 @@ function Profile() {
     const navigate = useNavigate();
     const { user } = useAuth();
     const { userId } = useParams();
-    const { id } = user || {}
-    const { expeditions, catches } = user
+
+    useEffect(() => {
+        if (!user) {
+            navigate("/login");
+        } else if (user.id !== userId) {
+            navigate(`/users/${user.id}`);
+        }
+    }, [user, userId, navigate]);
+
+    if (!user) {
+        return null;
+    }
+
+    const { id, expeditions, catches } = user || {}
 
     const monthlyExpeditions = getMonthlyExpeditions(expeditions)
 
@@ -29,14 +41,6 @@ function Profile() {
     const mostCommon = getMostCommon(typeCount)
 
     const shinyPokemon = catches.filter(capture => capture.species.shiny)
-
-    useEffect(() => {
-        if(id !== userId){
-            navigate(`/users/${id}`)
-        } else if(!user) {
-            navigate("/login");
-        }
-    }, [userId, navigate, id])
     
 
     return (
