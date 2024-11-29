@@ -59,7 +59,6 @@ function Goals() {
         .catch(error => console.error(error));
     }, [id])
 
-
     const goalsList = goals.map(goal => {
         const expanded = fullGoals[goal.id] || false;
         const trimmedContent = goal.content.length > 50 ? `${goal.content.substring(0, 50)}...` : goal.content;

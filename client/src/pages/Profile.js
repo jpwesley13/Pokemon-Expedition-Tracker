@@ -1,6 +1,6 @@
 import React from "react";
 import { useParams, useNavigate, NavLink } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useAuth } from "../context and utility/AuthContext";
 import getMostCommon from "../context and utility/getMostCommon";
 import getMonthlyExpeditions from "../context and utility/getMonthlyExpeditions";
@@ -47,7 +47,6 @@ function Profile() {
     const mostCommon = getMostCommon(typeCount)
 
     const shinyPokemon = catches.filter(capture => capture.species.shiny)
-    
 
     return (
         <>
