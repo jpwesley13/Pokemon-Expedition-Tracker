@@ -22,13 +22,19 @@ function Profile() {
         return null;
     }
 
-    const { id, expeditions, catches } = user || {}
+    const { id, expeditions, catches, locales } = user || {}
 
     const monthlyExpeditions = getMonthlyExpeditions(expeditions)
 
-    const userLocales = [...new Set(expeditions.map(expedition => 
-            `${expedition.locale.name} (${expedition.locale.region.name})`
-        ))]
+
+    const sortedLocales = locales.sort((locale1, locale2) => locale1.name.localeCompare(locale2.name))
+
+    const userLocales = sortedLocales
+        .map(locale => 
+            `${locale.name} (${locale.region.name})`
+        )
+
+    console.log(locales)
 
     const typeCount = catches.reduce((acc, capture) => {
         capture.species.types.forEach((typeObj) => {

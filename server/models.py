@@ -61,6 +61,8 @@ class User(db.Model, SerializerMixin):
     goals = db.relationship('Goal', back_populates='user')
     catches = db.relationship('Catch', back_populates='user', cascade='all, delete-orphan')
     expeditions = db.relationship('Expedition', back_populates='user', cascade='all, delete-orphan')
+    locales = association_proxy('expeditions', 'locale',
+                                creator=lambda locale_obj: Expedition(locale=locale_obj))
 
     serialize_rules = ('-pokedex.user', '-goals.user', '-catches.user', '-expeditions.user', '-_password_hash', '-expeditions.catches', )
 

@@ -12,7 +12,7 @@ function capitalizeFirstLetters(string) {
 };
 
 function ExpeditionForm({ onAddExpedition, handleClick }) {
-    const { user } = useAuth();
+    const { user, setUser } = useAuth();
     const [debounceActive, setDebounceActive] = useState(false);
     const [locales, setLocales] = useState([]);
 
@@ -65,6 +65,11 @@ function ExpeditionForm({ onAddExpedition, handleClick }) {
             };
             const expedition = await expeditionRes.json();
             onAddExpedition(expedition);
+            const userRes = await fetch('/check_session');
+            const data = await userRes.json();
+            if(userRes.ok){
+                setUser(data)
+            }
             handleClick();
             actions.resetForm();
         } catch(error) {

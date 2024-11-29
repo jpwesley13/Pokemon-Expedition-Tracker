@@ -452,10 +452,13 @@ class Signup(Resource):
         
 class CheckSession(Resource):
     def get(self):
-        user_id = session['user_id']
+        user_id = session.get('user_id')
         if user_id:
             user = User.query.filter(User.id == user_id).first()
-            return user.to_dict(), 200
+            if user:
+                user_dict = user.to_dict()
+                user_dict['locales'] = [locale.to_dict() for locale in set(user.locales)]
+                return make_response(user_dict, 200)
         return {}, 401
         
 class Login(Resource):
@@ -467,10 +470,12 @@ class Login(Resource):
 
         user = User.query.filter(User.username == username).first()
 
-        if user:
-            if user.authenticate(password):
-                session['user_id'] = user.id
-                return user.to_dict(), 200
+        if user and user.authenticate(password):
+            session['user_id'] = user.id
+            user_dict = user.to_dict()
+            user_dict['locales'] = [locale.to_dict() for locale in set(user.locales)]
+
+            return make_response(user_dict, 200)
         return {'errors': 'Invalid login credentials'}, 401
     
 class Logout(Resource):

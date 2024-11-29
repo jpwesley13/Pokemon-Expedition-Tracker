@@ -32,11 +32,6 @@ function Expeditions() {
     function onAddExpedition(newExpedition){
         setExpeditions([...expeditions, newExpedition]);
         setCatches([...catches, ...newExpedition.catches]);
-        setUser(currentUser => ({
-            ...currentUser, 
-            expeditions: [...currentUser.expeditions, newExpedition],
-            catches: [...currentUser.catches, ...newExpedition.catches]
-        }))
     }
 
     async function handleDeleteExpeditionClick(expedition){
@@ -52,11 +47,11 @@ function Expeditions() {
                 setExpeditions(updatedExpeditions);
                 setCatches(updatedCatches);
 
-                setUser(currentUser => ({
-                    ...currentUser,
-                    expeditions: updatedExpeditions,
-                    catches: updatedCatches
-                }));
+                const userRes = await fetch('/check_session');
+                const data = await userRes.json();
+                if(userRes.ok){
+                    setUser(data)
+                }
             } else {
                 console.error("Error in deleting expedition.");
             };
