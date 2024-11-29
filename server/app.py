@@ -397,10 +397,12 @@ class Signup(Resource):
             db.session.add(new_user)
             db.session.commit()
             session['user_id'] = new_user.id
+            new_user_dict = new_user.to_dict()
+            new_user_dict['locales'] = [locale.to_dict() for locale in set(new_user.locales)]
 
             print("User added successfully")
 
-            return make_response(new_user.to_dict(), 201)
+            return make_response(new_user_dict, 201)
         except (IntegrityError, ValueError):
             return make_response({"errors": ["validation errors"]}, 400)
         
