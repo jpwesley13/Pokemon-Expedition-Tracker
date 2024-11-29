@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useAuth } from "../context and utility/AuthContext";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 function apiURL(string) {
     return string.toLowerCase()
@@ -11,33 +11,39 @@ function apiURL(string) {
 function Pokedex() {
 
     const { user } = useAuth();
+    const { userId } = useParams();
     const navigate = useNavigate();
     const [variantThumbs, setVariantThumbs] = useState({});
     
     useEffect(() => {
-        if(!user) {
+        if (!user) {
             navigate("/login");
+        } else if (user.id !== userId) {
+            navigate(`/users/${user.id}`);
         }
-    }, [user, navigate])
+    }, [user, userId, navigate]);
+
     const { username, catches } = user || {}
 
     const speciesInfo = {};
 
-    catches.forEach(capture => {
-        const speciesName = capture.species.name;
-        const types = capture.species.types;
-        const dexNumber = capture.species.dex_number;
-
-        if (!speciesInfo[speciesName]) {
-            speciesInfo[speciesName] = { 
-                types, 
-                dexNumber, 
-                count: 1
-            };
-        } else {
-            speciesInfo[speciesName].count += 1; 
-        }
-    })
+    if(user) {
+        catches.forEach(capture => {
+            const speciesName = capture.species.name;
+            const types = capture.species.types;
+            const dexNumber = capture.species.dex_number;
+  
+            if (!speciesInfo[speciesName]) {
+                speciesInfo[speciesName] = { 
+                    types, 
+                    dexNumber, 
+                    count: 1
+                };
+            } else {
+                speciesInfo[speciesName].count += 1; 
+            }
+        });
+    }
 
     const variantCheck = {}
     Object.values(speciesInfo).forEach(pokemon => {
@@ -77,6 +83,10 @@ function Pokedex() {
 
         fetchVariantImages();
     }, [orderedEntries, variantThumbs, variantCheck]);
+
+    if (!user) {
+        return null;
+    }
 
     const displayedDex = orderedEntries
     .map(({ species, types, dexNumber, count }) => {
@@ -118,5 +128,3 @@ function Pokedex() {
 };
 
 export default Pokedex;
-
-// Make sure only accessible by correct user just like profile page. Also acknowledge it could just be a part of their page, but you know, routes for project and all

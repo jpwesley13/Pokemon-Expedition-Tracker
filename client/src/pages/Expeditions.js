@@ -106,6 +106,10 @@ function Expeditions() {
         );
     });
 
+    if (!user) {
+        return null;
+    }
+
     return (
         <>
         <main>
