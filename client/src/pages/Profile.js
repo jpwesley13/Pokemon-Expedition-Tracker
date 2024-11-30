@@ -8,7 +8,7 @@ import getMonthlyExpeditions from "../context and utility/getMonthlyExpeditions"
 function Profile() {
     const navigate = useNavigate();
     const { user } = useAuth();
-    const { userId } = useParams();
+    const { id: userId } = useParams();
 
     useEffect(() => {
         if (!user) {
@@ -33,8 +33,6 @@ function Profile() {
         .map(locale => 
             `${locale.name} (${locale.region.name})`
         )
-
-    console.log(locales)
 
     const typeCount = catches.reduce((acc, capture) => {
         capture.species.types.forEach((typeObj) => {

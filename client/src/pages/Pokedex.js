@@ -11,7 +11,7 @@ function apiURL(string) {
 function Pokedex() {
 
     const { user } = useAuth();
-    const { userId } = useParams();
+    const { id: userId } = useParams();
     const navigate = useNavigate();
     const [variantThumbs, setVariantThumbs] = useState({});
     
@@ -19,7 +19,7 @@ function Pokedex() {
         if (!user) {
             navigate("/login");
         } else if (user.id !== userId) {
-            navigate(`/users/${user.id}`);
+            navigate(`/users/${user.id}/pokedex`);
         }
     }, [user, userId, navigate]);
 
