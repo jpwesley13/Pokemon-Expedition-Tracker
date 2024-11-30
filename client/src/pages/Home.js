@@ -110,13 +110,22 @@ function Home() {
     return (
         <>
         <RandomPokemon />
-        <h1>
-            {user ? (
-                <>Hello {user.username}, here's a recommended Pokemon Type to catch today! <span style={{ fontSize: '2rem' }}
-                className={`type-${recommendation.toLowerCase()}`}>{recommendation}</span>
-                </>) : `Log in for personalized recommendations!`}
+        <h1 className="home-header">
+            {user ? `Recommendations for you, ${user.username}!` : `Log in for personalized recommendations!`}
         </h1>
-        <h2>
+        <div className="cards-container">
+        <h2 className="home-personal">
+            {user && (
+                <>A recommended Pokemon Type to catch today is <span style={{ fontSize: '1.4rem' }}
+                className={`type-${recommendation.toLowerCase()}`}>{recommendation}</span>
+                </>)}
+        </h2>
+        </div>
+        <h1 className="home-header">
+            Global PokET stats!
+        </h1>
+        <div className="cards-container">
+        <h2 className="home-global">
             {mostCommonMonthlyType.length > 0 ? (
                 <>
                 The most common Type(s) caught by users this month: {mostCommonMonthlyType.map((type, i) => (
@@ -132,15 +141,17 @@ function Home() {
                 </>) : `No one has caught anything this month yet!`
             }
         </h2>
-        <h2>{mostCommonMonthlyLocale.length > 0 && 
+        <h2 className="home-global">{mostCommonMonthlyLocale.length > 0 && 
             `A popular locale this month is ${randomLocale}!`
         }</h2>
-        <h2>
+        <h2 className="home-global">
             A Pokemon users have caught more of than any other on PokET is {mostCommonPokemon[Math.floor(Math.random() * mostCommonPokemon.length)]}! 
         </h2>
-        <h3>
+        
+        <h2 className="home-global">
             {monthlyCatchCount && `The most Pokemon a user has caught this month on PokET is ${topMonthlyCatch} Pokemon!`}
-        </h3>
+        </h2>
+        </div>
         <RandomPokemon />
         </>
     )

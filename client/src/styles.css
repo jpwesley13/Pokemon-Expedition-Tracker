@@ -9,6 +9,7 @@
   text-align: center;
   color: rgb(128, 32, 32);
   border: grey solid 1px;
+  border-radius: 10px;
   padding: 1rem;
   width: auto;
   height: auto;
@@ -470,4 +471,31 @@ body {
   width: 100%;
   padding: 1rem;
   box-sizing: border-box;
+}
+
+.home-global {
+  border: grey solid 1px;
+  border-radius: 10px;
+  box-shadow: 3px 4px rgba(128, 32, 32, 0.8);
+  padding: 1.2rem;
+  text-align: center;
+  margin: 10px;
+  flex-basis: 45%;
+}
+
+.home-personal {
+  border: grey solid 1px;
+  border-radius: 10px;
+  box-shadow: 3px 4px rgba(128, 32, 32, 0.8);
+  padding: 1.2rem;
+  text-align: center;
+  margin: 10px;
+  flex-basis: 45%;
+}
+
+.home-header {
+  box-shadow: 0 4px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  text-align: center;
+  margin: 10px;
 }
