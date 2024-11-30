@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useAuth } from "../context and utility/AuthContext";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, Link } from "react-router-dom";
 
 function apiURL(string) {
     return string.toLowerCase()
@@ -121,7 +121,15 @@ function Pokedex() {
 
     return (
         <>
-        <h1>{username}'s Pokedex</h1>
+        <div>
+        <Link to={`/users/${user.id}`}
+        style={{textDecoration: 'none'}}>
+        <button>Back to Profile</button>
+        </Link>
+        </div>
+        <h1><>
+        {username}'s Pokedex (Variants indented in <span style={{ color: 'blue' }}>blue</span>)
+        </></h1>
         <div>{displayedDex}</div>
         </>
     );
