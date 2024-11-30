@@ -473,7 +473,7 @@ body {
   box-sizing: border-box;
 }
 
-.home-global {
+.home-global, .user-locales {
   border: grey solid 1px;
   border-radius: 10px;
   box-shadow: 3px 4px rgba(128, 32, 32, 0.8);
@@ -481,6 +481,11 @@ body {
   text-align: center;
   margin: 10px;
   flex-basis: 45%;
+}
+
+.user-locales {
+  max-height: 300px;
+  overflow-y: auto;
 }
 
 .home-personal {
@@ -498,6 +503,23 @@ body {
   padding: 20px;
   text-align: center;
   margin: 10px;
+}
+
+.pokedex-link {
+  background-color: rgb(128, 32, 32);
+  color: white;
+  display: block;
+  text-align: center;
+  border-radius: 10px;
+  padding: 1.2rem;
+  box-shadow: 3px 4px rgba(0, 0, 0, 0.2);
+  margin: 10px;
+  text-decoration: none;
+}
+
+.pokedex-link:hover {
+  background-color: rgb(150, 50, 50);
+  color: white;
 }
 
 .goal-content {

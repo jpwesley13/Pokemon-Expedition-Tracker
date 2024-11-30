@@ -113,14 +113,13 @@ function Home() {
         <h1 className="home-header">
             {user ? `Recommendations for you, ${user.username}!` : `Log in for personalized recommendations!`}
         </h1>
-        <div className="cards-container">
+        {user && (<div className="cards-container">
         <h2 className="home-personal">
-            {user && (
                 <>A recommended Pokemon Type to catch today is <span style={{ fontSize: '1.4rem' }}
                 className={`type-${recommendation.toLowerCase()}`}>{recommendation}</span>
-                </>)}
+                </>
         </h2>
-        </div>
+        </div>)}
         <h1 className="home-header">
             Global PokET stats!
         </h1>
