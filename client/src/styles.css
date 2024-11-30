@@ -499,3 +499,28 @@ body {
   text-align: center;
   margin: 10px;
 }
+
+.goal-content {
+  display: inline-flex;
+  align-items: center;
+}
+
+.goal-content span,
+.goal-content a,
+.goal-content button {
+  margin-left: 5px;
+}
+
+.goal-content span:first-child {
+  margin-left: 0;
+}
+
+.goal-card {
+  border: grey solid 1px;
+  border-radius: 10px;
+  padding: 1rem;
+  width: fit-content;
+  height: auto;
+  margin: 1rem 2rem;
+  box-shadow: 3px 4px rgb(128, 32, 32);
+}

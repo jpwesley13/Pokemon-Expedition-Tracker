@@ -64,24 +64,22 @@ function Goals() {
         const trimmedContent = goal.content.length > 50 ? `${goal.content.substring(0, 50)}...` : goal.content;
 
         return (
-            <div key={goal.id} className="profile-list-item">
-                <div className="profile-content">
-                    <span>{`${username}`}'s goal: {expanded ? goal.content : trimmedContent}</span>
-                    <br />
-                    <span>Achieve by: {goal.target_date}</span>
-                    <button onClick={() => toggleFullGoal(goal.id)}>
-                        {expanded ? "Hide" : "View"}
-                    </button> 
-                    {user && user.id === parseInt(id) && (
-                        <>
-                            <ModalButton variant="contained" color="primary" onClick={() => handleEditGoalClick(goal)}>
-                            Edit
-                            </ModalButton>
-                            <ModalButton variant="contained" color="primary" onClick={() => handleDeleteGoalClick(goal)}>
-                            Delete
-                            </ModalButton>
-                        </>
-                    )}
+            <div key={goal.id} className="goal-card">
+                <span>Achieve by {goal.target_date}: {expanded ? goal.content : trimmedContent}</span>
+                <br />
+                <div className="goal-content"><button onClick={() => toggleFullGoal(goal.id)}>
+                    {expanded ? "Hide" : "View"}
+                </button> 
+                {user && user.id === parseInt(id) && (
+                    <>
+                        <ModalButton variant="contained" color="primary" onClick={() => handleEditGoalClick(goal)}>
+                        Edit
+                        </ModalButton>
+                        <ModalButton variant="contained" color="primary" onClick={() => handleDeleteGoalClick(goal)}>
+                        Delete
+                        </ModalButton>
+                    </>
+                )}
                 </div>
             </div>
         );

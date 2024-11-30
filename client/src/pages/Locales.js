@@ -59,7 +59,8 @@ function Locales() {
 
     return (
         <>
-            <h2 className="header">Locales:</h2>
+            <h1 class="header">Locales</h1>
+            <hr />
             <br />
             <div className="search-container">
                 <Search
