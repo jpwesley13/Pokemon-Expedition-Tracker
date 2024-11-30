@@ -26,7 +26,7 @@ function ExpeditionCard({ expedition, catches = [], handleDeleteExpeditionClick}
 
     return (
         <>
-        <main className="profile-list-item">
+        <main className="expedition-card">
             <div className="profile-content">
                 <strong>Date: {date} at {locale.name} ({locale.region.name})</strong>
                 <hr />
@@ -51,9 +51,12 @@ function ExpeditionCard({ expedition, catches = [], handleDeleteExpeditionClick}
                     }
                 </span>
                 <br />
-                <ModalButton variant="contained" color="primary" onClick={() => setIsModalOpen(true)}>
-                        Details
-                    </ModalButton>
+                <div className="expedition-content"><ModalButton variant="contained" color="primary" onClick={() => setIsModalOpen(true)}>
+                    Details
+                </ModalButton>
+                <ModalButton variant="contained" color="primary" onClick={() => handleDeleteExpeditionClick(expedition)}>
+                    Delete
+                </ModalButton></div>
             </div>
         </main>
         <Modal
@@ -63,7 +66,6 @@ function ExpeditionCard({ expedition, catches = [], handleDeleteExpeditionClick}
             aria-describedby="edit-profile-modal-description"
             >
             <Box className="modal-box">
-                <ModalButton className="close-button" onClick={() => setIsModalOpen(false)} sx={{ mb: 2 }}>Close</ModalButton>
                 <ExpeditionDetails
                     handleClick={() => setIsModalOpen(false)}
                     pokemons={pokemons}
@@ -72,9 +74,6 @@ function ExpeditionCard({ expedition, catches = [], handleDeleteExpeditionClick}
                 />
             </Box>
         </Modal>
-            <ModalButton variant="contained" color="primary" onClick={() => handleDeleteExpeditionClick(expedition)}>
-                    Delete
-            </ModalButton> 
         </>
     );
 };
