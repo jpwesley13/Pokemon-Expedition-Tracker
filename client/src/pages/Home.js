@@ -132,14 +132,14 @@ function Home() {
                 </>) : `No one has caught anything this month yet!`
             }
         </h2>
-        <h2>{mostCommonMonthlyLocale.length > 0 ? 
-            `A popular locale this month is ${randomLocale}!`: null
+        <h2>{mostCommonMonthlyLocale.length > 0 && 
+            `A popular locale this month is ${randomLocale}!`
         }</h2>
         <h2>
             A Pokemon users have caught more of than any other on PokET is {mostCommonPokemon[Math.floor(Math.random() * mostCommonPokemon.length)]}! 
         </h2>
         <h3>
-            {monthlyCatchCount ? `The most Pokemon a user has caught this month on PokET is ${topMonthlyCatch} Pokemon!` : null}
+            {monthlyCatchCount && `The most Pokemon a user has caught this month on PokET is ${topMonthlyCatch} Pokemon!`}
         </h3>
         <RandomPokemon />
         </>

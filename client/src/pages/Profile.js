@@ -91,12 +91,12 @@ function Profile() {
             </div>
             <br />
             <h3>
-                {shinyPokemon.length > 0 ? (
+                {shinyPokemon.length > 0 && (
                     <>
-                    You've caught {shinyPokemon.length} <span style={{ color: 'red' }}>Shiny Pokemon!</span></>) : null}
-            </h3>
+                    You've caught {shinyPokemon.length} <span style={{ color: 'red' }}>Shiny Pokemon!</span></>)}
+            </h3> 
                 <br />
-            {catches.length > 0 ? <NavLink to={`/users/${id}/pokedex`}>Pokedex</NavLink> : null}
+            {catches.length > 0 && <NavLink to={`/users/${id}/pokedex`}>Pokedex</NavLink>}
         </>
     );
 };
