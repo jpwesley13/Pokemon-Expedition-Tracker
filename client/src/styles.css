@@ -235,6 +235,21 @@ body {
   transform: translateY(-50%); 
 }
 
+.radio-group {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.radio-group label,
+.radio-group input {
+  margin: 0;
+}
+
+.form-capture {
+  border-bottom: 2px solid rgb(128, 32, 32);
+}
+
 .type-bug {
   background-color: #94BC4A;
   color:white;

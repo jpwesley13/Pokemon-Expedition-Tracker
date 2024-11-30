@@ -184,7 +184,7 @@ function ExpeditionForm({ onAddExpedition, handleClick }) {
             </select>
             {errors.locale_id && touched.locale_id && <p className="error">{errors.locale_id}</p>}
             {values.captures.map((capture, index) => (
-                <div key={index}>
+                <div key={index} className="form-capture">
                     <label htmlFor={`captures[${index}].species.name`}>Pokémon Name</label>
                     <input
                         id={`captures[${index}].species.name`}
@@ -202,16 +202,18 @@ function ExpeditionForm({ onAddExpedition, handleClick }) {
                         id={`captures[${index}].species.dex_number`}
                         name="dex_number"
                         type="text"
+                        placeholder="Dex Number will be autopopulated on name entry"
                         value={capture.species.dex_number}
                         readOnly
                         className={errors.captures?.[index]?.species?.dex_number && touched.captures?.[index]?.species?.dex_number ? "input-error" : ""}
                     />
                     {errors.captures?.[index]?.species?.dex_number && touched.captures?.[index]?.species?.dex_number && <p className="error">{errors.captures[index].species.dex_number}</p>}
-                    <label htmlFor={`captures[${index}].species.types`}>Types</label>
+                    <label htmlFor={`captures[${index}].species.types`}>Type(s)</label>
                     <input
                         id={`captures[${index}].species.types`}
                         name="types"
                         type="text"
+                        placeholder="Type(s) will be autopopulated on name entry"
                         value={capture.species.types}
                         readOnly
                         className={errors.captures?.[index]?.species?.types && touched.captures?.[index]?.species?.types ? "input-error" : ""}
@@ -219,6 +221,7 @@ function ExpeditionForm({ onAddExpedition, handleClick }) {
                     {errors.captures?.[index]?.species?.types && touched.captures?.[index]?.species?.types && <p className="error">{errors.captures[index].species.types}</p>}
                     <div>
                         <label>Shiny?</label>
+                        <div className="radio-group">
                         <label htmlFor={`captures[${index}].species.shiny-yes`}>Yes</label>
                         <input
                             id={`captures[${index}].species.shiny-yes`}
@@ -244,11 +247,12 @@ function ExpeditionForm({ onAddExpedition, handleClick }) {
                         {errors.captures?.[index]?.species?.shiny && touched.captures?.[index]?.species?.shiny && (
                             <p className="error">{errors.captures[index].species.shiny}</p>
                         )}
+                        </div>
                     </div>
                     <button type="button" onClick={() => removeCapture(index)}>Remove Capture</button>
                 </div>
             ))}
-            <button type="button" onClick={addNewCapture}>Add new capture</button>
+            <button type="button" onClick={addNewCapture}>Add New Capture</button>
             <button disabled={isSubmitting || debounceActive } type="submit">Submit</button>
         </form>
     )
