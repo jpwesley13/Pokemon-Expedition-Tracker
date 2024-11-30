@@ -90,7 +90,6 @@ function Goals() {
     return (
         <>
         <main>
-            <hr/>
             <h1>Goals</h1>
             <hr/>
             <br />

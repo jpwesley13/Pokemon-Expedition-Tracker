@@ -108,7 +108,6 @@ function Expeditions() {
     return (
         <>
         <main>
-            <hr/>
             <h1>Expeditions</h1>
             <hr/>
             <br />

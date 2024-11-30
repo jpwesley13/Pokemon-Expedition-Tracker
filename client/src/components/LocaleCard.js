@@ -31,8 +31,10 @@ function LocaleCard({locale, catches = []}) {
                 ? <span style={{ marginLeft:'0.5em' }}>{mostCommon[0]}</span> : <span style={{ marginLeft:'0.5em' }}>None</span>}
             </span>
             <br />
-            <ModalButton variant="contained" color="primary" onClick={() => setIsModalOpen(true)}>
-                        Details
+            <ModalButton 
+            style ={{width: 'auto'}}
+            variant="contained" color="primary" onClick={() => setIsModalOpen(true)}>
+                        Confirmed Pokemon
                     </ModalButton>
         </div>
         </main>
