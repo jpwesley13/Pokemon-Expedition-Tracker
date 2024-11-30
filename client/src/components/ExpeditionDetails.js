@@ -32,7 +32,7 @@ function ExpeditionDetails({ handleClick, pokemons = [], catchCount, typeCount }
 
     return (
         <>
-            <h2>{catchCount > 0 ? `You caught ${catchCount} Pokemon on this expedition!` : `You didn't catch any Pokemon on this expedition...`}</h2>
+            <h2>{catchCount > 0 ? `You caught ${catchCount} Pokémon on this expedition!` : `You didn't catch any Pokémon on this expedition...`}</h2>
             <h3>
                 {expeditionTypes.length > 0 && `Number of each Type caught:`}
             </h3>
@@ -43,7 +43,7 @@ function ExpeditionDetails({ handleClick, pokemons = [], catchCount, typeCount }
             <h3>
                 {expeditionPokemon.length > 0 && (
                     <>
-                        Pokemon caught on expedition (Shiny Pokemon <span style={{ color: 'red' }}>in red</span>):
+                        Pokemon caught on expedition (Shiny Pokémon <span style={{ color: 'red' }}>in red</span>):
                 </>)}
             </h3>
             <div className="pokemon-container">

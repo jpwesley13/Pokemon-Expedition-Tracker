@@ -128,7 +128,7 @@ function Pokedex() {
         </Link>
         </div>
         <h1><>
-        {username}'s Pokedex (Variants indented in <span style={{ color: 'blue' }}>blue</span>)
+        {username}'s Pokédex (Variants indented in <span style={{ color: 'blue' }}>blue</span>)
         </></h1>
         <div>{displayedDex}</div>
         </>

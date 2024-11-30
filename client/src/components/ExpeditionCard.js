@@ -30,7 +30,7 @@ function ExpeditionCard({ expedition, catches = [], handleDeleteExpeditionClick}
             <div className="profile-content">
                 <strong>Date: {date} at {locale.name} ({locale.region.name})</strong>
                 <hr />
-                <span>Captured {catchCount} Pokemon</span>
+                <span>Captured {catchCount} Pokémon</span>
                 <br />
                 <span>Most Common Type(s) Caught on Expedition: 
                     {

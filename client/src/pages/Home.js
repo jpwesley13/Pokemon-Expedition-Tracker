@@ -115,7 +115,7 @@ function Home() {
         </h1>
         {user && (<div className="cards-container">
         <h2 className="home-personal">
-                <>A recommended Pokemon Type to catch today is <span style={{ fontSize: '1.4rem' }}
+                <>A recommended Pokémon Type to catch today is <span style={{ fontSize: '1.4rem' }}
                 className={`type-${recommendation.toLowerCase()}`}>{recommendation}</span>
                 </>
         </h2>
@@ -144,11 +144,11 @@ function Home() {
             `A popular locale this month is ${randomLocale}!`
         }</h2>
         <h2 className="home-global">
-            A Pokemon users have caught more of than any other on PokET is {mostCommonPokemon[Math.floor(Math.random() * mostCommonPokemon.length)]}! 
+            A Pokémon users have caught more of than any other on PokET is {mostCommonPokemon[Math.floor(Math.random() * mostCommonPokemon.length)]}! 
         </h2>
         
         <h2 className="home-global">
-            {monthlyCatchCount && `The most Pokemon a user has caught this month on PokET is ${topMonthlyCatch} Pokemon!`}
+            {monthlyCatchCount && `The most Pokémon a user has caught this month on PokET is ${topMonthlyCatch} Pokémon!`}
         </h2>
         </div>
         <RandomPokemon />

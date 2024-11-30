@@ -40,7 +40,7 @@ function LocaleDetails({ catches = [], locale, handleClick }) {
     return (
         <>
             <h3>
-                {catches.length > 0 ? `Confirmed Pokemon found at ${locale}:` : `No confirmed Pokemon captures at ${locale}.`}
+                {catches.length > 0 ? `Confirmed Pokémon found at ${locale}:` : `No confirmed Pokémon captures at ${locale}.`}
             </h3>
                 <div className="pokemon-container">
                     {localePokemon}

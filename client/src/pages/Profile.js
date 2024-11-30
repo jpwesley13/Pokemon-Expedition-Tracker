@@ -51,7 +51,7 @@ function Profile() {
             <h1 className="home-header">Welcome, {user.username}!</h1>
             <div className="cards-container"><div className="home-global">
                 <h2>
-                {catches.length > 0 ? `You've caught ${catches.length} Pokemon across ${expeditions.length} expeditions!` : `Your Pokemon adventure is just getting started! Get out there and start catchin'!`}
+                {catches.length > 0 ? `You've caught ${catches.length} Pokémon across ${expeditions.length} expeditions!` : `Your Pokémon adventure is just getting started! Get out there and start catchin'!`}
                 </h2>
                 <div>
                     {monthlyExpeditions.length > 0 ? (
@@ -81,12 +81,12 @@ function Profile() {
             </div>
             {shinyPokemon.length > 0 && (<h3 className="home-global">
                         <>
-                        You've caught {shinyPokemon.length} <span style={{ color: 'red' }}>Shiny Pokemon!</span></>
+                        You've caught {shinyPokemon.length} <span style={{ color: 'red' }}>Shiny Pokémon!</span></>
                 </h3>)}
                 {catches.length > 0 && 
                     <NavLink to={`/users/${id}/pokedex`} className="home-global pokedex-link">
                         <div style={{fontSize: '1.3rem', fontWeight: 'bold'}}>
-                            Click to view your Pokedex
+                            Click to view your Pokédex
                         </div>
                     </NavLink>
                 }
