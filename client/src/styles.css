@@ -32,6 +32,13 @@
 .headertitle {
   font-size: 48px;
   color: rgb(128, 32, 32);
+  margin-bottom: 0;
+}
+
+.headersubtitle {
+  font-size: 24px;
+  margin-top: 0;
+  margin-bottom: 0;
 }
 
 .navbar, .navbutton, .navlogin {
