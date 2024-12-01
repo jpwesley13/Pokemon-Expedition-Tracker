@@ -30,8 +30,8 @@ function ExpeditionForm({ onAddExpedition, handleClick }) {
             yup.object().shape({
               species: yup.object().shape({
                 name: yup.string().required("Please enter a Pokémon name."),
-                dex_number: yup.number().required("Dex number will be auto-populated."),
-                types: yup.string().required("Types will be auto-populated."),
+                dex_number: yup.number().required("Enter a Pokémon name and Dex number will be auto-populated."),
+                types: yup.string().required("Enter a Pokémon name and Types will be auto-populated."),
                 shiny: yup.boolean().required("Please specify if the Pokémon is shiny.")
               })
             })
