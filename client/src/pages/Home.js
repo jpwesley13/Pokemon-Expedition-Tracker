@@ -148,7 +148,7 @@ function Home() {
         </h2>
         
         <h2 className="home-global">
-            {monthlyCatchCount.length > 0 ? `The most Pokémon a user has caught this month on PokET is ${topMonthlyCatch} Pokémon!` : `No recordbreaking catch counts this month yet!`}
+            {monthlyCatches.length > 0 ? `The most Pokémon a user has caught this month on PokET is ${topMonthlyCatch} Pokémon!` : `No recordbreaking catch counts this month yet!`}
         </h2>
         </div>
         <RandomPokemon />
