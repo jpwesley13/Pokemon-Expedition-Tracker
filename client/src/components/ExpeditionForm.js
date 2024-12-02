@@ -87,7 +87,7 @@ function ExpeditionForm({ onAddExpedition, handleClick }) {
         onSubmit,
     });
 
-    const addNewCapture = () => {
+    function addNewCapture() {
         const newCaptures = [...values.captures, { 
             species: {
                 name: "", 
@@ -99,7 +99,7 @@ function ExpeditionForm({ onAddExpedition, handleClick }) {
         setFieldValue("captures", newCaptures);
     };
 
-    const removeCapture = (index) => {
+    function removeCapture(index) {
         const newCaptures = values.captures.filter((_, i) => i !== index);
         setFieldValue("captures", newCaptures);
     }
@@ -137,14 +137,14 @@ function ExpeditionForm({ onAddExpedition, handleClick }) {
         speciesFetch(speciesName, i);
     }, 700);
 
-    const handleCaptureChange = (e, i) => {
+    function handleCaptureChange(e, i) {
         const { name, value } = e.target;
         const newCaptures = [...values.captures];
         newCaptures[i].species = {...newCaptures[i].species, [name]: value};
         setFieldValue("captures", newCaptures);
     };
 
-    const handleNameChange = (e, i) => {
+    function handleNameChange(e, i) {
         handleChange(e);
         const speciesName = e.target.value.toLowerCase().replace(/\s+/g, '-');
         handleCaptureChange(e, i);
