@@ -134,7 +134,6 @@ function ExpeditionForm({ onAddExpedition, handleClick }) {
     };
 
     const debouncedSpeciesFetch = useDebounce((speciesName, i) => {
-        setDebounceActive(true);
         speciesFetch(speciesName, i);
     }, 700);
 
