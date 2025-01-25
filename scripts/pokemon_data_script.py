@@ -1,3 +1,4 @@
+import os
 import requests
 import json
 
@@ -26,7 +27,9 @@ def fetch_data():
                 'shiny': False 
             })
 
-    with open('pokemon_data.json', 'w') as f:
+            print(f"Fetched {pokemon_details['name']}")
+
+    with open('../data/pokemon_data.json', 'w') as f:
         json.dump(pokemon_data, f, indent=2)
 
 fetch_data()
