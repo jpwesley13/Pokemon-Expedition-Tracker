@@ -29,7 +29,7 @@ def fetch_data():
 
             print(f"Fetched {pokemon_details['name']}")
 
-    with open('../data/pokemon_data.json', 'w') as f:
+    with open('../client/public/data/pokemon_data.json', 'w') as f:
         json.dump(pokemon_data, f, indent=2)
 
 fetch_data()
