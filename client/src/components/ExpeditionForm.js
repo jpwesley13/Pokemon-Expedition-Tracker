@@ -3,7 +3,6 @@ import * as yup from "yup";
 import { useAuth } from "../context and utility/AuthContext";
 import { usePokemon } from "../context and utility/PokemonContext";
 import { useState, useEffect } from "react";
-import useDebounce from "../context and utility/DebounceHook";
 
 function capitalizeFirstLetters(string) {
     return string.toLowerCase()
@@ -15,7 +14,6 @@ function capitalizeFirstLetters(string) {
 function ExpeditionForm({ onAddExpedition, handleClick }) {
     const { user, setUser } = useAuth();
     const { pokemonData } = usePokemon();
-    const [debounceActive, setDebounceActive] = useState(false);
     const [locales, setLocales] = useState([]);
 
     useEffect(() => {
@@ -115,19 +113,13 @@ function ExpeditionForm({ onAddExpedition, handleClick }) {
                 setFieldValue(`captures[${i}].species.dex_number`, pokemon.dex_number);
                 const capitalizeTypes = pokemon.types.map(type => capitalizeFirstLetters(type)).join(', ');
                 setFieldValue(`captures[${i}].species.types`, capitalizeTypes);
-                setDebounceActive(false)
             } else {
                 console.error('Species not found');
                 setFieldValue(`captures[${i}].species.dex_number`, "");
                 setFieldValue(`captures[${i}].species.types`, "");
-                setDebounceActive(false)
             }
         }
     };
-
-    // const debouncedSpeciesFetch = useDebounce((speciesName, i) => {
-    //     speciesFetch(speciesName, i);
-    // }, 700);
 
     function handleCaptureChange(e, i) {
         const { name, value } = e.target;
@@ -142,8 +134,6 @@ function ExpeditionForm({ onAddExpedition, handleClick }) {
         handleCaptureChange(e, i);
 
         if (speciesName) {
-            setDebounceActive(true);
-            // debouncedSpeciesFetch(speciesName, i);
             speciesFetch(speciesName, i);
         }
     }    
@@ -245,7 +235,7 @@ function ExpeditionForm({ onAddExpedition, handleClick }) {
                 </div>
             ))}
             <button type="button" onClick={addNewCapture}>Add New Capture</button>
-            <button disabled={isSubmitting || debounceActive } type="submit">Submit</button>
+            <button disabled={isSubmitting} type="submit">Submit</button>
         </form>
     )
 };
