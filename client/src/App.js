@@ -1,5 +1,6 @@
 import React from 'react';
 import AuthProvider, {useAuth} from "./context and utility/AuthContext";
+import PokemonProvider from './context and utility/PokemonContext';
 import NavBar from "./components/NavBar";
 import Header from "./components/Header";
 import { Outlet } from "react-router-dom";
@@ -7,7 +8,9 @@ import { Outlet } from "react-router-dom";
 function App() {
   return (
     <AuthProvider>
-      <MainApp />
+      <PokemonProvider>
+        <MainApp />
+      </PokemonProvider>
     </AuthProvider>
   );
 }

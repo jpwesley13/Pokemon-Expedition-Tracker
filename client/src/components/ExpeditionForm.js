@@ -1,6 +1,7 @@
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { useAuth } from "../context and utility/AuthContext";
+import { usePokemon } from "../context and utility/PokemonContext";
 import { useState, useEffect } from "react";
 import useDebounce from "../context and utility/DebounceHook";
 
@@ -13,8 +14,11 @@ function capitalizeFirstLetters(string) {
 
 function ExpeditionForm({ onAddExpedition, handleClick }) {
     const { user, setUser } = useAuth();
+    const { pokemonData } = usePokemon();
     const [debounceActive, setDebounceActive] = useState(false);
     const [locales, setLocales] = useState([]);
+
+    console.log(pokemonData)
 
     useEffect(() => {
         fetch('/locales')
@@ -106,30 +110,41 @@ function ExpeditionForm({ onAddExpedition, handleClick }) {
 
     const speciesFetch = async (speciesName, i) => {
 
-        if(speciesName) {
-            try {
-                const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${speciesName}`);
-                if (!res.ok) throw new Error('Species not found');
+        if(speciesName && pokemonData) {
+            const pokemon = pokemonData.find(poke => poke.name === speciesName)
 
-                const data = await res.json();
-
-                if(data.id > 1025){
-                    const speciesRes = await fetch(data.species.url);
-                    const speciesData = await speciesRes.json();
-
-                    setFieldValue(`captures[${i}].species.dex_number`, speciesData.pokedex_numbers[0].entry_number);
-                } else {
-                    setFieldValue(`captures[${i}].species.dex_number`, data.id);
-                }
-                const capitalizeTypes = data.types.map(typeInfo => capitalizeFirstLetters(typeInfo.type.name)).join(', ')
+            if(pokemon) {
+                setFieldValue(`captures[${i}].species.dex_number`, pokemon.dex_number);
+                const capitalizeTypes = pokemon.types.map(type => capitalizeFirstLetters(type)).join(', ');
                 setFieldValue(`captures[${i}].species.types`, capitalizeTypes);
-            } catch(error) {
-                console.error(error);
+            } else {
+                console.error('Species not found');
                 setFieldValue(`captures[${i}].species.dex_number`, "");
                 setFieldValue(`captures[${i}].species.types`, "");
-            } finally {
-                setDebounceActive(false);
             }
+            // try {
+            //     const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${speciesName}`);
+            //     if (!res.ok) throw new Error('Species not found');
+
+            //     const data = await res.json();
+
+            //     if(data.id > 1025){
+            //         const speciesRes = await fetch(data.species.url);
+            //         const speciesData = await speciesRes.json();
+
+            //         setFieldValue(`captures[${i}].species.dex_number`, speciesData.pokedex_numbers[0].entry_number);
+            //     } else {
+            //         setFieldValue(`captures[${i}].species.dex_number`, data.id);
+            //     }
+            //     const capitalizeTypes = data.types.map(typeInfo => capitalizeFirstLetters(typeInfo.type.name)).join(', ')
+            //     setFieldValue(`captures[${i}].species.types`, capitalizeTypes);
+            // } catch(error) {
+            //     console.error(error);
+            //     setFieldValue(`captures[${i}].species.dex_number`, "");
+            //     setFieldValue(`captures[${i}].species.types`, "");
+            // } finally {
+            //     setDebounceActive(false);
+            // }
         }
     };
 
