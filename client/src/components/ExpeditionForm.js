@@ -18,8 +18,6 @@ function ExpeditionForm({ onAddExpedition, handleClick }) {
     const [debounceActive, setDebounceActive] = useState(false);
     const [locales, setLocales] = useState([]);
 
-    console.log(pokemonData)
-
     useEffect(() => {
         fetch('/locales')
             .then(res => res.json())
@@ -117,40 +115,19 @@ function ExpeditionForm({ onAddExpedition, handleClick }) {
                 setFieldValue(`captures[${i}].species.dex_number`, pokemon.dex_number);
                 const capitalizeTypes = pokemon.types.map(type => capitalizeFirstLetters(type)).join(', ');
                 setFieldValue(`captures[${i}].species.types`, capitalizeTypes);
+                setDebounceActive(false)
             } else {
                 console.error('Species not found');
                 setFieldValue(`captures[${i}].species.dex_number`, "");
                 setFieldValue(`captures[${i}].species.types`, "");
+                setDebounceActive(false)
             }
-            // try {
-            //     const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${speciesName}`);
-            //     if (!res.ok) throw new Error('Species not found');
-
-            //     const data = await res.json();
-
-            //     if(data.id > 1025){
-            //         const speciesRes = await fetch(data.species.url);
-            //         const speciesData = await speciesRes.json();
-
-            //         setFieldValue(`captures[${i}].species.dex_number`, speciesData.pokedex_numbers[0].entry_number);
-            //     } else {
-            //         setFieldValue(`captures[${i}].species.dex_number`, data.id);
-            //     }
-            //     const capitalizeTypes = data.types.map(typeInfo => capitalizeFirstLetters(typeInfo.type.name)).join(', ')
-            //     setFieldValue(`captures[${i}].species.types`, capitalizeTypes);
-            // } catch(error) {
-            //     console.error(error);
-            //     setFieldValue(`captures[${i}].species.dex_number`, "");
-            //     setFieldValue(`captures[${i}].species.types`, "");
-            // } finally {
-            //     setDebounceActive(false);
-            // }
         }
     };
 
-    const debouncedSpeciesFetch = useDebounce((speciesName, i) => {
-        speciesFetch(speciesName, i);
-    }, 700);
+    // const debouncedSpeciesFetch = useDebounce((speciesName, i) => {
+    //     speciesFetch(speciesName, i);
+    // }, 700);
 
     function handleCaptureChange(e, i) {
         const { name, value } = e.target;
@@ -166,7 +143,8 @@ function ExpeditionForm({ onAddExpedition, handleClick }) {
 
         if (speciesName) {
             setDebounceActive(true);
-            debouncedSpeciesFetch(speciesName, i);
+            // debouncedSpeciesFetch(speciesName, i);
+            speciesFetch(speciesName, i);
         }
     }    
 
