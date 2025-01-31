@@ -588,3 +588,7 @@ body {
   margin-right: 5px;
   margin-top: 1rem;
 }
+
+.datepicker {
+  width: 200px;
+}

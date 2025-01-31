@@ -118,18 +118,19 @@ function Expeditions() {
             <strong>Select Expedition Month (YYYY/MM)</strong>
             <br />
             <DatePicker
+                className="datepicker"
                 selected={selectedMonth}
                 onChange={(date) => setSelectedMonth(date)}
                 dateFormat={"yyyy/MM"}
+                popperPlacement="bottom-start"
                 showMonthYearPicker
                 />
-            <br />
             </>)}
             <div className="profile-contributions">
                 {monthlyExpeditions.length > 0 ? expeditionsList : <p>No expeditions for this month.</p>}
                 <br/>
             </div>
-            </main>
+        </main>
         <Modal
                 open={isModalOpen}
                 onClose={() => setIsModalOpen(false)}
