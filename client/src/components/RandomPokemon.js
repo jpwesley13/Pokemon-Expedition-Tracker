@@ -4,16 +4,16 @@ function RandomPokemon() {
 
     const [pokemons, setPokemons] = useState([])
     const urlBar = 'https://pokeapi.co/api/v2/pokemon/'
-    function randomDex(gen1, gen9){
-        return Math.floor(Math.random() * (gen9 - gen1 + 1) + gen1)
+    function randomDex(first, last){
+        return Math.floor(Math.random() * (last - first + 1) + first)
     };
 
     useEffect(() => {
         const fetchPokemons = async () => {
-            const promises = Array.from({ length: 5 }, () => {
+            const promises = Array.from({ length: 5 }, async () => {
                 const pokeDex = randomDex(1, 1025);
-                return fetch(urlBar + pokeDex)
-                .then(res => res.json());
+                const res = await fetch(urlBar + pokeDex);
+                return await res.json();
             });
             try {
                 const data = await Promise.all(promises);

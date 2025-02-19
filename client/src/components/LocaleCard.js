@@ -25,7 +25,7 @@ function LocaleCard({locale, catches = []}) {
         <div className="card">
             <h2>{name}</h2>
             <span>{region.name} Region</span>
-            <span>{expeditionCount} recorded expeditions</span>
+            <span>{expeditionCount} recorded expedition(s)</span>
             <span>Most Common Pokémon Caught: 
                 {mostCommon.length > 0 
                 ? <span style={{ marginLeft:'0.5em' }}>{mostCommon[0]}</span> : <span style={{ marginLeft:'0.5em' }}>None</span>}

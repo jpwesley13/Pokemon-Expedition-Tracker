@@ -14,7 +14,7 @@ function LocaleForm({ onAddLocales, handleClick }) {
     }, []);
 
     const formSchema = yup.object().shape({
-        name: yup.string().required("Must enter locale's name.").max(30),
+        name: yup.string().required("Please enter locale's name.").max(30),
         region_id: yup.string().required("Please select the region this locale is located in.")
     });
 

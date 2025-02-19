@@ -6,8 +6,8 @@ function GoalForm({ onAddGoal, handleClick}) {
     const { user } = useAuth();
 
     const formSchema = yup.object().shape({
-        content: yup.string().required("Must enter content for your goal!"),
-        target_date: yup.date().required("Enter the target date for completing your goal!")
+        content: yup.string().required("Please enter content for your goal!"),
+        target_date: yup.date().required("Please enter the target date for completing your goal!")
     });
 
     const onSubmit = async (values, actions) => {
@@ -55,7 +55,7 @@ function GoalForm({ onAddGoal, handleClick}) {
                 onChange={handleChange}
                 onBlur={handleBlur}
                 id="content" 
-                placeholder="Write your goal here"
+                placeholder="Write your goal here..."
                 rows="5"
                 cols="54"
                 className={errors.content && touched.content ? "input-error" : ""} 
