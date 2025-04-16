@@ -21,7 +21,8 @@ function Goals() {
             navigate("/login");
         }
     }, [user, navigate])
-    const { username, id } = user || {}
+
+    const { id } = user || {}
 
     function onAddGoal(newGoal){
         return setGoals([...goals, newGoal])
@@ -37,6 +38,7 @@ function Goals() {
         setCurrentGoal(goal);
         setGoalModal(true)
     };
+
     async function handleDeleteGoalClick(goal){
         setCurrentGoal(goal)
         const confirmDelete = window.confirm("Are you sure you want to delete this goal?")
@@ -104,22 +106,22 @@ function Goals() {
             </div>
             </main>
             <Modal
-            open={goalModal}
-            onClose={() => setGoalModal(false)}
-            aria-labelledby="edit-profile-modal-title"
-            aria-describedby="edit-profile-modal-description"
-        >
-            <Box className="modal-box">
-                <h2>Edit Goal</h2>
-                <ModalButton className="close-button" onClick={() => setGoalModal(false)} sx={{ mb: 2 }}>Close</ModalButton>
-                <EditGoal
-                    handleClick={() => setGoalModal(false)}
-                    setGoals={setGoals}
-                    goal={currentGoal}
-                />
-            </Box>
-        </Modal>
-        <Modal
+                open={goalModal}
+                onClose={() => setGoalModal(false)}
+                aria-labelledby="edit-profile-modal-title"
+                aria-describedby="edit-profile-modal-description"
+            >
+                <Box className="modal-box">
+                    <h2>Edit Goal</h2>
+                    <ModalButton className="close-button" onClick={() => setGoalModal(false)} sx={{ mb: 2 }}>Close</ModalButton>
+                    <EditGoal
+                        handleClick={() => setGoalModal(false)}
+                        setGoals={setGoals}
+                        goal={currentGoal}
+                    />
+                </Box>
+            </Modal>
+            <Modal
                 open={isModalOpen}
                 onClose={() => setIsModalOpen(false)}
                 aria-labelledby="edit-profile-modal-title"

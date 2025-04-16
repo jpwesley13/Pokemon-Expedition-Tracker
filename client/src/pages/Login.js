@@ -18,23 +18,26 @@ export default function Login() {
     });
 
     const onSubmit = async (values, actions) => {
-        fetch('/login', {
+        try {
+          const res = await fetch('/login', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json',
+              'Content-Type': 'application/json',
             },
             body: JSON.stringify(values),
-        })
-        .then(async res => {
-            const data = await res.json();
-            if(res.status >= 400) {
-                actions.setErrors({credentials: data.errors});
-            } else {
-                setUser(data)
-                navigate('/');
-            } 
-        })
-        .catch(error => console.error(error)) 
+          });
+      
+          const data = await res.json();
+      
+          if (res.status >= 400) {
+            actions.setErrors({ credentials: data.errors });
+          } else {
+            setUser(data);
+            navigate('/');
+          }
+        } catch (error) {
+          console.error(error);
+        }
     };
 
     const {values, handleBlur, handleChange, handleSubmit, touched, errors, isSubmitting} = useFormik({

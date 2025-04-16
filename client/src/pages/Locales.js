@@ -89,25 +89,25 @@ function Locales() {
                     </ModalButton>
                     </div>
                 )}
-                </div>
-                <div className="cards-container">
+            </div>
+            <div className="cards-container">
                     {displayedLocales}
-                </div>
-                <Modal
-                    open={isModalOpen}
-                    onClose={() => setIsModalOpen(false)}
-                    aria-labelledby="edit-profile-modal-title"
-                    aria-describedby="edit-profile-modal-description"
-                >
-                    <Box className="modal-box">
-                        <h2>Add new locale</h2>
-                        <ModalButton className="close-button" onClick={() => setIsModalOpen(false)} sx={{ mb: 2 }}>Close</ModalButton>
-                        <LocaleForm
-                        handleClick={() => setIsModalOpen(false)}
-                        onAddLocales={onAddLocales}
-                        />
-                    </Box>
-                </Modal>
+            </div>
+            <Modal
+                open={isModalOpen}
+                onClose={() => setIsModalOpen(false)}
+                aria-labelledby="edit-profile-modal-title"
+                aria-describedby="edit-profile-modal-description"
+            >
+                <Box className="modal-box">
+                    <h2>Add new locale</h2>
+                    <ModalButton className="close-button" onClick={() => setIsModalOpen(false)} sx={{ mb: 2 }}>Close</ModalButton>
+                    <LocaleForm
+                    handleClick={() => setIsModalOpen(false)}
+                    onAddLocales={onAddLocales}
+                    />
+                </Box>
+            </Modal>
         </>
     );
 };

@@ -46,6 +46,7 @@ function Pokedex() {
     }
 
     const variantCheck = {}
+
     Object.values(speciesInfo).forEach(pokemon => {
         if(!variantCheck[pokemon.dexNumber]) {
             variantCheck[pokemon.dexNumber] = 0;
@@ -66,7 +67,7 @@ function Pokedex() {
                     const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${apiURL(species)}`);
                     const pokemon = await res.json();
                     return { species, imageUrl: pokemon.sprites.other['official-artwork'].front_default };
-                }
+                };
                 return null;
             });
 
@@ -74,7 +75,7 @@ function Pokedex() {
             const loadedVariantThumbs = allVariants.reduce((acc, variant) => {
                 if (variant) {
                     acc[variant.species] = variant.imageUrl;
-                }
+                };
                 return acc;
             }, {});
 

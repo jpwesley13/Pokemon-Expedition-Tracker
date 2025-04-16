@@ -16,24 +16,27 @@ function Signup() {
     });
 
     const onSubmit = async (values, actions) => {
-        fetch('/signup', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(values),
-        })
-        .then(async res => {
-            const data = await res.json();
-            if (res.status >= 400) {
+        try {
+            const res = await fetch('/signup', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(values),
+            });
+
+        const data = await res.json();
+
+        if (res.status >= 400) {
                 actions.setErrors(data.errors);
-            } else {
-                setUser(data);
-                navigate('/');
-                actions.resetForm();
+        } else {
+            setUser(data);
+            navigate('/');
+            actions.resetForm();
             }
-        })
-        .catch(error => console.error(error))
+        } catch (error) {
+            console.error(error);
+        }
       };
     
     const {values, handleBlur, handleChange, handleSubmit, touched, errors, isSubmitting} = useFormik({
