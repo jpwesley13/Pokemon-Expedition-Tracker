@@ -23,6 +23,7 @@ function Expeditions() {
             navigate("/login");
         }
     }, [user, navigate])
+    
     const { id } = user || {}
 
     function validDate(date) {
@@ -119,6 +120,7 @@ function Expeditions() {
             <br />
             <DatePicker
                 className="datepicker"
+                showIcon
                 selected={selectedMonth}
                 onChange={(date) => setSelectedMonth(date)}
                 dateFormat={"yyyy/MM"}

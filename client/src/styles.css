@@ -592,3 +592,8 @@ body {
 .datepicker {
   width: 200px;
 }
+
+.react-datepicker__navigation {
+  margin: 0;
+  border-radius: 0;
+}
