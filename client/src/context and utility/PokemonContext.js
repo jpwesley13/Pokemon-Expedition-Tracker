@@ -6,18 +6,21 @@ function PokemonProvider({ children }) {
     const [pokemonData, setPokemonData] = useState([]);
 
     useEffect(() => {
-        fetch('/data/pokemon_data.json')
-        .then((res) => {
-            if (res.ok) {
-                return res.json();
-              }
-              throw new Error('Pokémon data fetch failed');
-        })
-        .then((data) => setPokemonData(data))
-        .catch((error) => {
-            console.error(error);
+        const fetchPokemonData = async () => {
+            try {
+                const res = await fetch('/data/pokemon_data.json');
+                if (!res.ok) {
+                    throw new Error('Pokémon data fetch failed');
+                }
+                const data = await res.json();
+                setPokemonData(data);
+            } catch (error) {
+                console.error(error);
             setPokemonData([]);
-        })
+            }
+        };
+
+        fetchPokemonData();
     }, []);
 
     return (

@@ -7,19 +7,23 @@ function AuthProvider({ children }) {
   const [loading, setLoading] = useState(true); 
 
   useEffect(() => {
-    fetch('/check_session')
-      .then((res) => {
-        if (res.ok) {
-          return res.json();
+    const checkSession = async () => {
+      try {
+        const res = await fetch('/check_session');
+        if (!res.ok) {
+          throw new Error('Session check failed');
         }
-        throw new Error('Session check failed');
-      })
-      .then((data) => setUser(data))
-      .catch((error) => {
+        const data = await res.json();
+        setUser(data);
+      } catch (error) {
         console.error(error);
         setUser(null);
-      })
-      .finally(() => setLoading(false));
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    checkSession();
   }, []);
 
   return (
