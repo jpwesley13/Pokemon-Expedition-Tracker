@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import ExpeditionForm from "../components/ExpeditionForm";
 import ExpeditionCard from "../components/ExpeditionCard";
 import globalTime from "../context and utility/globalTime";
+import TypeChart from "../components/TypeChart";
 
 function Expeditions() {
 
@@ -117,7 +118,6 @@ function Expeditions() {
                     </ModalButton>
             <br />
             <strong>Select Expedition Month (YYYY/MM)</strong>
-            <br />
             <DatePicker
                 className="datepicker"
                 showIcon
@@ -128,6 +128,12 @@ function Expeditions() {
                 showMonthYearPicker
                 />
             </>)}
+            {monthlyExpeditions.length > 0 ? (
+                <TypeChart 
+                    monthlyExpeditions={monthlyExpeditions}
+                    catches={catches}
+                />
+            ) : null}
             <div className="profile-contributions">
                 {monthlyExpeditions.length > 0 ? expeditionsList : <p>No expeditions for this month.</p>}
                 <br/>
