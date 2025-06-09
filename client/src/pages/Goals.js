@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Modal, Box } from "@mui/material";
+import { Modal, Box, Paper } from "@mui/material";
 import { useAuth } from "../context and utility/AuthContext";
 import ModalButton from "../components/ModalButton";
 import { useNavigate } from "react-router-dom";
@@ -7,7 +7,6 @@ import GoalForm from "../components/GoalForm";
 import EditGoal from "../components/EditGoal";
 
 function Goals() {
-
     const navigate = useNavigate();
     const { user } = useAuth();
     const [goals, setGoals] = useState([]);
@@ -66,50 +65,77 @@ function Goals() {
         const trimmedContent = goal.content.length > 50 ? `${goal.content.substring(0, 50)}...` : goal.content;
 
         return (
-            <div key={goal.id} className="goal-card">
-                <span>Achieve by {goal.target_date}: {expanded ? goal.content : trimmedContent}</span>
-                <br />
-                <div className="goal-content"><button onClick={() => toggleFullGoal(goal.id)}>
-                    {expanded ? "Hide" : "View"}
-                </button> 
-                {user && user.id === parseInt(id) && (
-                    <>
-                        <ModalButton variant="contained" color="primary" onClick={() => handleEditGoalClick(goal)}>
-                        Edit
-                        </ModalButton>
-                        <ModalButton variant="contained" color="primary" onClick={() => handleDeleteGoalClick(goal)}>
-                        Delete
-                        </ModalButton>
-                    </>
-                )}
+            <Paper elevation={2} key={goal.id} className="goal-card">
+                <div className="goal-header">
+                    <h3>Target Date: {goal.target_date}</h3>
                 </div>
-            </div>
+                <div className="goal-content">
+                    <p>{expanded ? goal.content : trimmedContent}</p>
+                    <div className="goal-actions">
+                        <ModalButton 
+                            variant="contained" 
+                            color="primary" 
+                            onClick={() => toggleFullGoal(goal.id)}
+                        >
+                            {expanded ? "Show Less" : "Show More"}
+                        </ModalButton>
+                        {user && user.id === parseInt(id) && (
+                            <>
+                                <ModalButton variant="contained" color="primary" onClick={() => handleEditGoalClick(goal)}>
+                                    Edit
+                                </ModalButton>
+                                <ModalButton variant="contained" color="primary" onClick={() => handleDeleteGoalClick(goal)}>
+                                    Delete
+                                </ModalButton>
+                            </>
+                        )}
+                    </div>
+                </div>
+            </Paper>
         );
     });
 
     return (
-        <>
-        <main>
+        <main className="goals-page">
             <h1>Goals</h1>
             <hr/>
-            <br />
-            {user && (<><ModalButton variant="contained" color="primary" onClick={() => setIsModalOpen(true)}>
-                        Add new goal
-                    </ModalButton>
-            <br />
-            </>)}
-            <div className="profile-contributions">
-                {goals.length > 0 && (<>
-                {goalsList}
-                <br/>
-                </>)}
+            
+            <div className="goals-controls">
+                <Paper elevation={3} className="controls-section">
+                    <div className="controls-content">
+                        {user && (
+                            <div className="add-goal-section">
+                                <ModalButton 
+                                    variant="contained" 
+                                    color="primary" 
+                                    onClick={() => setIsModalOpen(true)}
+                                >
+                                    Add new goal
+                                </ModalButton>
+                            </div>
+                        )}
+                    </div>
+                </Paper>
             </div>
-            </main>
+
+            <div className="goals-content">
+                <Paper elevation={3} className="goals-list-section">
+                    <h2>Your Goals</h2>
+                    <div className="goals-grid">
+                        {goals.length > 0 ? goalsList : (
+                            <Paper elevation={2} className="no-goals">
+                                <p>No goals set yet. Add some goals to stay motivated!</p>
+                            </Paper>
+                        )}
+                    </div>
+                </Paper>
+            </div>
+
             <Modal
                 open={goalModal}
                 onClose={() => setGoalModal(false)}
-                aria-labelledby="edit-profile-modal-title"
-                aria-describedby="edit-profile-modal-description"
+                aria-labelledby="edit-goal-modal-title"
+                aria-describedby="edit-goal-modal-description"
             >
                 <Box className="modal-box">
                     <h2>Edit Goal</h2>
@@ -121,11 +147,12 @@ function Goals() {
                     />
                 </Box>
             </Modal>
+
             <Modal
                 open={isModalOpen}
                 onClose={() => setIsModalOpen(false)}
-                aria-labelledby="edit-profile-modal-title"
-                aria-describedby="edit-profile-modal-description"
+                aria-labelledby="add-goal-modal-title"
+                aria-describedby="add-goal-modal-description"
             >
                 <Box className="modal-box">
                     <h2>Add new goal</h2>
@@ -136,7 +163,7 @@ function Goals() {
                     />
                 </Box>
             </Modal>
-        </>
+        </main>
     )
 };
 
