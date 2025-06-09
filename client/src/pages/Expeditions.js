@@ -161,16 +161,18 @@ function Expeditions() {
                     </Paper>
                 )}
                 
-                <div className="expeditions-list">
-                    <h2>Your Expeditions</h2>
-                    <div className="expeditions-grid">
-                        {monthlyExpeditions.length > 0 ? expeditionsList : (
-                            <Paper elevation={2} className="no-expeditions">
-                                <p>No expeditions for this month.</p>
-                            </Paper>
-                        )}
+                <Paper elevation={3} className="type-chart-section">
+                    <div className="expeditions-list">
+                        <h2>Your Expeditions</h2>
+                        <div className="expeditions-grid">
+                            {monthlyExpeditions.length > 0 ? expeditionsList : (
+                                <Paper elevation={2} className="no-expeditions">
+                                    <p>No expeditions for this month.</p>
+                                </Paper>
+                            )}
+                        </div>
                     </div>
-                </div>
+                </Paper>
             </div>
         </main>
         <Modal

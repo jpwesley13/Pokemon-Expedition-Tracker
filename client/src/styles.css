@@ -229,17 +229,16 @@ body {
 }
 
 .sort-option {
-  display: block; 
-  margin: 5px 0;
-  position: relative;
-  padding-left: 15px; 
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+  cursor: pointer;
 }
 
 .sort-option input[type="radio"] {
-  position: absolute;
-  left: 0;
-  top: 50%; 
-  transform: translateY(-50%); 
+  margin: 0;
+  cursor: pointer;
 }
 
 .radio-group {
@@ -694,6 +693,198 @@ body {
   }
   
   .expeditions-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Locales Page Styles */
+.locales-page {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.locales-controls {
+  margin: 20px 0;
+}
+
+.controls-section {
+  padding: 20px;
+  background-color: #fff;
+}
+
+.controls-content {
+  display: flex;
+  align-items: flex-end;
+  gap: 30px;
+  flex-wrap: wrap;
+}
+
+.search-section,
+.filter-container,
+.sort-container {
+  min-width: 200px;
+  display: flex;
+  flex-direction: column;
+}
+
+.search-section {
+  flex: 2;
+}
+
+.filter-sort-section {
+  display: flex;
+  flex: 3;
+  gap: 30px;
+}
+
+.filter-sort-row {
+  display: flex;
+  gap: 30px;
+  width: 100%;
+}
+
+.filter-container {
+  flex: 3;
+}
+
+.sort-container {
+  flex: 2;
+}
+
+.add-locale-section {
+  flex: 1;
+  display: flex;
+  align-items: flex-end;
+  min-width: 150px;
+}
+
+.search-section h3,
+.filter-container h3,
+.sort-container h3 {
+  margin: 0 0 12px 0;
+  font-size: 1.1rem;
+  color: #333;
+}
+
+.locales-content {
+  margin-top: 30px;
+}
+
+.locales-list-section {
+  padding: 20px;
+  background-color: #fff;
+}
+
+.locales-list-section h2 {
+  margin: 0 0 20px 0;
+  color: #333;
+  font-size: 1.5rem;
+}
+
+.locales-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 24px;
+  width: 100%;
+}
+
+.no-locales {
+  padding: 30px;
+  text-align: center;
+  background-color: #fff;
+  color: #666;
+  font-size: 1.1rem;
+  grid-column: 1 / -1;
+}
+
+/* Update LocaleCard styles to match the new design */
+.card {
+  position: relative;
+  height: auto;
+  min-height: 200px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 20px;
+  margin: 0;
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.card h2 {
+  margin: 0;
+  color: rgb(128, 32, 32);
+  font-size: 1.5rem;
+}
+
+.card span {
+  color: #333;
+  font-size: 1rem;
+  line-height: 1.4;
+}
+
+.card button {
+  margin-top: auto;
+  width: 100% !important;
+}
+
+/* Sort options styling */
+.sort-card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.sort-option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  padding: 4px 0;
+  cursor: pointer;
+}
+
+.sort-option input[type="radio"] {
+  margin: 0;
+  cursor: pointer;
+}
+
+/* Responsive adjustments for Locales page */
+@media (max-width: 1100px) {
+  .controls-content {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .search-section,
+  .filter-sort-section,
+  .add-locale-section {
+    width: 100%;
+  }
+
+  .filter-sort-row {
+    flex-direction: row;
+  }
+
+  .add-locale-section {
+    justify-content: flex-start;
+  }
+}
+
+@media (max-width: 768px) {
+  .filter-sort-row {
+    flex-direction: column;
+  }
+
+  .filter-container,
+  .sort-container {
+    width: 100%;
+  }
+
+  .locales-grid {
     grid-template-columns: 1fr;
   }
 }

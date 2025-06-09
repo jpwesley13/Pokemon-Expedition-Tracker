@@ -6,10 +6,9 @@ import Search from "../components/Search";
 import FilterCard from "../components/FilterCard";
 import { useAuth } from "../context and utility/AuthContext";
 import ModalButton from "../components/ModalButton";
-import { Modal, Box } from "@mui/material";
+import { Modal, Box, Paper } from "@mui/material";
 
 function Locales() {
-
     const { user } = useAuth();
     const [locales, setLocales] = useState([]);
     const [search, setSearch] = useState("");
@@ -47,68 +46,98 @@ function Locales() {
                 expedition.catches
             );
         return (
-        <LocaleCard
-        key={locale.id}
-        locale={locale}
-        catches={expeditionCatches}
-        />
+            <LocaleCard
+                key={locale.id}
+                locale={locale}
+                catches={expeditionCatches}
+            />
         )
     })
 
     const regions = [...new Set(locales.map(locale => locale.region.name))]
 
     return (
-        <>
-            <h1 class="header">Locales</h1>
+        <main className="locales-page">
+            <h1>Locales</h1>
             <hr />
-            <br />
-            <div className="search-container">
-                <Search
-                    search={search}
-                    searchSetter={setSearch}
-                />
-            </div>
-            <div className="filter-sort-container">
-                <div className="filter-sort-row">
-                    <FilterCard
-                        specifics={regions}
-                        label="locales"
-                        filterAttr="region"
-                        onChangeFilter={setFilterBy}
-                        filterCriteria={filterBy}
-                    />
-                    <SortCard
-                    sortBy={sortBy}
-                    onChangeSort={setSortBy}
-                    options={options}
-                    />
-                </div>
-                {user && ( <div className="filter-sort-button">
-                    <ModalButton variant="contained" color="primary" onClick={() => setIsModalOpen(true)}>
-                        Add new locale
-                    </ModalButton>
+            
+            <div className="locales-controls">
+                <Paper elevation={3} className="controls-section">
+                    <div className="controls-content">
+                        <div className="search-section">
+                            <h3>Search Locales</h3>
+                            <Search
+                                search={search}
+                                searchSetter={setSearch}
+                            />
+                        </div>
+                        
+                        <div className="filter-sort-section">
+                            <div className="filter-sort-row">
+                                <div className="filter-container">
+                                    <h3>Filter by Region</h3>
+                                    <FilterCard
+                                        specifics={regions}
+                                        filterAttr="region"
+                                        onChangeFilter={setFilterBy}
+                                        filterCriteria={filterBy}
+                                    />
+                                </div>
+                                <div className="sort-container">
+                                    <h3>Sort By</h3>
+                                    <SortCard
+                                        sortBy={sortBy}
+                                        onChangeSort={setSortBy}
+                                        options={options}
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                        
+                        {user && (
+                            <div className="add-locale-section">
+                                <ModalButton 
+                                    variant="contained" 
+                                    color="primary" 
+                                    onClick={() => setIsModalOpen(true)}
+                                >
+                                    Add new locale
+                                </ModalButton>
+                            </div>
+                        )}
                     </div>
-                )}
+                </Paper>
             </div>
-            <div className="cards-container">
-                    {displayedLocales}
+
+            <div className="locales-content">
+                <Paper elevation={3} className="locales-list-section">
+                    <h2>Known Locales</h2>
+                    <div className="locales-grid">
+                        {displayedLocales.length > 0 ? displayedLocales : (
+                            <Paper elevation={2} className="no-locales">
+                                <p>No locales found matching your criteria.</p>
+                            </Paper>
+                        )}
+                    </div>
+                </Paper>
             </div>
+
             <Modal
                 open={isModalOpen}
                 onClose={() => setIsModalOpen(false)}
-                aria-labelledby="edit-profile-modal-title"
-                aria-describedby="edit-profile-modal-description"
+                aria-labelledby="add-locale-modal-title"
+                aria-describedby="add-locale-modal-description"
             >
                 <Box className="modal-box">
                     <h2>Add new locale</h2>
                     <ModalButton className="close-button" onClick={() => setIsModalOpen(false)} sx={{ mb: 2 }}>Close</ModalButton>
                     <LocaleForm
-                    handleClick={() => setIsModalOpen(false)}
-                    onAddLocales={onAddLocales}
+                        handleClick={() => setIsModalOpen(false)}
+                        onAddLocales={onAddLocales}
                     />
                 </Box>
             </Modal>
-        </>
+        </main>
     );
 };
 

@@ -1,6 +1,6 @@
 import React from "react";
 
-function FilterCard({ label, filterCriteria, onChangeFilter, filterAttr, specifics }) {
+function FilterCard({ filterCriteria, onChangeFilter, filterAttr, specifics }) {
     function capitalizeFirstLetter(string) {
         return string.charAt(0).toUpperCase() + string.slice(1);
     }
@@ -18,8 +18,6 @@ function FilterCard({ label, filterCriteria, onChangeFilter, filterAttr, specifi
     return (
         <>
             <div className="filter-card">
-                <span>Filter {label} by {filterAttr}:</span>
-                <br />
                 <select
                     onChange={handleFilterChange}
                     value={filterCriteria}

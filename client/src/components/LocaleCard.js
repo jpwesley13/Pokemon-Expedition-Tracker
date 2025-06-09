@@ -5,7 +5,6 @@ import ModalButton from "./ModalButton";
 import { Modal, Box } from "@mui/material";
 
 function LocaleCard({locale, catches = []}) {
-
     const [isModalOpen, setIsModalOpen] = useState(false);
     const {name, region, expeditions } = locale
 
@@ -20,8 +19,6 @@ function LocaleCard({locale, catches = []}) {
     const mostCommon = getMostCommon(speciesCount)
 
     return (
-        <>
-        <main>
         <div className="card">
             <h2>{name}</h2>
             <span>{region.name} Region</span>
@@ -30,29 +27,30 @@ function LocaleCard({locale, catches = []}) {
                 {mostCommon.length > 0 
                 ? <span style={{ marginLeft:'0.5em' }}>{mostCommon[0]}</span> : <span style={{ marginLeft:'0.5em' }}>None</span>}
             </span>
-            <br />
             <ModalButton 
-            style ={{width: 'auto'}}
-            variant="contained" color="primary" onClick={() => setIsModalOpen(true)}>
-                        Confirmed Pokémon
-                    </ModalButton>
-        </div>
-        </main>
-        <Modal
-            open={isModalOpen}
-            onClose={() => setIsModalOpen(false)}
-            aria-labelledby="edit-profile-modal-title"
-            aria-describedby="edit-profile-modal-description"
+                className="confirm-pokemon-btn"
+                variant="contained" 
+                color="primary" 
+                onClick={() => setIsModalOpen(true)}
             >
-            <Box className="modal-box">
-                <LocaleDetails
-                    handleClick={() => setIsModalOpen(false)}
-                    catches={catches}
-                    locale={name}
-                />
-            </Box>
-        </Modal>
-        </>
+                Confirmed Pokémon
+            </ModalButton>
+
+            <Modal
+                open={isModalOpen}
+                onClose={() => setIsModalOpen(false)}
+                aria-labelledby="edit-profile-modal-title"
+                aria-describedby="edit-profile-modal-description"
+            >
+                <Box className="modal-box">
+                    <LocaleDetails
+                        handleClick={() => setIsModalOpen(false)}
+                        catches={catches}
+                        locale={name}
+                    />
+                </Box>
+            </Modal>
+        </div>
     );
 };
 

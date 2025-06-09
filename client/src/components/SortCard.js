@@ -22,7 +22,6 @@ function SortCard({ sortBy, onChangeSort, options }) {
 
   return (
     <div className="sort-card">
-      <strong>Sort by:</strong>
         {sortOptions}
     </div>
   );
