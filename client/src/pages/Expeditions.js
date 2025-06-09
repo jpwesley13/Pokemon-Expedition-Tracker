@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Modal, Box } from "@mui/material";
+import { Modal, Box, Paper } from "@mui/material";
 import DatePicker from "react-datepicker"
 import "react-datepicker/dist/react-datepicker.css";
 import { useAuth } from "../context and utility/AuthContext";
@@ -109,51 +109,77 @@ function Expeditions() {
 
     return (
         <>
-        <main>
+        <main className="expeditions-page">
             <h1>Expeditions</h1>
             <hr/>
-            <br />
-            {user && (<><ModalButton variant="contained" color="primary" onClick={() => setIsModalOpen(true)}>
-                        Add new expedition
-                    </ModalButton>
-            <br />
-            <strong>Select Expedition Month (YYYY/MM)</strong>
-            <DatePicker
-                className="datepicker"
-                showIcon
-                selected={selectedMonth}
-                onChange={(date) => setSelectedMonth(date)}
-                dateFormat={"yyyy/MM"}
-                popperPlacement="bottom-start"
-                showMonthYearPicker
-                />
-            </>)}
-            {monthlyExpeditions.length > 0 ? (
-                <TypeChart 
-                    monthlyExpeditions={monthlyExpeditions}
-                    catches={catches}
-                />
-            ) : null}
-            <div className="profile-contributions">
-                {monthlyExpeditions.length > 0 ? expeditionsList : <p>No expeditions for this month.</p>}
-                <br/>
+            {user && (
+                <div className="expeditions-controls">
+                    <Paper elevation={3} className="controls-section">
+                        <div className="controls-row">
+                            <div className="date-picker-section">
+                                <h3>Select Month</h3>
+                                <DatePicker
+                                    className="datepicker"
+                                    showIcon
+                                    selected={selectedMonth}
+                                    onChange={(date) => setSelectedMonth(date)}
+                                    dateFormat={"yyyy/MM"}
+                                    popperPlacement="bottom-start"
+                                    showMonthYearPicker
+                                />
+                            </div>
+                            <div className="add-expedition-section">
+                                <ModalButton 
+                                    variant="contained" 
+                                    color="primary" 
+                                    onClick={() => setIsModalOpen(true)}
+                                >
+                                    Add new expedition
+                                </ModalButton>
+                            </div>
+                        </div>
+                    </Paper>
+                </div>
+            )}
+            
+            <div className="expeditions-content">
+                {monthlyExpeditions.length > 0 && (
+                    <Paper elevation={3} className="type-chart-section">
+                        <h2>Monthly Type Distribution</h2>
+                        <TypeChart 
+                            monthlyExpeditions={monthlyExpeditions}
+                            catches={catches}
+                        />
+                    </Paper>
+                )}
+                
+                <div className="expeditions-list">
+                    <h2>Your Expeditions</h2>
+                    <div className="expeditions-grid">
+                        {monthlyExpeditions.length > 0 ? expeditionsList : (
+                            <Paper elevation={2} className="no-expeditions">
+                                <p>No expeditions for this month.</p>
+                            </Paper>
+                        )}
+                    </div>
+                </div>
             </div>
         </main>
         <Modal
-                open={isModalOpen}
-                onClose={() => setIsModalOpen(false)}
-                aria-labelledby="edit-profile-modal-title"
-                aria-describedby="edit-profile-modal-description"
-            >
-                <Box className="modal-box">
-                    <h2>Add new expedition</h2>
-                    <ModalButton className="close-button" onClick={() => setIsModalOpen(false)} sx={{ mb: 2 }}>Close</ModalButton>
-                    <ExpeditionForm
-                        handleClick={() => setIsModalOpen(false)}
-                        onAddExpedition={onAddExpedition}
-                    />
-                </Box>
-            </Modal>
+            open={isModalOpen}
+            onClose={() => setIsModalOpen(false)}
+            aria-labelledby="edit-profile-modal-title"
+            aria-describedby="edit-profile-modal-description"
+        >
+            <Box className="modal-box">
+                <h2>Add new expedition</h2>
+                <ModalButton className="close-button" onClick={() => setIsModalOpen(false)} sx={{ mb: 2 }}>Close</ModalButton>
+                <ExpeditionForm
+                    handleClick={() => setIsModalOpen(false)}
+                    onAddExpedition={onAddExpedition}
+                />
+            </Box>
+        </Modal>
         </>
     )
 };

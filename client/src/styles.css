@@ -597,3 +597,103 @@ body {
   margin: 0;
   border-radius: 0;
 }
+
+.expeditions-page {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.expeditions-controls {
+  margin: 20px 0;
+}
+
+.controls-section {
+  padding: 20px;
+  background-color: #fff;
+}
+
+.controls-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.date-picker-section h3 {
+  margin: 0 0 10px 0;
+  font-size: 1.1rem;
+  color: #333;
+}
+
+.datepicker {
+  width: 200px;
+  padding: 8px;
+  border: 2px solid rgb(128, 32, 32);
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+.expeditions-content {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  margin-top: 30px;
+}
+
+.type-chart-section {
+  padding: 20px;
+  background-color: #fff;
+}
+
+.type-chart-section h2 {
+  margin: 0 0 20px 0;
+  color: #333;
+  font-size: 1.5rem;
+}
+
+.expeditions-list {
+  margin-top: 20px;
+}
+
+.expeditions-list h2 {
+  margin: 0 0 20px 0;
+  color: #333;
+  font-size: 1.5rem;
+}
+
+.expeditions-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.no-expeditions {
+  padding: 30px;
+  text-align: center;
+  background-color: #fff;
+  color: #666;
+  font-size: 1.1rem;
+  grid-column: 1 / -1;
+}
+
+@media (max-width: 768px) {
+  .controls-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .date-picker-section, .add-expedition-section {
+    width: 100%;
+  }
+  
+  .datepicker {
+    width: 100%;
+  }
+  
+  .expeditions-grid {
+    grid-template-columns: 1fr;
+  }
+}
