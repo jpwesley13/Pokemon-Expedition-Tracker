@@ -16,6 +16,7 @@ function Expeditions() {
     const { user, setUser } = useAuth();
     const [expeditions, setExpeditions] = useState([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [showGraph, setShowGraph] = useState(false);
     const [catches, setCatches] = useState([]);
     const [selectedMonth, setSelectedMonth] = useState(new Date());
 
@@ -29,6 +30,10 @@ function Expeditions() {
 
     function validDate(date) {
         return date instanceof Date && !isNaN(date);
+    }
+
+    function handleClick() {
+        setShowGraph(!showGraph);
     }
 
     function onAddExpedition(newExpedition){
@@ -146,10 +151,13 @@ function Expeditions() {
                 {monthlyExpeditions.length > 0 && (
                     <Paper elevation={3} className="type-chart-section">
                         <h2>Monthly Type Distribution</h2>
+                        <button onClick={handleClick}>{showGraph ? "Hide Type Graphs" : "Display Type Graphs"}</button>
+                        {showGraph ? (
                         <TypeChart 
                             monthlyExpeditions={monthlyExpeditions}
                             catches={catches}
-                        />
+                            />
+                        ) : null}
                     </Paper>
                 )}
                 
