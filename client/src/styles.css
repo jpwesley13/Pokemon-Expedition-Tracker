@@ -697,7 +697,6 @@ body {
   }
 }
 
-/* Locales Page Styles */
 .locales-page {
   padding: 20px;
   max-width: 1200px;
@@ -706,65 +705,69 @@ body {
 
 .locales-controls {
   margin: 20px 0;
+  padding: 0 20px;
 }
 
 .controls-section {
   padding: 20px;
-  background-color: #fff;
 }
 
 .controls-content {
   display: flex;
-  align-items: flex-end;
-  gap: 30px;
-  flex-wrap: wrap;
-}
-
-.search-section,
-.filter-container,
-.sort-container {
-  min-width: 200px;
-  display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 40px;
 }
 
 .search-section {
-  flex: 2;
+  flex: 1;
+  min-width: 200px;
 }
 
 .filter-sort-section {
-  display: flex;
-  flex: 3;
-  gap: 30px;
+  flex: 2;
 }
 
 .filter-sort-row {
   display: flex;
-  gap: 30px;
+  gap: 40px;
+  align-items: flex-start;
+}
+
+.filter-container, .sort-container {
+  flex: 1;
+}
+
+.filter-container h3, .sort-container h3, .search-section h3 {
+  margin-top: 0;
+  margin-bottom: 12px;
+}
+
+.sort-card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.sort-option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.sort-option input[type="radio"] {
+  width: auto;
+  margin: 0;
+}
+
+.filter-card select {
   width: 100%;
-}
-
-.filter-container {
-  flex: 3;
-}
-
-.sort-container {
-  flex: 2;
+  max-width: 300px;
 }
 
 .add-locale-section {
-  flex: 1;
-  display: flex;
-  align-items: flex-end;
-  min-width: 150px;
-}
-
-.search-section h3,
-.filter-container h3,
-.sort-container h3 {
-  margin: 0 0 12px 0;
-  font-size: 1.1rem;
-  color: #333;
+  margin-left: auto;
 }
 
 .locales-content {
@@ -798,7 +801,6 @@ body {
   grid-column: 1 / -1;
 }
 
-/* Update LocaleCard styles to match the new design */
 .card {
   position: relative;
   height: auto;
@@ -831,46 +833,23 @@ body {
   width: 100% !important;
 }
 
-/* Sort options styling */
-.sort-card {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.sort-option {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin: 0;
-  padding: 4px 0;
-  cursor: pointer;
-}
-
-.sort-option input[type="radio"] {
-  margin: 0;
-  cursor: pointer;
-}
-
-/* Responsive adjustments for Locales page */
 @media (max-width: 1100px) {
   .controls-content {
     flex-direction: column;
-    align-items: stretch;
-  }
-
-  .search-section,
-  .filter-sort-section,
-  .add-locale-section {
-    width: 100%;
   }
 
   .filter-sort-row {
-    flex-direction: row;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .filter-container, .sort-container {
+    width: 100%;
   }
 
   .add-locale-section {
-    justify-content: flex-start;
+    margin-top: 20px;
+    margin-left: 0;
   }
 }
 
