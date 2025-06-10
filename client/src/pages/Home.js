@@ -115,52 +115,80 @@ function Home() {
     }
 
     return (
-        <>
-        <RandomPokemon />
-        <h1 className="home-header">
-            {user ? `Recommendations for you, ${user.username}!` : `Log in for personalized recommendations!`}
-        </h1>
-        {user && (<div className="cards-container">
-        <h2 className="home-personal">
-                <>A recommended Pokémon Type to catch today is <span style={{ fontSize: '1.4rem' }}
-                className={`type-${recommendation.toLowerCase()}`}>{recommendation}</span>
-                </>
-        </h2>
-        </div>)}
-        <h1 className="home-header">
-            Global PokET stats!
-        </h1>
-        <div className="cards-container">
-        <h2 className="home-global">
-            {mostCommonMonthlyType.length > 0 ? (
-                <>
-                The most common Type(s) caught by users this month: {mostCommonMonthlyType.map((type, i) => (
-                            <React.Fragment key={type}>
-                                <span 
-                                style={{ fontSize: '1.4rem' }}
-                                className={`type-${type.toLowerCase()}`}>
-                                {type} Type
+        <main className="profile-page">
+            <RandomPokemon />
+            
+            <div className="profile-section">
+                <Paper elevation={3} className="section-content">
+                    <h1 className="home-header">
+                        {user ? `Recommendations for you, ${user.username}!` : `Log in for personalized recommendations!`}
+                    </h1>
+
+                    {user && (
+                        <Paper elevation={2} className="profile-stat-card">
+                            <h2>
+                                A recommended Pokémon Type to catch today is{" "}
+                                <span className={`type-${recommendation.toLowerCase()}`}>
+                                    {recommendation}
                                 </span>
-                                {i < mostCommonMonthlyType.length - 1 && <strong> / </strong>}
-                            </React.Fragment>
-                        ))}
-                </>) : `No one has caught anything this month yet!`
-            }
-        </h2>
-        <h2 className="home-global">{mostCommonMonthlyLocale.length > 0 ? 
-            `A popular locale this month is ${randomLocale}!` : `No one has gone anywhere this month yet!`
-        }</h2>
-        <h2 className="home-global">
-            A Pokémon users have caught more of than any other on PokET is {mostCommonPokemon[Math.floor(Math.random() * mostCommonPokemon.length)]}! 
-        </h2>
-        
-        <h2 className="home-global">
-            {monthlyCatches.length > 0 ? `The most Pokémon a user has caught this month on PokET is ${topMonthlyCatch} Pokémon!` : `No recordbreaking catch counts this month yet!`}
-        </h2>
-        </div>
-        <RandomPokemon />
-        </>
-    )
+                            </h2>
+                        </Paper>
+                    )}
+
+                    <h1 className="home-header">Global PokET Stats</h1>
+                    
+                    <div className="profile-stats-grid">
+                        <Paper elevation={2} className="profile-stat-card">
+                            <h2>Most Common Type(s) Caught This Month</h2>
+                            {mostCommonMonthlyType.length > 0 ? (
+                                <div className="types-container">
+                                    {mostCommonMonthlyType.map((type, i) => (
+                                        <React.Fragment key={type}>
+                                            <span className={`type-${type.toLowerCase()}`}>
+                                                {type}
+                                            </span>
+                                            {i < mostCommonMonthlyType.length - 1 && <strong> / </strong>}
+                                        </React.Fragment>
+                                    ))}
+                                </div>
+                            ) : (
+                                <p>No one has caught anything this month yet!</p>
+                            )}
+                        </Paper>
+
+                        <Paper elevation={2} className="profile-stat-card">
+                            <h2>A Popular Locale This Month Is</h2>
+                            <p>
+                                {mostCommonMonthlyLocale.length > 0 
+                                    ? `${randomLocale}` 
+                                    : `No one has gone anywhere this month yet!`
+                                }
+                            </p>
+                        </Paper>
+
+                        <Paper elevation={2} className="profile-stat-card">
+                            <h2>Most Caught Pokémon on PokET</h2>
+                            <p>
+                                {mostCommonPokemon[Math.floor(Math.random() * mostCommonPokemon.length)]}
+                            </p>
+                        </Paper>
+
+                        <Paper elevation={2} className="profile-stat-card">
+                            <h2>Highest Catch Count This Month</h2>
+                            <p>
+                                {monthlyCatches.length > 0 
+                                    ? `${topMonthlyCatch} Pokémon!` 
+                                    : `No recordbreaking catch counts this month yet!`
+                                }
+                            </p>
+                        </Paper>
+                    </div>
+                </Paper>
+            </div>
+            
+            <RandomPokemon />
+        </main>
+    );
 }
 
 export default Home;
