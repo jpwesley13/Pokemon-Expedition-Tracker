@@ -4,9 +4,9 @@ import { useState, useEffect, useMemo } from "react";
 import getMonthlyExpeditions from "../context and utility/getMonthlyExpeditions";
 import getMostCommon from "../context and utility/getMostCommon";
 import RandomPokemon from "../components/RandomPokemon";
+import { Paper } from "@mui/material";
 
 function Home() {
-
     const { user } = useAuth()
     const catches = user?.catches || []
     const allTypes = [
@@ -38,7 +38,8 @@ function Home() {
     const monthlyExpeditions = getMonthlyExpeditions(globalExpeditions)
 
     const monthlyLocales = monthlyExpeditions.map(expedition => {
-        return `${expedition.locale.name} in ${expedition.locale.region.name}`})
+        return `${expedition.locale.name} in ${expedition.locale.region.name}`
+    })
     
     const monthlyLocaleCount = monthlyLocales.reduce((acc, locale) => {
         acc[locale] = (acc[locale] || 0 ) + 1
@@ -104,8 +105,14 @@ function Home() {
     }, [userAllTypeCount]);
 
     if (loading) {
-        return <h2>Loading...</h2>
-      }
+        return (
+            <main className="home-page">
+                <Paper elevation={3} className="loading-section">
+                    <h2>Loading...</h2>
+                </Paper>
+            </main>
+        );
+    }
 
     return (
         <>
