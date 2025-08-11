@@ -6,15 +6,16 @@ PokET is an application for users to chronicle their adventures through expediti
 
 When PokET is loaded, the user is greeted by the home page, displaying a random assortment of Pokémon, as well as a handful of global stats for the app. Assuming the user is not already logged in, they will see a message instructing them to do so for additional features. If they are logged in already, they will see some recommendation(s) for their progress based on existing user data.
 
-## Installation
+## Local Installation
+Requirements: Postgres, Python 3.13
 
 ### Setting Up The Backend
-
 1. Start a new terminal just for the backend
 2. While in the root project directory, run `pyenv install`
 3. Start the environment using `pyenv shell`
-4. Run `python app.py`
-5. Leave the terminal window open to keep the application running, use `ctrl + C` to end the process.
+4. Run `cd backend`
+5. Run `flask db upgrade` to populate the DB
+6. Run `python seed.py` to seed the DB
 
 ### Setting Up The Frontend
 
