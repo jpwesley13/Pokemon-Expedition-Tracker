@@ -20,34 +20,34 @@ export const routes = [
                 path: "/",
                 element: <Home />,
             },
-            // {
-            //     path: "/expeditions",
-            //     element: <Expeditions />,
-            // },
-            // {
-            //     path: "/locales",
-            //     element: <Locales />
-            // },
-            // {
-            //     path: "/users/:id",
-            //     element: <Profile />,
-            // },
-            // {
-            //     path: "/users/:id/pokedex",
-            //     element: <Pokedex />
-            // },
-            // {
-            //     path: "/goals",
-            //     element: <Goals />,
-            // },
-            // {
-            //     path: "/signup",
-            //     element: <Signup />
-            // },
-            // {
-            //     path: "/login",
-            //     element: <Login />
-            // },
+            {
+                path: "/expeditions",
+                element: <Expeditions />,
+            },
+            {
+                path: "/locales",
+                element: <Locales />
+            },
+            {
+                path: "/users/:id",
+                element: <Profile />,
+            },
+            {
+                path: "/users/:id/pokedex",
+                element: <Pokedex />
+            },
+            {
+                path: "/goals",
+                element: <Goals />,
+            },
+            {
+                path: "/signup",
+                element: <Signup />
+            },
+            {
+                path: "/login",
+                element: <Login />
+            },
         ]
     }
 ];
