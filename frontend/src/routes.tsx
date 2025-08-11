@@ -2,15 +2,15 @@ import type { RouteObject } from "react-router-dom";
 import App from "./App";
 import ErrorPage from "./pages/ErrorPage";
 import Home from "./pages/Home";
-// import Signup from "./pages/Signup";
-// import Login from "./pages/Login";
-// import Profile from "./pages/Profile";
-// import Goals from "./pages/Goals";
-// import Expeditions from "./pages/Expeditions";
-// import Locales from "./pages/Locales";
-// import Pokedex from "./pages/Pokedex";
+import Signup from "./pages/Signup";
+import Login from "./pages/Login";
+import Profile from "./pages/Profile";
+import Goals from "./pages/Goals";
+import Expeditions from "./pages/Expeditions";
+import Locales from "./pages/Locales";
+import Pokedex from "./pages/Pokedex";
 
-const routes: RouteObject[] = [
+export const routes = [
     {
         path: "/",
         element: <App />,
@@ -51,5 +51,3 @@ const routes: RouteObject[] = [
         ]
     }
 ];
-
-export default routes;

@@ -20,7 +20,7 @@ ChartJS.register(
     Legend
 );
 
-function TypeChart({ monthlyExpeditions, catches }) {
+function TypeChart({ monthlyExpeditions, catches }): any {
     const [selectedType, setSelectedType] = useState('Normal');
     
     const pokemonTypes = [
