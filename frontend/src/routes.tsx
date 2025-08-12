@@ -1,3 +1,4 @@
+import type { RouteObject } from "react-router-dom";
 import App from "./App";
 import ErrorPage from "./pages/ErrorPage";
 import Home from "./pages/Home";
@@ -9,7 +10,7 @@ import Expeditions from "./pages/Expeditions";
 import Locales from "./pages/Locales";
 import Pokedex from "./pages/Pokedex";
 
-const routes = [
+export const routes = [
     {
         path: "/",
         element: <App />,
@@ -50,5 +51,3 @@ const routes = [
         ]
     }
 ];
-
-export default routes;

@@ -1,10 +1,23 @@
+// @ts-nocheck
+
 import { useState, useEffect } from "react";
+
+export interface Pokemon {
+        name: string;
+        sprites: {
+            other: {
+                'official-artwork': {
+                    front_default: string;
+                };
+            };
+        };
+    }
 
 function RandomPokemon() {
 
-    const [pokemons, setPokemons] = useState([])
+    const [pokemons, setPokemons] = useState<Pokemon[]>([])
     const urlBar = 'https://pokeapi.co/api/v2/pokemon/'
-    function randomDex(first, last){
+    function randomDex(first: number, last: number){
         return Math.floor(Math.random() * (last - first + 1) + first)
     };
 

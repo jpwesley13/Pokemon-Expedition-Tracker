@@ -1,6 +1,7 @@
 import globalTime from "./globalTime";
+import { Expedition } from "../interfaces"
 
-function getMonthlyExpeditions(expeditions) {
+function getMonthlyExpeditions(expeditions: Expedition[]): Expedition[] {
     const currentMonth = new Date()
 
     const monthlyExpeditions = expeditions.filter(expedition => {

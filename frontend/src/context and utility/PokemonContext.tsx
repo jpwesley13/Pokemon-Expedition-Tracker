@@ -1,8 +1,17 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import { Pokemon } from '../interfaces';
 
-const PokemonContext = createContext();
+export interface IPokemonContextType {
+    pokemonData: Pokemon[];
+}
 
-function PokemonProvider({ children }) {
+const PokemonContext = createContext<IPokemonContextType | null>(null);
+
+interface Props {
+  children: React.ReactNode;
+}
+
+function PokemonProvider({ children }: Props) {
     const [pokemonData, setPokemonData] = useState([]);
 
     useEffect(() => {
