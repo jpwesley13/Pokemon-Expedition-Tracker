@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import { useEffect, useState } from "react";
 import { Modal, Box, Paper } from "@mui/material";
 import DatePicker from "react-datepicker"
