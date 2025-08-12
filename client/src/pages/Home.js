@@ -1,5 +1,4 @@
 import React from "react";
-import { User, Catch, Expedition } from "../interfaces";
 import { useAuth } from "../context and utility/AuthContext";
 import { useState, useEffect, useMemo } from "react";
 import getMonthlyExpeditions from "../context and utility/getMonthlyExpeditions";
@@ -8,19 +7,19 @@ import RandomPokemon from "../components/RandomPokemon";
 import { Paper } from "@mui/material";
 
 function Home() {
-    const { user } = useAuth() as { user: User | null };
-    const catches: Catch[] = user?.catches || []
+    const { user } = useAuth()
+    const catches = user?.catches || []
     const allTypes = [
         "Normal", "Fire", "Water", "Electric", "Grass", "Ice", "Fighting", "Poison", "Ground", "Flying", "Psychic", "Bug", "Rock", "Ghost", "Dragon", "Dark", "Steel", "Fairy"
       ];
-    const [globalExpeditions, setGlobalExpeditions] = useState<Expedition[]>([])
-    const [globalCatches, setGlobalCatches] = useState<Catch[]>([])
-    const [loading, setLoading] = useState<boolean>(true)
+    const [globalExpeditions, setGlobalExpeditions] = useState([])
+    const [globalCatches, setGlobalCatches] = useState([])
+    const [loading, setLoading] = useState(true)
 
     useEffect(() => {
     fetch(`/expeditions`)
     .then(res => res.json())
-    .then((data: Expedition[]) => {
+    .then(data => {
         setGlobalExpeditions(data);
         setGlobalCatches(data.flatMap(expedition => expedition.catches));
         setLoading(false)
@@ -28,21 +27,21 @@ function Home() {
     .catch(error => console.error(error));
     }, [])
 
-    const catchCount = globalCatches.reduce<Record<string, number>>((acc, capture) => {
+    const catchCount = globalCatches.reduce((acc, capture) => {
         const speciesName = capture.species.name;
         acc[speciesName] = (acc[speciesName] || 0) + 1;
         return acc
     }, {})
 
-    const mostCommonPokemon: string[] = getMostCommon(catchCount)
+    const mostCommonPokemon = getMostCommon(catchCount)
 
     const monthlyExpeditions = getMonthlyExpeditions(globalExpeditions)
 
-    const monthlyLocales: string[] = monthlyExpeditions.map((expedition: Expedition) => {
+    const monthlyLocales = monthlyExpeditions.map(expedition => {
         return `${expedition.locale.name} in ${expedition.locale.region.name}`
     })
     
-    const monthlyLocaleCount = monthlyLocales.reduce<Record<string, number>>((acc, locale) => {
+    const monthlyLocaleCount = monthlyLocales.reduce((acc, locale) => {
         acc[locale] = (acc[locale] || 0 ) + 1
         return acc;
     }, {})
@@ -51,16 +50,16 @@ function Home() {
 
     const randomLocale = mostCommonMonthlyLocale[Math.floor(Math.random() * mostCommonMonthlyLocale.length)]
 
-    const monthlyCatches: Catch[] = monthlyExpeditions.flatMap((expedition: Expedition) => expedition.catches);
+    const monthlyCatches = monthlyExpeditions.flatMap(expedition => expedition.catches);
 
-    const monthlyCatchCount = monthlyCatches.reduce<Record<number, number>>((acc, capture) => {
+    const monthlyCatchCount = monthlyCatches.reduce((acc, capture) => {
         acc[capture.user_id] = (acc[capture.user_id] || 0 ) + 1
         return acc
     }, {})
 
-    const topMonthlyCatch = Math.max(...Object.values(monthlyCatchCount), 0);
+    const topMonthlyCatch = Math.max(...Object.values(monthlyCatchCount))
 
-    const monthlyTypeCount = monthlyCatches.reduce<Record<string, number>>((acc, capture) => {
+    const monthlyTypeCount = monthlyCatches.reduce((acc, capture) => {
         capture.species.types.forEach((typeObj) => {
             const speciesType = typeObj.name;
             acc[speciesType] = (acc[speciesType] || 0) + 1;
@@ -68,12 +67,12 @@ function Home() {
         return acc;
     }, {});
 
-    const mostCommonMonthlyType: string[] = getMostCommon(monthlyTypeCount)
+    const mostCommonMonthlyType = getMostCommon(monthlyTypeCount)
 
-    function userTypeCount(catches: Catch[]) {
-        return catches.reduce<Record<string, number>>((acc, capture) => {
-            capture.species.types.forEach((typeObj) => {
-                const speciesType = typeObj.name;
+    function userTypeCount(catches) {
+        return catches.reduce((acc, capture) => {
+          capture.species.types.forEach((typeObj) => {
+            const speciesType = typeObj.name;
             acc[speciesType] = (acc[speciesType] || 0) + 1;
           });
           return acc;
@@ -82,11 +81,11 @@ function Home() {
 
     const typeCount = useMemo(() => userTypeCount(catches), [catches]);
 
-    const userAllTypeCount = useMemo<Record<string, number>>(() => {
+    const userAllTypeCount = useMemo(() => {
         const initialTypeCount = allTypes.reduce((acc, type) => {
             acc[type] = 0;
             return acc;
-        }, {} as Record<string, number>);
+        }, {});
 
         Object.keys(typeCount).forEach(type => {
             initialTypeCount[type] = typeCount[type];
@@ -95,7 +94,7 @@ function Home() {
         return initialTypeCount;
     }, [typeCount]);
 
-    const recommendation = useMemo<string>(() => {
+    const recommendation = useMemo(() => {
         const bottomSix = Object.entries(userAllTypeCount)
             .sort((type1, type2) => type1[1] - type2[1])
             .map(orderedType => orderedType[0])

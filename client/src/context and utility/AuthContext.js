@@ -1,21 +1,10 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { User } from '../interfaces';
 
-interface IAuthContextType {
-  loading: boolean;
-  user: User | null;
-  setUser: React.Dispatch<React.SetStateAction<User | null>>;
-}
+const AuthContext = createContext();
 
-const AuthContext = createContext<IAuthContextType | null>(null);
-
-interface Props {
-  children: React.ReactNode;
-}
-
-function AuthProvider({ children }: Props) {
-  const [user, setUser] = useState<User | null>(null);
-  const [loading, setLoading] = useState(true);
+function AuthProvider({ children }) {
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true); 
 
   useEffect(() => {
     const checkSession = async () => {

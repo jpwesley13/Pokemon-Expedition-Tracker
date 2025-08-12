@@ -16,12 +16,7 @@ function App() {
 }
 
 function MainApp() {
-  const auth = useAuth();
-  if (!auth) {
-    // Optionally show a fallback UI or return null
-    return <div>Not authenticated</div>;
-  }
-  const { loading } = auth;
+  const { loading } = useAuth();
 
   if (loading) {
     return (

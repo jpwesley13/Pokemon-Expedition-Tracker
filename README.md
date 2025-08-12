@@ -6,26 +6,6 @@ PokET is an application for users to chronicle their adventures through expediti
 
 When PokET is loaded, the user is greeted by the home page, displaying a random assortment of Pokémon, as well as a handful of global stats for the app. Assuming the user is not already logged in, they will see a message instructing them to do so for additional features. If they are logged in already, they will see some recommendation(s) for their progress based on existing user data.
 
-## Local Installation
-Requirements: Postgres, Python 3.13, pipenv, npm
-
-### Setting Up The Backend
-1. Start a new terminal just for the backend
-2. While in the root project directory, run `pipenv install`
-3. Start the environment using `pipenv shell`
-4. Run `cd backend`
-5. Start your local `postgres` service (i.e. `sudo service postgres start`)
-6. Run `flask db upgrade` to apply migrations to the DB
-7. Run `python seed.py` to seed the DB
-8. Run `python app.py`
-
-### Setting Up The Frontend
-
-1. In a separate terminal window, run `cd frontend` from the root project directory
-2. Run `npm install` to install the dependencies
-3. After installation, run `npm start`
-4. This should open a browser window with your app hosted on port `3000`
-
 ## Features
 
 * Users may view global stats and information on locales that other users have had expeditions within, featuring basic information about the locale and its confirmed contents. Locales may be filtered and sorted as the user wishes, to narrow down options that are practical to them. A logged in user may also add a new locale they have adventured on if it is not already present.
