@@ -21,7 +21,7 @@ Requirements: Postgres, Python 3.13, pipenv, npm
 
 ### Setting Up The Frontend
 
-1. In a separate terminal window, run `cd client` from the root project directory
+1. In a separate terminal window, run `cd frontend` from the root project directory
 2. Run `npm install` to install the dependencies
 3. After installation, run `npm start`
 4. This should open a browser window with your app hosted on port `3000`
