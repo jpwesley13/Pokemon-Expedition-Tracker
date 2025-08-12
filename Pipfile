@@ -14,9 +14,6 @@ flask-restful = "*"
 flask-cors = "*"
 faker = "*"
 flask-bcrypt = "*"
-requests = "*"
 
 [requires]
 python_full_version = "3.8.13"
-
-[dev-packages]
