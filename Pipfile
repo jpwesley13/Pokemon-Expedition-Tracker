@@ -15,7 +15,8 @@ flask-cors = "*"
 faker = "*"
 flask-bcrypt = "*"
 requests = "*"
-importlib-metadata = "*"
 
 [requires]
 python_full_version = "3.8.13"
+
+[dev-packages]

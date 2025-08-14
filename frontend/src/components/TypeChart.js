@@ -22,26 +22,26 @@ ChartJS.register(
 
 function TypeChart({ monthlyExpeditions, catches }) {
     const [selectedType, setSelectedType] = useState('Normal');
-    
+
     const pokemonTypes = [
-        "Normal", "Fire", "Water", "Electric", "Grass", "Ice", 
-        "Fighting", "Poison", "Ground", "Flying", "Psychic", 
+        "Normal", "Fire", "Water", "Electric", "Grass", "Ice",
+        "Fighting", "Poison", "Ground", "Flying", "Psychic",
         "Bug", "Rock", "Ghost", "Dragon", "Dark", "Steel", "Fairy"
     ];
 
     const getTypeProgressData = () => {
         if (!monthlyExpeditions.length) return { labels: [], data: [], total: 0 };
 
-        const sortedExpeditions = monthlyExpeditions.sort((a, b) => 
+        const sortedExpeditions = monthlyExpeditions.sort((a, b) =>
             new Date(a.date) - new Date(b.date)
         );
 
         let cumulativeCount = 0;
         const chartData = sortedExpeditions.map(expedition => {
-            const expeditionCatches = catches.filter(c => 
+            const expeditionCatches = catches.filter(c =>
                 c.expedition_id === expedition.id
             );
-            
+
             const typeCount = expeditionCatches.reduce((count, capture) => {
                 const hasType = capture.species.types.some(
                     type => type.name === selectedType
@@ -50,7 +50,7 @@ function TypeChart({ monthlyExpeditions, catches }) {
             }, 0);
 
             cumulativeCount += typeCount;
-            
+
             return {
                 date: globalTime(expedition.date).toLocaleDateString(),
                 count: typeCount,
@@ -129,7 +129,7 @@ function TypeChart({ monthlyExpeditions, catches }) {
             <div style={{ marginTop: '20px', marginBottom: '20px' }}
             >
                 <strong>Select Pokémon Type to Track:</strong>
-                <select 
+                <select
                     value={selectedType}
                     onChange={(e) => setSelectedType(e.target.value)}
                     style={{ marginLeft: '10px', maxWidth: '300px' }}
@@ -143,7 +143,7 @@ function TypeChart({ monthlyExpeditions, catches }) {
                     <span>{chartData.total}</span>
                 </div>
             </div>
-            
+
             {monthlyExpeditions.length > 0 && (
                 <div style={{ maxHeight: '400px', marginBottom: '20px' }}>
                     <Bar data={chartConfig} options={chartOptions} />
