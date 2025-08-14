@@ -72,13 +72,13 @@ function Goals() {
                 <div className="goal-content">
                     <p>{expanded ? goal.content : trimmedContent}</p>
                     <div className="goal-actions">
-                        <ModalButton 
+                        {goal.content.length > 50 ? (<ModalButton 
                             variant="contained" 
                             color="primary" 
                             onClick={() => toggleFullGoal(goal.id)}
                         >
                             {expanded ? "Show Less" : "Show More"}
-                        </ModalButton>
+                        </ModalButton>) : null}
                         {user && user.id === parseInt(id) && (
                             <>
                                 <ModalButton variant="contained" color="primary" onClick={() => handleEditGoalClick(goal)}>
