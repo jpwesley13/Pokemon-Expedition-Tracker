@@ -1,5 +1,3 @@
-import React from "react";
-
 function SortCard({ sortBy, onChangeSort, options }) {
   function handleSortChange(event) {
     onChangeSort(event.target.value);

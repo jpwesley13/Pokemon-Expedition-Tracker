@@ -1,6 +1,11 @@
 import { useFormik } from "formik";
 import * as yup from "yup";
 
+interface FormTypes {
+    content: string;
+    target_date: Date | string;
+}
+
 function EditGoal({ goal, setGoals, handleClick}) {
 
     const formSchema = yup.object().shape({
@@ -42,6 +47,9 @@ function EditGoal({ goal, setGoals, handleClick}) {
             target_date: goal.target_date,
             user_id: ""
         },
+        validate: values => {
+            const errors: Partial<FormTypes> = {};
+        },
         validationSchema: formSchema,
         onSubmit
     });
@@ -55,11 +63,11 @@ function EditGoal({ goal, setGoals, handleClick}) {
                 onBlur={handleBlur}
                 id="content" 
                 placeholder="Update your goal here"
-                rows="5"
-                cols="54"
+                rows={5}
+                cols={54}
                 className={errors.content && touched.content ? "input-error" : ""} 
             />
-            {errors.content && touched.content && <p className="error">{errors.content}</p>}
+            {errors.content && touched.content && <p className="error">{String(errors.content)}</p>}
             <label htmlFor="target_date">Updated Target Date</label>
             <input
                 value={values.target_date}
@@ -69,7 +77,7 @@ function EditGoal({ goal, setGoals, handleClick}) {
                 id="target_date"
                 className={errors.target_date && touched.target_date ? "input-error" : ""}
             />
-            {errors.target_date && touched.target_date && <p className="error">{errors.target_date}</p>}
+            {errors.target_date && touched.target_date && <p className="error">{String(errors.target_date)}</p>}
             <button disabled={isSubmitting} type="submit">Submit</button>
         </form>
     )

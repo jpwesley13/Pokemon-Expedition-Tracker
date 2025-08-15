@@ -1,5 +1,3 @@
-import React from "react";
-
 function Search({searchSetter, search}) {
   return (
     <div className="search-card">
