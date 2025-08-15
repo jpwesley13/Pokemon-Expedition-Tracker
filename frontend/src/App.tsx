@@ -1,5 +1,5 @@
 import React from 'react';
-import AuthProvider, {useAuth} from "./context and utility/AuthContext";
+import { AuthProvider, useAuth } from "./context and utility/AuthContext";
 import PokemonProvider from './context and utility/PokemonContext';
 import NavBar from "./components/NavBar";
 import Header from "./components/Header";

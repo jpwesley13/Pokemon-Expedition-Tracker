@@ -1,17 +1,23 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { User } from '../interfaces';
+import { Catch } from '../interfaces';
 
-interface IAuthContextType {
-  loading: boolean;
-  user: User | null;
-  setUser: React.Dispatch<React.SetStateAction<User | null>>;
+interface User {
+  username: string;
+  catches: Catch[];
+  id: number;
 }
 
-const AuthContext = createContext<IAuthContextType | null>(null);
+interface IAuthContextType {
+  user: User | null;
+  setUser: Function;
+  loading: boolean;
+}
 
 interface Props {
   children: React.ReactNode;
 }
+
+const AuthContext = createContext<IAuthContextType | null>(null);
 
 function AuthProvider({ children }: Props) {
   const [user, setUser] = useState<User | null>(null);
@@ -24,7 +30,7 @@ function AuthProvider({ children }: Props) {
         if (!res.ok) {
           throw new Error('Session check failed');
         }
-        const data = await res.json();
+        const data: User = await res.json();
         setUser(data);
       } catch (error) {
         console.error(error);
@@ -42,10 +48,10 @@ function AuthProvider({ children }: Props) {
       {children}
     </AuthContext.Provider>
   );
-}
+};
 
-export default AuthProvider;
-
-export const useAuth = () => {
+const useAuth: Function = () => {
   return useContext(AuthContext);
 };
+
+export { AuthProvider, useAuth };

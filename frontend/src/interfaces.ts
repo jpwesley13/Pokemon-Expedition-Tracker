@@ -20,15 +20,16 @@ export interface Expedition {
     catches: Catch[];
     date: string;
 }
-export interface User {
-    username: string;
-    catches: Catch[];
-    id: number;
-}
 
 export interface Pokemon {
     name: string;
     dex_number: number;
     types: string[];
     shiny: boolean;
+}
+
+export interface User {
+  username: string;
+  catches: Catch[];
+  id: number;
 }
