@@ -1,11 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { Catch } from '../interfaces';
-
-interface User {
-  username: string;
-  catches: Catch[];
-  id: number;
-}
+import { User } from '../interfaces';
 
 interface IAuthContextType {
   user: User | null;
@@ -13,13 +7,9 @@ interface IAuthContextType {
   loading: boolean;
 }
 
-interface Props {
-  children: React.ReactNode;
-}
-
 const AuthContext = createContext<IAuthContextType | null>(null);
 
-function AuthProvider({ children }: Props) {
+function AuthProvider({ children }: { children: React.ReactNode }): React.JSX.Element {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
 

@@ -29,7 +29,8 @@ export interface Pokemon {
 }
 
 export interface User {
-  username: string;
-  catches: Catch[];
   id: number;
+  username: string;
+  age: number;
+  catches: Catch[];
 }
