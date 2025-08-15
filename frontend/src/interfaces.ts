@@ -1,9 +1,9 @@
-export interface SpeciesType {
+export interface Type {
     name: string;
 }
 export interface Species {
     name: string;
-    types: SpeciesType[];
+    types: Type[];
 }
 export interface Catch {
     species: Species;

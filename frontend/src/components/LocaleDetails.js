@@ -1,4 +1,5 @@
 import React from "react";
+import { Type } from "../interfaces";
 
 function LocaleDetails({ catches = [], locale, handleClick }) {
 
