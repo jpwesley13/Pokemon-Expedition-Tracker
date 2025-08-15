@@ -56,11 +56,11 @@ function GoalForm({ onAddGoal, handleClick}) {
                 onBlur={handleBlur}
                 id="content" 
                 placeholder="Write your goal here..."
-                rows="5"
-                cols="54"
+                rows={5}
+                cols={54}
                 className={errors.content && touched.content ? "input-error" : ""} 
             />
-            {errors.content && touched.content && <p className="error">{errors.content}</p>}
+            {errors.content && touched.content && <p className="error">{String(errors.content)}</p>}
             <label htmlFor="target_date">Target Date</label>
             <input
                 value={values.target_date}
@@ -70,7 +70,7 @@ function GoalForm({ onAddGoal, handleClick}) {
                 id="target_date"
                 className={errors.target_date && touched.target_date ? "input-error" : ""}
             />
-            {errors.target_date && touched.target_date && <p className="error">{errors.target_date}</p>}
+            {errors.target_date && touched.target_date && <p className="error">{String(errors.target_date)}</p>}
             <button disabled={isSubmitting} type="submit">Submit</button>
         </form>
     )
