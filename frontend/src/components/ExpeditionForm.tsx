@@ -149,22 +149,20 @@ function ExpeditionForm({ onAddExpedition, handleClick }) {
                 id="date"
                 className={errors.date && touched.date ? "input-error" : ""}
             />
-            {errors.date && touched.date && <p className="error">{errors.date}</p>}
+            {errors.date && touched.date && <p className="error">{String(errors.date)}</p>}
             <label htmlFor="locale">Locale</label>
             <select
                 value={values.locale_id}
                 onChange={handleChange}
                 onBlur={handleBlur}
                 id="locale_id" 
-                type="text" 
-                placeholder="Select the habitat's locale" 
                 className={errors.locale_id && touched.locale_id ? "input-error" : ""}>
                     <option value="" hidden disabled>Select a locale</option>
                     {locales.map((locale) => (
                     <option key={locale.id} value={locale.id}>{locale.name} ({locale.region.name})</option>
                 ))}
             </select>
-            {errors.locale_id && touched.locale_id && <p className="error">{errors.locale_id}</p>}
+            {errors.locale_id && touched.locale_id && <p className="error">{String(errors.locale_id)}</p>}
             {values.captures.map((capture, index) => (
                 <div key={index} className="form-capture">
                     <label htmlFor={`captures[${index}].species.name`}>Pokémon Name</label>
