@@ -6,13 +6,20 @@ import { useNavigate } from "react-router-dom";
 import GoalForm from "../components/GoalForm";
 import EditGoal from "../components/EditGoal";
 
+interface Goal {
+    id: number;
+    content: string;
+    target_date: string;
+    user_id: number;
+}
+
 function Goals() {
     const navigate = useNavigate();
     const { user } = useAuth();
-    const [goals, setGoals] = useState([]);
+    const [goals, setGoals] = useState<Goal[]>([]);
     const [goalModal, setGoalModal] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [currentGoal, setCurrentGoal] = useState(null);
+    const [currentGoal, setCurrentGoal] = useState<Goal | null>(null);
     const [fullGoals, setFullGoals] = useState({});
 
     useEffect(() => {
@@ -33,12 +40,12 @@ function Goals() {
         }));
     };
 
-    function handleEditGoalClick(goal){
+    function handleEditGoalClick(goal: Goal){
         setCurrentGoal(goal);
         setGoalModal(true)
     };
 
-    async function handleDeleteGoalClick(goal){
+    async function handleDeleteGoalClick(goal: Goal){
         setCurrentGoal(goal)
         const confirmDelete = window.confirm("Are you sure you want to delete this goal?")
         if(confirmDelete){
@@ -56,7 +63,7 @@ function Goals() {
     useEffect(() => {
         fetch(`/goals`)
         .then(res => res.json())
-        .then(data => setGoals(data.filter(goal => goal.user_id === parseInt(id))))
+        .then(data => setGoals(data.filter((goal: Goal) => goal.user_id === parseInt(id))))
         .catch(error => console.error(error));
     }, [id])
 
@@ -139,7 +146,7 @@ function Goals() {
             >
                 <Box className="modal-box">
                     <h2>Edit Goal</h2>
-                    <ModalButton className="close-button" onClick={() => setGoalModal(false)} sx={{ mb: 2 }}>Close</ModalButton>
+                    <ModalButton className="close-button" onClick={() => setGoalModal(false)} sx={{ mb: 2 }}>Discard Changes</ModalButton>
                     <EditGoal
                         handleClick={() => setGoalModal(false)}
                         setGoals={setGoals}
