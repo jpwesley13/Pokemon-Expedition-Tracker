@@ -30,13 +30,13 @@ function Goals() {
 
     const { id } = user || {}
 
-    function onAddGoal(newGoal){
+    function onAddGoal(newGoal: Goal){
         return setGoals([...goals, newGoal])
     }
 
-    function toggleFullGoal(goal) {
+    function toggleFullGoal(goalId: number) {
         setFullGoals(previousState => ({
-            ...previousState, [goal]: !previousState[goal]
+            ...previousState, [goalId]: !previousState[goalId]
         }));
     };
 
