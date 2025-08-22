@@ -1,11 +1,18 @@
-import React from "react";
+import { ChangeEvent } from "react";
 
-function FilterCard({ filterCriteria, onChangeFilter, filterAttr, specifics }) {
-    function capitalizeFirstLetter(string) {
+interface FilterProps {
+    specifics: string[];
+    filterAttr: string;
+    onChangeFilter: Function;
+    filterCriteria: string
+}
+
+function FilterCard({ filterCriteria, onChangeFilter, filterAttr, specifics }: FilterProps) {
+    function capitalizeFirstLetter(string: string) {
         return string.charAt(0).toUpperCase() + string.slice(1);
     }
 
-    function handleFilterChange(e) {
+    function handleFilterChange(e: ChangeEvent<HTMLSelectElement>) {
         onChangeFilter(e.target.value);
     }
 
