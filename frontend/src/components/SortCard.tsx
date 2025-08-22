@@ -1,6 +1,14 @@
-function SortCard({ sortBy, onChangeSort, options }) {
-  function handleSortChange(event) {
-    onChangeSort(event.target.value);
+import { ChangeEvent } from "react";
+
+interface SortProps {
+  sortBy: string;
+  options: string[];
+  onChangeSort: Function;
+}
+
+function SortCard({ sortBy, onChangeSort, options }: SortProps) {
+  function handleSortChange(e: ChangeEvent<HTMLInputElement>) {
+    onChangeSort(e.target.value);
   }
 
   const sortOptions= options.map(option => {
