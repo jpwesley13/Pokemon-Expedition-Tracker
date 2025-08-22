@@ -1,5 +1,3 @@
-import { ChangeEvent } from "react";
-
 interface SortProps {
   sortBy: string;
   options: string[];
@@ -7,9 +5,6 @@ interface SortProps {
 }
 
 function SortCard({ sortBy, onChangeSort, options }: SortProps) {
-  function handleSortChange(e: ChangeEvent<HTMLInputElement>) {
-    onChangeSort(e.target.value);
-  }
 
   const sortOptions= options.map(option => {
     return (
@@ -19,7 +14,7 @@ function SortCard({ sortBy, onChangeSort, options }: SortProps) {
           value={option}
           name="sort"
           checked={sortBy === option}
-          onChange={handleSortChange}
+          onChange={(e) => onChangeSort(e.target.value)}
         />
         {option}
       </label>
