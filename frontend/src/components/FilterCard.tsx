@@ -1,5 +1,3 @@
-import { ChangeEvent } from "react";
-
 interface FilterProps {
     specifics: string[];
     filterAttr: string;
@@ -12,10 +10,6 @@ function FilterCard({ filterCriteria, onChangeFilter, filterAttr, specifics }: F
         return string.charAt(0).toUpperCase() + string.slice(1);
     }
 
-    function handleFilterChange(e: ChangeEvent<HTMLSelectElement>) {
-        onChangeFilter(e.target.value);
-    }
-
     const specificOptions = specifics.map((specific) => (
         <option key={specific} value={specific}>
             {specific}
@@ -26,7 +20,7 @@ function FilterCard({ filterCriteria, onChangeFilter, filterAttr, specifics }: F
         <>
             <div className="filter-card">
                 <select
-                    onChange={handleFilterChange}
+                    onChange={(e) => onChangeFilter(e.target.value)}
                     value={filterCriteria}
                 >
                     <option value="">
