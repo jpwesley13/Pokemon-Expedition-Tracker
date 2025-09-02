@@ -1,12 +1,13 @@
-import React from "react";
+interface FilterProps {
+    specifics: string[];
+    filterAttr: string;
+    onChangeFilter: Function;
+    filterCriteria: string
+}
 
-function FilterCard({ filterCriteria, onChangeFilter, filterAttr, specifics }) {
-    function capitalizeFirstLetter(string) {
+function FilterCard({ filterCriteria, onChangeFilter, filterAttr, specifics }: FilterProps) {
+    function capitalizeFirstLetter(string: string) {
         return string.charAt(0).toUpperCase() + string.slice(1);
-    }
-
-    function handleFilterChange(e) {
-        onChangeFilter(e.target.value);
     }
 
     const specificOptions = specifics.map((specific) => (
@@ -19,7 +20,7 @@ function FilterCard({ filterCriteria, onChangeFilter, filterAttr, specifics }) {
         <>
             <div className="filter-card">
                 <select
-                    onChange={handleFilterChange}
+                    onChange={(e) => onChangeFilter(e.target.value)}
                     value={filterCriteria}
                 >
                     <option value="">

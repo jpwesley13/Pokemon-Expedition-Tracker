@@ -1,27 +1,30 @@
 import { useFormik } from "formik";
 import * as yup from "yup";
 
+interface FormValues {
+    content: string;
+    target_date: Date | string;
+}
+
 function EditGoal({ goal, setGoals, handleClick}) {
 
+    const initialFormValues = {
+            content: goal.content,
+            target_date: goal.target_date
+        };
+
     const formSchema = yup.object().shape({
-        content: yup.string().optional(),
+        content: yup.string().required("Goals cannot be empty! If you wish to remove this goal, please discard changes and press the Delete button."),
         target_date: yup.date().optional()
     });
 
-    const onSubmit = async (values, actions) => {
-        const filteredValues = Object.entries(values).reduce((acc, [key, value]) => {
-            if(value !== '') {
-                acc[key] = value;
-            }
-            return acc;
-        }, {});
-
+    const onSubmit = async (values: FormValues, actions) => {
         fetch(`/goals/${goal.id}`, {
             method: "PATCH",
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(filteredValues),
+            body: JSON.stringify(values),
         })
         .then(async res => {
             const data = await res.json();
@@ -37,11 +40,7 @@ function EditGoal({ goal, setGoals, handleClick}) {
     };
 
     const {values, handleBlur, handleChange, handleSubmit, touched, errors, isSubmitting} = useFormik({
-        initialValues: {
-            content: goal.content,
-            target_date: goal.target_date,
-            user_id: ""
-        },
+        initialValues: initialFormValues,
         validationSchema: formSchema,
         onSubmit
     });
@@ -54,12 +53,12 @@ function EditGoal({ goal, setGoals, handleClick}) {
                 onChange={handleChange}
                 onBlur={handleBlur}
                 id="content" 
-                placeholder="Update your goal here"
-                rows="5"
-                cols="54"
+                placeholder="Update your goal here."
+                rows={5}
+                cols={54}
                 className={errors.content && touched.content ? "input-error" : ""} 
             />
-            {errors.content && touched.content && <p className="error">{errors.content}</p>}
+            {errors.content && touched.content && <p className="error">{String(errors.content)}</p>}
             <label htmlFor="target_date">Updated Target Date</label>
             <input
                 value={values.target_date}
@@ -69,7 +68,7 @@ function EditGoal({ goal, setGoals, handleClick}) {
                 id="target_date"
                 className={errors.target_date && touched.target_date ? "input-error" : ""}
             />
-            {errors.target_date && touched.target_date && <p className="error">{errors.target_date}</p>}
+            {errors.target_date && touched.target_date && <p className="error">{String(errors.target_date)}</p>}
             <button disabled={isSubmitting} type="submit">Submit</button>
         </form>
     )

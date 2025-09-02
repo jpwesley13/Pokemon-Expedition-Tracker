@@ -3,7 +3,7 @@
 function Header() {
     return (
         <>
-        <header className="header">
+        <div className="header">
             <h1 className="headertitle">
                 PokET
             </h1>
@@ -11,7 +11,7 @@ function Header() {
                 The Pokémon Expedition Tracker
             </h2>
             <hr/>
-        </header>
+        </div>
         <hr />
         </>
     )

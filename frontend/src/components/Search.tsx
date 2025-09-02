@@ -1,6 +1,9 @@
-import React from "react";
+interface SearchProps {
+  searchSetter: Function;
+  search: string;
+}
 
-function Search({searchSetter, search}) {
+function Search({searchSetter, search}: SearchProps) {
   return (
     <div className="search-card">
       <div className="ui search">

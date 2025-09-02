@@ -5,7 +5,7 @@ function ExpeditionDetails({ handleClick, pokemons = [], catchCount, typeCount }
     const expeditionTypes = Object.entries(typeCount).map(([type, count]) => (
         <span key={type}
         className={`type-${type.toLowerCase()}`}>
-            {type}: {count}
+            {type}: {Number(count)}
         </span>
     ))
 

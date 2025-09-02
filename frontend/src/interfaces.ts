@@ -1,9 +1,9 @@
-export interface SpeciesType {
+export interface Type {
     name: string;
 }
 export interface Species {
     name: string;
-    types: SpeciesType[];
+    types: Type[];
 }
 export interface Catch {
     species: Species;
@@ -29,7 +29,8 @@ export interface Pokemon {
 }
 
 export interface User {
-  username: string;
-  catches: Catch[];
   id: number;
+  username: string;
+  age: number;
+  catches: Catch[];
 }

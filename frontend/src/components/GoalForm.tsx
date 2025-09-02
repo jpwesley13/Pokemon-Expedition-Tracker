@@ -1,8 +1,19 @@
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { useAuth } from "../context and utility/AuthContext";
+import React from "react";
 
-function GoalForm({ onAddGoal, handleClick}) {
+interface GoalFormProps {
+    onAddGoal: Function;
+    handleClick: Function;
+}
+
+interface Values {
+    content: string;
+    target_date: string;
+}
+
+function GoalForm({ onAddGoal, handleClick }: GoalFormProps): React.JSX.Element {
     const { user } = useAuth();
 
     const formSchema = yup.object().shape({
@@ -10,8 +21,8 @@ function GoalForm({ onAddGoal, handleClick}) {
         target_date: yup.date().required("Please enter the target date for completing your goal!")
     });
 
-    const onSubmit = async (values, actions) => {
-        const goalData = {
+    const onSubmit = async (values: Values, actions: { resetForm: Function }) => {
+        const goalData: { user_id: number } = {
             ...values,
             user_id: user.id
         };
@@ -23,22 +34,22 @@ function GoalForm({ onAddGoal, handleClick}) {
             },
             body: JSON.stringify(goalData),
         })
-        .then(res =>{
-            if(res.ok) {
-                return res.json()
-            } else {
-                throw new Error("Error occurred in adding new goal.");
-            }
-        })
-        .then(data => {
-            onAddGoal(data);
-            handleClick();
-        })
-        .catch(error => console.error(error))
+            .then(res => {
+                if (res.ok) {
+                    return res.json()
+                } else {
+                    throw new Error("Error occurred in adding new goal.");
+                }
+            })
+            .then(data => {
+                onAddGoal(data);
+                handleClick();
+            })
+            .catch(error => console.error(error))
         actions.resetForm()
     };
 
-    const {values, handleBlur, handleChange, handleSubmit, touched, errors, isSubmitting} = useFormik({
+    const { values, handleBlur, handleChange, handleSubmit, touched, errors, isSubmitting } = useFormik({
         initialValues: {
             content: "",
             target_date: ""
@@ -54,13 +65,13 @@ function GoalForm({ onAddGoal, handleClick}) {
                 value={values.content}
                 onChange={handleChange}
                 onBlur={handleBlur}
-                id="content" 
+                id="content"
                 placeholder="Write your goal here..."
-                rows="5"
-                cols="54"
-                className={errors.content && touched.content ? "input-error" : ""} 
+                rows={5}
+                cols={54}
+                className={errors.content && touched.content ? "input-error" : ""}
             />
-            {errors.content && touched.content && <p className="error">{errors.content}</p>}
+            {errors.content && touched.content && <p className="error">{String(errors.content)}</p>}
             <label htmlFor="target_date">Target Date</label>
             <input
                 value={values.target_date}
@@ -70,7 +81,7 @@ function GoalForm({ onAddGoal, handleClick}) {
                 id="target_date"
                 className={errors.target_date && touched.target_date ? "input-error" : ""}
             />
-            {errors.target_date && touched.target_date && <p className="error">{errors.target_date}</p>}
+            {errors.target_date && touched.target_date && <p className="error">{String(errors.target_date)}</p>}
             <button disabled={isSubmitting} type="submit">Submit</button>
         </form>
     )

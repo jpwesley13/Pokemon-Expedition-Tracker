@@ -1,9 +1,10 @@
-import React from "react";
+interface SortProps {
+  sortBy: string;
+  options: string[];
+  onChangeSort: Function;
+}
 
-function SortCard({ sortBy, onChangeSort, options }) {
-  function handleSortChange(event) {
-    onChangeSort(event.target.value);
-  }
+function SortCard({ sortBy, onChangeSort, options }: SortProps) {
 
   const sortOptions= options.map(option => {
     return (
@@ -13,7 +14,7 @@ function SortCard({ sortBy, onChangeSort, options }) {
           value={option}
           name="sort"
           checked={sortBy === option}
-          onChange={handleSortChange}
+          onChange={(e) => onChangeSort(e.target.value)}
         />
         {option}
       </label>

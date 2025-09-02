@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import LocaleCard from "../components/LocaleCard";
-import LocaleForm from "../components/LocaleForm";
+import LocaleForm from "../components/LocaleForm.tsx";
 import SortCard from "../components/SortCard";
 import Search from "../components/Search";
 import FilterCard from "../components/FilterCard";
