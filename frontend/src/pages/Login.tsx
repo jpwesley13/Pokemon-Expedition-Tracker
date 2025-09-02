@@ -1,11 +1,17 @@
-import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useFormik } from 'formik'
 import * as yup from "yup";
 import { useAuth } from '../context and utility/AuthContext';
+import { User } from '../interfaces';
+
+interface Values {
+  username: string;
+  password: string;
+  credentials?: string;
+}
 
 export default function Login() {
-    const { user, setUser } = useAuth();
+    const { user, setUser } = useAuth() as { user: User | null, setUser: Function };
     const navigate = useNavigate();
 
     if(user){
@@ -17,7 +23,7 @@ export default function Login() {
         password: yup.string().required("Password is required.")
     });
 
-    const onSubmit = async (values, actions) => {
+    const onSubmit = async (values: Values, actions: { setErrors: Function }) => {
         try {
           const res = await fetch('/login', {
             method: 'POST',
