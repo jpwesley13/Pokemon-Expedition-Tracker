@@ -3,9 +3,16 @@ import * as yup from "yup";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context and utility/AuthContext";
 
+interface Values {
+  username: string;
+  age: string;
+  password: string;
+  confirmPassword: string;
+}
+
 function Signup() {
 
-    const { setUser } = useAuth();
+    const { setUser } = useAuth() as { setUser: Function };
     const navigate = useNavigate();
 
     const formSchema = yup.object().shape({
@@ -15,7 +22,7 @@ function Signup() {
         confirmPassword: yup.string().oneOf([yup.ref('password'), null], "Passwords must match.").required("Required.")
     });
 
-    const onSubmit = async (values, actions) => {
+    const onSubmit = async (values: Values, actions: { setErrors: Function, resetForm: Function }) => {
         try {
             const res = await fetch('/signup', {
                 method: 'POST',
